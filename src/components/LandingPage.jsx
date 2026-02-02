@@ -16,6 +16,9 @@ import {
   Globe,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  MessageCircle, // Icon untuk tombol WA
 } from "lucide-react";
 
 // PENTING: Import CSS
@@ -25,14 +28,14 @@ import "./LandingPage.css";
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
-import img3 from "../assets/foto-3.jpg"; // Foto Section 2
+import img3 from "../assets/foto-3.jpg";
 import img5 from "../assets/foto-5.jpg";
 import img6 from "../assets/foto-6.jpg";
 import img7 from "../assets/foto-7.jpg";
-import img8 from "../assets/foto-8.jpg"; // Foto Section 3
-import img10 from "../assets/foto-10.jpg"; // Foto Section 1
+import img8 from "../assets/foto-8.jpg";
+import img10 from "../assets/foto-10.jpg";
 
-// --- DATA ---
+// --- DATA SERVICES ---
 const SERVICES_DATA = [
   {
     id: "kitchen",
@@ -64,11 +67,69 @@ const SERVICES_DATA = [
   },
 ];
 
-const GALLERY_ITEMS = [
-  { img: img1, title: "Modern Pantry", cat: "Kitchen" },
-  { img: img2, title: "Walk-in Closet", cat: "Bedroom" },
-  { img: img10, title: "Coffee Bar", cat: "Commercial" },
-  { img: img6, title: "Office Lobby", cat: "Office" },
+// --- DATA 5 KATEGORI PROJECT ---
+const PROJECT_CATEGORIES = [
+  {
+    title: "KITCHEN SET & PANTRY",
+    // === [BARIS 1, 2, 3 KHUSUS KITCHEN SET] ===
+    desc: "Spesialis Jasa Pembuatan Kitchen Set, Pantry, & Minibar Custom Anti-Rayap.", // Baris 1
+    projectInfo:
+      "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.", // Baris 2
+    hasContact: true, // Baris 3 (Tombol WA)
+    // ==========================================
+    items: [
+      { img: img1, title: "Modern Minibar", cat: "Kitchen" },
+      { img: img7, title: "Scandinavian Kitchen", cat: "Kitchen" },
+      { img: img2, title: "Dry Kitchen", cat: "Pantry" },
+      { img: img10, title: "Classic Kitchen", cat: "Kitchen" },
+      { img: img5, title: "Industrial Pantry", cat: "Pantry" },
+      { img: img8, title: "Wet Kitchen", cat: "Kitchen" },
+    ],
+  },
+  {
+    title: "WARDROBE & LEMARI",
+    items: [
+      { img: img8, title: "Walk-in Closet", cat: "Master Bedroom" },
+      { img: img2, title: "Lemari Anak", cat: "Kids Room" },
+      { img: img6, title: "Lemari Bawah Tangga", cat: "Storage" },
+      { img: img3, title: "Glass Wardrobe", cat: "Luxury" },
+      { img: img1, title: "Sliding Door", cat: "Minimalist" },
+      { img: img7, title: "Open Wardrobe", cat: "Modern" },
+    ],
+  },
+  {
+    title: "LIVING ROOM & BACKDROP TV",
+    items: [
+      { img: img3, title: "Backdrop Marmer", cat: "Living Room" },
+      { img: img5, title: "Partisi Kisi-kisi", cat: "Divider" },
+      { img: img10, title: "Meja Console", cat: "Foyer" },
+      { img: img6, title: "Rak Display", cat: "Living Room" },
+      { img: img2, title: "Sofa Background", cat: "Wall Panel" },
+      { img: img8, title: "Floating Cabinet", cat: "TV Unit" },
+    ],
+  },
+  {
+    title: "KAMAR TIDUR (BEDROOM)",
+    items: [
+      { img: img2, title: "Master Bedroom", cat: "Luxury" },
+      { img: img1, title: "Dipan Laci", cat: "Storage Bed" },
+      { img: img7, title: "Headboard Panel", cat: "Bedroom" },
+      { img: img3, title: "Meja Rias Custom", cat: "Vanity" },
+      { img: img5, title: "Nakas Gantung", cat: "Bedside" },
+      { img: img10, title: "Kamar Tamu", cat: "Guest Room" },
+    ],
+  },
+  {
+    title: "COMMERCIAL & OFFICE",
+    items: [
+      { img: img5, title: "Meeting Room", cat: "Office" },
+      { img: img6, title: "Resepsionis", cat: "Lobby" },
+      { img: img10, title: "Cafe Counter", cat: "F&B" },
+      { img: img1, title: "Workstation", cat: "Office" },
+      { img: img8, title: "Display Toko", cat: "Retail" },
+      { img: img3, title: "Waiting Area", cat: "Clinic" },
+    ],
+  },
 ];
 
 const FAQ_DATA = [
@@ -86,28 +147,104 @@ const FAQ_DATA = [
   },
 ];
 
-const PROCESS_DATA = [
-  {
-    id: "01",
-    title: "Discovery",
-    desc: "Konsultasi awal mendalam untuk memahami kebutuhan, gaya hidup, dan anggaran proyek Anda.",
-  },
-  {
-    id: "02",
-    title: "Design Concept",
-    desc: "Pengembangan layout, moodboard, dan visualisasi 3D hingga sesuai dengan visi impian Anda.",
-  },
-  {
-    id: "03",
-    title: "Craftsmanship",
-    desc: "Proses produksi di workshop kami menggunakan material pilihan dan dikerjakan oleh tenaga ahli.",
-  },
-  {
-    id: "04",
-    title: "Installation",
-    desc: "Pemasangan akhir di lokasi dengan presisi tinggi, kerapihan, dan supervisi ketat.",
-  },
-];
+// --- KOMPONEN PROJECT SLIDER (DENGAN TAMPILAN 3 BARIS) ---
+const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
+  const [current, setCurrent] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
+
+  // Deteksi Ukuran Layar
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1025) {
+        setItemsPerPage(3); // Desktop
+      } else if (window.innerWidth >= 600) {
+        setItemsPerPage(2); // Tablet
+      } else {
+        setItemsPerPage(1); // Mobile
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Logic Looping Mulus
+  const maxIndex = items.length - itemsPerPage;
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  };
+
+  return (
+    <div className="project-category-wrapper fade-up">
+      {/* HEADER KATEGORI */}
+      <div className="cat-title-wrap">
+        <h3 className="cat-title">{title}</h3>
+
+        {/* BARIS 1: Deskripsi Jasa */}
+        {desc && <p className="cat-desc">{desc}</p>}
+
+        {/* BARIS 2: Info Project */}
+        {projectInfo && <p className="cat-project">{projectInfo}</p>}
+
+        {/* BARIS 3: Tombol WA */}
+        {hasContact && (
+          <div className="cat-action">
+            <a
+              href="https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20untuk%20konsultasi%20Kitchen%20Set."
+              target="_blank"
+              rel="noreferrer"
+              className="btn-wa-special"
+            >
+              <MessageCircle size={18} /> Hubungi Kami via WhatsApp
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* SLIDER AREA */}
+      <div className="slider-container-relative">
+        <button onClick={prevSlide} className="btn-nav-abs left">
+          <ChevronLeft size={24} />
+        </button>
+
+        <div className="carousel-window-small">
+          <div
+            className="carousel-track"
+            style={{
+              transform: `translateX(-${current * (100 / itemsPerPage)}%)`,
+            }}
+          >
+            {items.map((item, i) => (
+              <div
+                key={i}
+                className="carousel-card-small"
+                style={{ minWidth: `${100 / itemsPerPage}%` }}
+              >
+                <div className="gal-item-card-small">
+                  <img src={item.img} alt={item.title} />
+                  <div className="gal-overlay-small">
+                    <h4>{item.title}</h4>
+                    <span>{item.cat}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button onClick={nextSlide} className="btn-nav-abs right">
+          <ChevronRight size={24} />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // --- MAIN COMPONENT ---
 
@@ -134,34 +271,34 @@ function LandingPage() {
     const text = `Halo Doger Interior, perkenalkan saya *${formData.nama}* (No.WA: ${formData.wa}).%0A%0ASaya ingin konsultasi: ${formData.pesan}`;
     window.open(`https://wa.me/${nomorHP}?text=${text}`, "_blank");
   };
+
   return (
     <div className="op10-root">
       {/* 1. NAVBAR */}
       <nav className={`op10-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="op10-container nav-flex">
           <div className="nav-brand">
-            DOGER<span>.STUDIO</span>
+            <Link to="/">
+              DOGER<span>.STUDIO</span>
+            </Link>
           </div>
-          <div className={`nav-links ${menuOpen ? "active" : ""}`}>
-            <a href="#hero" onClick={() => setMenuOpen(false)}>
-              Home
-            </a>
 
-            {/* --- UBAH DI SINI: Link ke Halaman About --- */}
+          <div className={`nav-links ${menuOpen ? "active" : ""}`}>
+            <Link to="/" onClick={() => setMenuOpen(false)}>
+              Home
+            </Link>
             <Link to="/about" onClick={() => setMenuOpen(false)}>
               Tentang
             </Link>
-            {/* ------------------------------------------- */}
-
-            <a href="#services" onClick={() => setMenuOpen(false)}>
+            <Link to="/services" onClick={() => setMenuOpen(false)}>
               Layanan
-            </a>
-            <a href="#gallery" onClick={() => setMenuOpen(false)}>
-              Project
-            </a>
-            <a href="#contact" onClick={() => setMenuOpen(false)}>
+            </Link>
+            <Link to="/gallery" onClick={() => setMenuOpen(false)}>
+              Galeri
+            </Link>
+            <Link to="/contact" onClick={() => setMenuOpen(false)}>
               Kontak
-            </a>
+            </Link>
             <span
               className="close-menu mobile-only"
               onClick={() => setMenuOpen(false)}
@@ -169,10 +306,11 @@ function LandingPage() {
               <X />
             </span>
           </div>
+
           <div className="nav-actions">
-            <a href="#contact" className="btn-nav-cta">
+            <Link to="/contact" className="btn-nav-cta">
               Konsultasi
-            </a>
+            </Link>
             <button
               className="burger-menu"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -298,11 +436,9 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* --- SECTION 1: SPESIALIS BAHAN (Teks Kiri, Foto Kanan) --- */}
+      {/* SECTION 1: SPESIALIS BAHAN */}
       <section className="op10-section bg-cream">
-        {/* Gunakan class 'grid-2' agar urutan normal: Teks dulu, baru Foto */}
         <div className="op10-container grid-2">
-          {/* 1. Teks (Di Kiri) */}
           <div className="specialist-content fade-up">
             <span className="sub-head">MATERIAL & KUALITAS</span>
             <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
@@ -342,8 +478,6 @@ function LandingPage() {
               Hubungi Kami
             </a>
           </div>
-
-          {/* 2. Foto (Di Kanan) */}
           <div className="specialist-img fade-up delay-1">
             <img src={img10} alt="Detail Material Kayu" />
             <div className="material-badge">
@@ -354,20 +488,16 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* --- SECTION 2: DESAIN & PRESISI (Foto Kiri, Teks Kanan - DIBALIK) --- */}
+      {/* SECTION 2: DESAIN & PRESISI */}
       <section className="op10-section bg-cream">
         <div className="op10-container grid-2-reverse">
-          {/* 1. Foto (Dipindahkan ke Kiri) */}
           <div className="specialist-img fade-up delay-1">
             <img src={img10} alt="Detail Material Kayu" />
-            {/* Tambahkan class 'badge-left' agar badge estetik di sisi kiri */}
             <div className="material-badge badge-left">
               <span>PREMIUM</span>
               <small>QUALITY</small>
             </div>
           </div>
-
-          {/* 2. Teks (Dipindahkan ke Kanan) */}
           <div className="specialist-content fade-up">
             <span className="sub-head">MATERIAL & KUALITAS</span>
             <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
@@ -410,10 +540,9 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* --- SECTION 3: FUNGSIONAL & RAPI (Teks Kiri, Foto Kanan - NORMAL) --- */}
+      {/* SECTION 3: FUNGSIONAL & RAPI */}
       <section className="op10-section bg-cream">
         <div className="op10-container grid-2">
-          {/* Kolom Kiri: Teks */}
           <div className="specialist-content fade-up">
             <span className="sub-head">FUNGSIONAL & RAPI</span>
             <h2>RUANG PENYIMPANAN MAKSIMAL</h2>
@@ -453,8 +582,6 @@ function LandingPage() {
               Hubungi Kami
             </a>
           </div>
-
-          {/* Kolom Kanan: Foto */}
           <div className="specialist-img fade-up delay-1">
             <img src={img8} alt="Fungsional Storage" />
             <div className="material-badge">
@@ -465,40 +592,43 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 6. GALLERY SECTION */}
+      {/* 6. GALLERY SECTION (MULTI-SLIDER - 3 LINES INFO) */}
       <section id="gallery" className="op10-section bg-dark text-cream">
         <div className="op10-container">
-          <div className="header-flex fade-up">
-            <div>
-              <span className="sub-head text-cream">PORTOFOLIO</span>
-              <h2>HASIL KARYA TERBARU</h2>
-            </div>
+          <div className="section-head center fade-up">
+            <span className="sub-head text-cream">PORTOFOLIO</span>
+            <h2>HASIL KARYA KAMI</h2>
+            <p style={{ maxWidth: "600px", margin: "0 auto", opacity: 0.8 }}>
+              Jelajahi berbagai kategori proyek yang telah kami kerjakan dengan
+              dedikasi tinggi.
+            </p>
+          </div>
+
+          <div className="multi-slider-wrapper">
+            {PROJECT_CATEGORIES.map((category, idx) => (
+              <ProjectSlider
+                key={idx}
+                title={category.title}
+                desc={category.desc}
+                projectInfo={category.projectInfo}
+                hasContact={category.hasContact}
+                items={category.items}
+              />
+            ))}
+          </div>
+
+          <div className="center mt-30">
             <a
               href="https://instagram.com/doger.interior"
-              className="link-arrow"
+              className="link-arrow justify-center"
             >
-              Lihat Instagram <ArrowUpRight size={18} />
+              Lihat Lebih Banyak di Instagram <ArrowUpRight size={18} />
             </a>
-          </div>
-          <div className="gallery-grid-simple">
-            {GALLERY_ITEMS.map((item, i) => (
-              <div
-                key={i}
-                className="gal-item fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <img src={item.img} alt={item.title} />
-                <div className="gal-overlay">
-                  <h4>{item.title}</h4>
-                  <span>{item.cat}</span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
-      {/* 7. FAQ & CONTACT FORM */}
+      {/* 7. FAQ & CONTACT */}
       <section id="contact" className="op10-section bg-cream">
         <div className="op10-container grid-2-faq">
           <div className="faq-left fade-up">
@@ -591,9 +721,7 @@ function LandingPage() {
           <div className="f-info">
             <h5>ALAMAT WORKSHOP</h5>
             <p>
-              Jl. H. Ahmad Nado 1 No.126,
-              <br />
-              Grogol, Limo, Kota Depok, Jawa Barat
+              Jl. H. Ahmad Nado 1 No.126, Grogol, Limo, Kota Depok, Jawa Barat
             </p>
             <div className="map-frame">
               <iframe

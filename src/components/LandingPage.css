@@ -54,6 +54,12 @@ html {
 .w-100 {
   width: 100%;
 }
+.mt-30 {
+  margin-top: 30px;
+}
+.justify-center {
+  justify-content: center;
+}
 
 /* ANIMASI */
 @keyframes fadeUp {
@@ -116,6 +122,10 @@ html {
 .nav-brand {
   font-size: 1.5rem;
   font-weight: 800;
+  color: var(--c-brown);
+}
+.nav-brand a {
+  text-decoration: none;
   color: var(--c-brown);
 }
 .nav-brand span {
@@ -292,7 +302,7 @@ html {
   padding: 100px 0;
 }
 
-/* Grid 50:50 agar ukuran foto konsisten di semua section */
+/* Grid 50:50 */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -318,7 +328,6 @@ html {
   object-fit: cover;
 }
 
-/* Badge Kanan (Default) */
 .exp-badge,
 .material-badge {
   position: absolute;
@@ -332,7 +341,6 @@ html {
   box-shadow: var(--shadow);
 }
 
-/* Badge Kiri (Untuk Layout Terbalik) */
 .material-badge.badge-left {
   right: auto;
   left: -30px;
@@ -470,7 +478,7 @@ html {
   color: #666;
 }
 
-/* 6. GALLERY */
+/* 6. GALLERY (MULTI-SLIDER - BEAUTIFIED) */
 .header-flex {
   display: flex;
   justify-content: space-between;
@@ -486,42 +494,216 @@ html {
   gap: 5px;
 }
 
-.gallery-grid-simple {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+/* Container Utama untuk 5 Kategori */
+.multi-slider-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  margin-top: 50px;
 }
-.gal-item {
+
+.project-category-wrapper {
+  position: relative;
+}
+
+/* Header Kategori (Tengah) */
+.cat-title-wrap {
+  text-align: center;
+  margin-bottom: 35px;
+  position: relative;
+}
+
+/* Judul Kategori */
+.cat-title {
+  color: var(--c-cream);
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 15px;
+  font-weight: 700;
+  /* Garis Bawah */
+  border-bottom: 3px solid var(--c-cream);
+}
+
+/* Container Slider (Relatif untuk tombol absolute) */
+.slider-container-relative {
+  position: relative;
+  padding: 0;
+  /* Tambah padding vertikal agar efek hover shadow tidak terpotong */
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: -20px;
+}
+
+/* Jendela Slider (Hidden Overflow) */
+.carousel-window-small {
+  overflow: hidden;
+  width: 100%;
+  padding: 0 5px;
+}
+
+/* Track Slider */
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+}
+
+/* Ukuran Kartu Wrapper */
+.carousel-card-small {
+  min-width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* TAMPILAN KARTU (Premium) */
+.gal-item-card-small {
   height: 350px;
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius);
-  cursor: pointer;
+  border-radius: 16px;
+  background: var(--c-brown-dark);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
 }
-.gal-item img {
+
+.gal-item-card-small img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.5s;
+  transition: transform 0.6s;
 }
-.gal-item:hover img {
-  transform: scale(1.1);
+
+/* Efek Hover: Angkat & Zoom */
+.gal-item-card-small:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
 }
-.gal-overlay {
+.gal-item-card-small:hover img {
+  transform: scale(1.08);
+}
+
+/* Overlay Gradient */
+.gal-overlay-small {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 30px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-  color: white;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: 0.3s;
+  padding: 25px 20px;
+  background: linear-gradient(
+    to top,
+    rgba(45, 30, 20, 0.95) 0%,
+    rgba(45, 30, 20, 0.6) 50%,
+    transparent 100%
+  );
+  color: var(--c-white);
 }
-.gal-item:hover .gal-overlay {
-  transform: translateY(0);
-  opacity: 1;
+.gal-overlay-small h4 {
+  margin: 0 0 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.gal-overlay-small span {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--c-cream);
+}
+
+/* TOMBOL NAVIGASI BARU (Glassmorphism) */
+.btn-nav-abs {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--c-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.btn-nav-abs:hover {
+  background: var(--c-cream);
+  border-color: var(--c-cream);
+  color: var(--c-brown);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 10px 25px rgba(237, 220, 194, 0.3);
+}
+.btn-nav-abs.left {
+  left: 15px;
+}
+.btn-nav-abs.right {
+  right: 15px;
+}
+
+/* --- Styling Tambahan untuk Info Kategori (3 Baris) --- */
+
+/* 1. Deskripsi Jasa */
+.cat-desc {
+  font-size: 1.2rem;
+  color: rgba(237, 220, 194, 0.9);
+  font-weight: 300;
+  margin: 10px 0 5px;
+  letter-spacing: 0.5px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 2. Info Project */
+.cat-project {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+/* 3. Wrapper Tombol Action */
+.cat-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  margin-bottom: 40px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+
+/* 4. Tombol WA Special */
+.btn-wa-special {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+  color: var(--c-cream);
+  border: 1px solid var(--c-cream);
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-wa-special:hover {
+  background-color: var(--c-cream);
+  color: var(--c-brown);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(237, 220, 194, 0.2);
 }
 
 /* 7. FAQ & FORM */
@@ -673,14 +855,11 @@ html {
     height: 400px;
     width: 100%;
   }
-  .hero-stats {
-    justify-content: center;
-  }
+  .hero-stats,
   .hero-btns {
     justify-content: center;
   }
 
-  /* Grid Reset Mobile */
   .grid-2,
   .grid-2-faq,
   .grid-2-reverse {
@@ -695,9 +874,9 @@ html {
   .material-badge.badge-left {
     left: auto;
     right: -30px;
-  } /* Reset badge di mobile */
-  .services-grid-cards,
-  .gallery-grid-simple {
+  }
+
+  .services-grid-cards {
     grid-template-columns: 1fr 1fr;
   }
   .process-grid {
@@ -713,6 +892,7 @@ html {
     justify-content: center;
   }
 
+  /* Nav Mobile */
   .nav-links {
     position: fixed;
     top: 0;
@@ -754,9 +934,38 @@ html {
   }
 }
 
+/* --- RESPONSIVE UNTUK MULTI SLIDER --- */
+
+/* Desktop: Tampilkan 3 Item */
+@media (min-width: 1025px) {
+  .carousel-card-small {
+    min-width: 33.33%;
+  }
+}
+
+/* Tablet: Tampilkan 2 Item */
+@media (min-width: 600px) and (max-width: 1024px) {
+  .carousel-card-small {
+    min-width: 50%;
+  }
+}
+
+/* Mobile: Tampil 1 Item */
 @media (max-width: 600px) {
-  .services-grid-cards,
-  .gallery-grid-simple {
+  .carousel-card-small {
+    min-width: 100%;
+  }
+  .gal-item-card-small {
+    height: 280px; /* Sedikit lebih pendek di HP */
+  }
+  .cat-title {
+    font-size: 1.5rem;
+  }
+  .multi-slider-wrapper {
+    gap: 60px;
+  }
+
+  .services-grid-cards {
     grid-template-columns: 1fr;
   }
   .process-grid {
