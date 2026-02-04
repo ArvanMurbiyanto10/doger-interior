@@ -18,13 +18,17 @@ import {
   ChevronUp,
   ChevronLeft,
   ChevronRight,
-  MessageCircle, // Icon untuk tombol WA
+  MessageCircle,
+  // Import Icon Baru
+  ShieldCheck, // Untuk Anti Rayap
+  Star, // Untuk Kualitas/Finishing
+  DollarSign, // Untuk Harga/Garansi
 } from "lucide-react";
 
 // PENTING: Import CSS
 import "./LandingPage.css";
 
-// --- IMPORT ASSETS ---
+// --- IMPORT ASSETS (SAMA SEPERTI SEBELUMNYA) ---
 import heroImg from "../assets/foto-9.jpg";
 import img1 from "../assets/foto-1.jpg";
 import img2 from "../assets/foto-2.jpg";
@@ -35,7 +39,7 @@ import img7 from "../assets/foto-7.jpg";
 import img8 from "../assets/foto-8.jpg";
 import img10 from "../assets/foto-10.jpg";
 
-// --- DATA SERVICES ---
+// --- DATA SERVICES (SAMA) ---
 const SERVICES_DATA = [
   {
     id: "kitchen",
@@ -67,16 +71,14 @@ const SERVICES_DATA = [
   },
 ];
 
-// --- DATA 5 KATEGORI PROJECT ---
+// --- DATA 5 KATEGORI PROJECT (SAMA) ---
 const PROJECT_CATEGORIES = [
   {
     title: "KITCHEN SET & PANTRY",
-    // === [BARIS 1, 2, 3 KHUSUS KITCHEN SET] ===
-    desc: "Spesialis Jasa Pembuatan Kitchen Set, Pantry, & Minibar Custom Anti-Rayap.", // Baris 1
+    desc: "Spesialis Jasa Pembuatan Kitchen Set, Pantry, & Minibar Custom Anti-Rayap.",
     projectInfo:
-      "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.", // Baris 2
-    hasContact: true, // Baris 3 (Tombol WA)
-    // ==========================================
+      "Melayani Project Residential (Rumah/Apartemen) & Commercial Area.",
+    hasContact: true,
     items: [
       { img: img1, title: "Modern Minibar", cat: "Kitchen" },
       { img: img7, title: "Scandinavian Kitchen", cat: "Kitchen" },
@@ -147,52 +149,38 @@ const FAQ_DATA = [
   },
 ];
 
-// --- KOMPONEN PROJECT SLIDER (DENGAN TAMPILAN 3 BARIS) ---
+// --- KOMPONEN PROJECT SLIDER (SAMA) ---
 const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
   const [current, setCurrent] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
 
-  // Deteksi Ukuran Layar
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1025) {
-        setItemsPerPage(3); // Desktop
+        setItemsPerPage(3);
       } else if (window.innerWidth >= 600) {
-        setItemsPerPage(2); // Tablet
+        setItemsPerPage(2);
       } else {
-        setItemsPerPage(1); // Mobile
+        setItemsPerPage(1);
       }
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Logic Looping Mulus
   const maxIndex = items.length - itemsPerPage;
-
-  const nextSlide = () => {
+  const nextSlide = () =>
     setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
+  const prevSlide = () =>
     setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
-  };
 
   return (
     <div className="project-category-wrapper fade-up">
-      {/* HEADER KATEGORI */}
       <div className="cat-title-wrap">
         <h3 className="cat-title">{title}</h3>
-
-        {/* BARIS 1: Deskripsi Jasa */}
         {desc && <p className="cat-desc">{desc}</p>}
-
-        {/* BARIS 2: Info Project */}
         {projectInfo && <p className="cat-project">{projectInfo}</p>}
-
-        {/* BARIS 3: Tombol WA */}
         {hasContact && (
           <div className="cat-action">
             <a
@@ -207,12 +195,10 @@ const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
         )}
       </div>
 
-      {/* SLIDER AREA */}
       <div className="slider-container-relative">
         <button onClick={prevSlide} className="btn-nav-abs left">
           <ChevronLeft size={24} />
         </button>
-
         <div className="carousel-window-small">
           <div
             className="carousel-track"
@@ -237,7 +223,6 @@ const ProjectSlider = ({ title, desc, projectInfo, hasContact, items }) => {
             ))}
           </div>
         </div>
-
         <button onClick={nextSlide} className="btn-nav-abs right">
           <ChevronRight size={24} />
         </button>
@@ -279,10 +264,9 @@ function LandingPage() {
         <div className="op10-container nav-flex">
           <div className="nav-brand">
             <Link to="/">
-              DOGER<span>.STUDIO</span>
+              DOGER<span>.INTERIOR</span>
             </Link>
           </div>
-
           <div className={`nav-links ${menuOpen ? "active" : ""}`}>
             <Link to="/" onClick={() => setMenuOpen(false)}>
               Home
@@ -306,7 +290,6 @@ function LandingPage() {
               <X />
             </span>
           </div>
-
           <div className="nav-actions">
             <Link to="/contact" className="btn-nav-cta">
               Konsultasi
@@ -325,7 +308,7 @@ function LandingPage() {
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
           <div className="hl-content fade-up">
-            <span className="badge-hero"></span>
+            <span className="badge-hero">EST. 2024 — DEPOK</span>
             <h1 className="hero-title">
               Wujudkan Interior <br />
               <span className="text-highlight">Impian Anda</span>
@@ -361,9 +344,10 @@ function LandingPage() {
         </div>
       </header>
 
-      {/* 3. ABOUT SECTION */}
+      {/* 3. ABOUT SECTION (MODIFIKASI: 3 Point Card Vertical Style Hijau) */}
       <section id="about" className="op10-section bg-cream">
         <div className="op10-container grid-2">
+          {/* Kolom Kiri: Gambar */}
           <div className="about-img-wrap fade-up delay-1">
             <img src={img2} alt="About Us" />
             <div className="exp-badge">
@@ -371,39 +355,67 @@ function LandingPage() {
               <small>PENGALAMAN</small>
             </div>
           </div>
+
+          {/* Kolom Kanan: Teks & 3 Point Card */}
           <div className="about-text fade-up delay-2">
             <span className="sub-head">TENTANG KAMI</span>
-            <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
-            <p>
+            <p style={{ marginBottom: "30px" }}>
               Berbekal pengalaman lebih dari 20 tahun sebagai spesialis
-              fabrikasi, Doger Interior berkomitmen mewujudkan desain interior
-              impian Anda menjadi kenyataan yang presisi, fungsional, dan
-              berkualitas tinggi. Kami memahami bahwa rumah adalah investasi
-              jangka panjang, itulah sebabnya kami menyediakan berbagai opsi
-              material unggulan, mulai dari PVC Board yang anti-rayap dan
-              serangga, Aluminium yang tahan api, hingga Multiplek dengan
-              beragam pilihan finishing yang menawan. Bersama doger.interior,
-              Anda mendapatkan jaminan kualitas tanpa kompromi melalui
-              pengerjaan yang teliti dan pendampingan penuh dari tahap desain
-              hingga pemasangan selesai. Kami mengedepankan transparansi di
-              setiap langkah, sehingga Anda selalu mendapatkan update
-              perkembangan proyek secara nyata demi mewujudkan hunian impian
-              yang presisi dan berkualitas tinggi.
+              fabrikasi, doger.interior menghadirkan solusi ruang presisi,
+              fungsional, dan berkualitas tinggi. Kami melayani pengerjaan
+              berbagai macam interior untuk hunian (rumah & apartemen) hingga
+              area komersial (kantor, hotel, restoran, & kafe) dengan
+              pendampingan penuh dari desain hingga pemasangan.
             </p>
-            <ul className="check-list">
-              <li>
-                <CheckCircle size={18} className="icon-check" /> Material Anti
-                Rayap (Opsional)
-              </li>
-              <li>
-                <CheckCircle size={18} className="icon-check" /> Finishing HPL
-                Presisi
-              </li>
-              <li>
-                <CheckCircle size={18} className="icon-check" /> Garansi
-                Konstruksi & Maintenance
-              </li>
-            </ul>
+            <h2>MENGAPA MEMILIH DOGER INTERIOR?</h2>
+            <p style={{ marginBottom: "30px" }}>
+              Kami memahami bahwa rumah adalah investasi jangka panjang, itulah
+              sebabnya kami berkomitmen memberikan yang terbaik melalui:
+            </p>
+
+            {/* --- 3 POINT CARDS (VERTIKAL STYLE HIJAU) --- */}
+            <div className="vertical-features-list">
+              {/* Point 1: Opsi Material Beragam */}
+              <div className="v-feature-card">
+                <div className="v-icon-circle">
+                  <ShieldCheck size={28} />
+                </div>
+                <div className="v-card-text">
+                  <h4>Opsi Material Beragam</h4>
+                  <p>
+                    Pilih material yang dapat disesuaikan mulai dari Aluminium
+                    (anti-rayap), Multiplek (minimalist & aesthetic), maupun PVC
+                    Board (kokoh).
+                  </p>
+                </div>
+              </div>
+
+              {/* Point 2: Transparansi Proyek */}
+              <div className="v-feature-card">
+                <div className="v-icon-circle">
+                  <Star size={28} />
+                </div>
+                <div className="v-card-text">
+                  <h4>Transparansi Proyek</h4>
+                  <p>
+                    Update perkembangan pengerjaan secara berkala agar hasil
+                    selalu terpantau dan sesuai ekspektasi.
+                  </p>
+                </div>
+              </div>
+
+              {/* Point 3: Harga Terbaik) */}
+              <div className="v-feature-card">
+                <div className="v-icon-circle">
+                  <DollarSign size={28} />
+                </div>
+                <div className="v-card-text">
+                  <h4>Harga Terbaik</h4>
+                  <p>penawaran harga yang kompetitif dan transparan.</p>
+                </div>
+              </div>
+            </div>
+            {/* --- END 3 POINT CARDS --- */}
           </div>
         </div>
       </section>
@@ -444,37 +456,23 @@ function LandingPage() {
             <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
             <p>
               Kami mengutamakan durabilitas dan estetika. Material yang kami
-              gunakan dipilih secara ketat untuk memastikan ketahanan terhadap
-              iklim tropis, kelembapan, dan serangan rayap.
+              gunakan dipilih secara ketat.
             </p>
             <ul className="check-list">
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Kayu Solid & Plywood Grade A</strong> untuk struktur
-                kokoh.
+                <strong>Kayu Solid & Plywood Grade A</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Finishing HPL Premium</strong> yang presisi dan rapi.
+                <strong>Finishing HPL Premium</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Aksesoris Berkualitas</strong> (Engsel Soft-close, Rel
-                Double Track).
+                <strong>Aksesoris Berkualitas</strong>
               </li>
             </ul>
-            <p
-              style={{
-                marginTop: "20px",
-                marginBottom: "30px",
-                color: "#666",
-                fontSize: "0.95rem",
-              }}
-            >
-              Jangan ragu untuk berkonsultasi mengenai pilihan bahan terbaik
-              untuk hunian Anda.
-            </p>
-            <a href="#contact" className="btn-primary">
+            <a href="#contact" className="btn-primary mt-20">
               Hubungi Kami
             </a>
           </div>
@@ -503,37 +501,23 @@ function LandingPage() {
             <h2>SPESIALIS PEMAKAIAN BAHAN</h2>
             <p>
               Kami mengutamakan durabilitas dan estetika. Material yang kami
-              gunakan dipilih secara ketat untuk memastikan ketahanan terhadap
-              iklim tropis, kelembapan, dan serangan rayap.
+              gunakan dipilih secara ketat.
             </p>
             <ul className="check-list">
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Kayu Solid & Plywood Grade A</strong> untuk struktur
-                kokoh.
+                <strong>Kayu Solid & Plywood Grade A</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Finishing HPL Premium</strong> yang presisi dan rapi.
+                <strong>Finishing HPL Premium</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Aksesoris Berkualitas</strong> (Engsel Soft-close, Rel
-                Double Track).
+                <strong>Aksesoris Berkualitas</strong>
               </li>
             </ul>
-            <p
-              style={{
-                marginTop: "20px",
-                marginBottom: "30px",
-                color: "#666",
-                fontSize: "0.95rem",
-              }}
-            >
-              Jangan ragu untuk berkonsultasi mengenai pilihan bahan terbaik
-              untuk hunian Anda.
-            </p>
-            <a href="#contact" className="btn-primary">
+            <a href="#contact" className="btn-primary mt-20">
               Hubungi Kami
             </a>
           </div>
@@ -548,37 +532,23 @@ function LandingPage() {
             <h2>RUANG PENYIMPANAN MAKSIMAL</h2>
             <p>
               Interior bukan hanya soal tampilan, tapi juga fungsi. Kami
-              merancang lemari dan kabinet dengan sistem penyimpanan cerdas
-              untuk rumah yang selalu rapi dan terorganisir.
+              merancang lemari dan kabinet dengan sistem penyimpanan cerdas.
             </p>
             <ul className="check-list">
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Rak Adjustable</strong> yang bisa diatur sesuai
-                kebutuhan.
+                <strong>Rak Adjustable</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Hidden Storage</strong> untuk menyimpan barang jarang
-                pakai.
+                <strong>Hidden Storage</strong>
               </li>
               <li>
                 <CheckCircle size={18} className="icon-check" />{" "}
-                <strong>Lighting Integration</strong> lampu LED otomatis dalam
-                lemari.
+                <strong>Lighting Integration</strong>
               </li>
             </ul>
-            <p
-              style={{
-                marginTop: "20px",
-                marginBottom: "30px",
-                color: "#666",
-                fontSize: "0.95rem",
-              }}
-            >
-              Ingin rumah yang selalu rapi dan modern? Kami punya solusinya.
-            </p>
-            <a href="#contact" className="btn-primary">
+            <a href="#contact" className="btn-primary mt-20">
               Hubungi Kami
             </a>
           </div>
@@ -592,15 +562,14 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 6. GALLERY SECTION (MULTI-SLIDER - 3 LINES INFO) */}
+      {/* 6. GALLERY SECTION */}
       <section id="gallery" className="op10-section bg-dark text-cream">
         <div className="op10-container">
           <div className="section-head center fade-up">
             <span className="sub-head text-cream">PORTOFOLIO</span>
             <h2>HASIL KARYA KAMI</h2>
             <p style={{ maxWidth: "600px", margin: "0 auto", opacity: 0.8 }}>
-              Jelajahi berbagai kategori proyek yang telah kami kerjakan dengan
-              dedikasi tinggi.
+              Jelajahi berbagai kategori proyek.
             </p>
           </div>
 
@@ -721,7 +690,9 @@ function LandingPage() {
           <div className="f-info">
             <h5>ALAMAT WORKSHOP</h5>
             <p>
-              Jl. H. Ahmad Nado 1 No.126, Grogol, Limo, Kota Depok, Jawa Barat
+              Jl. H. Ahmad Nado 1 No.126,
+              <br />
+              Grogol, Limo, Kota Depok, Jawa Barat
             </p>
             <div className="map-frame">
               <iframe

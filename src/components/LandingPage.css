@@ -57,6 +57,9 @@ html {
 .mt-30 {
   margin-top: 30px;
 }
+.mt-20 {
+  margin-top: 20px;
+}
 .justify-center {
   justify-content: center;
 }
@@ -113,7 +116,6 @@ html {
   padding: 15px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
-
 .nav-flex {
   display: flex;
   justify-content: space-between;
@@ -133,7 +135,6 @@ html {
   opacity: 0.6;
   font-weight: 400;
 }
-
 .nav-links {
   display: flex;
   gap: 30px;
@@ -148,7 +149,6 @@ html {
 .nav-links a:hover {
   color: #888;
 }
-
 .btn-nav-cta {
   background: var(--c-brown);
   color: var(--c-white);
@@ -181,7 +181,6 @@ html {
   position: relative;
   overflow: hidden;
 }
-
 .hero-left {
   display: flex;
   align-items: center;
@@ -193,7 +192,6 @@ html {
 .hl-content {
   max-width: 500px;
 }
-
 .badge-hero {
   font-size: 0.8rem;
   letter-spacing: 2px;
@@ -217,7 +215,6 @@ html {
   color: #666;
   margin-bottom: 40px;
 }
-
 .hero-btns {
   display: flex;
   gap: 15px;
@@ -241,7 +238,6 @@ html {
   background: var(--c-brown-dark);
   transform: translateY(-3px);
 }
-
 .btn-secondary {
   border: 1px solid var(--c-brown);
   color: var(--c-brown);
@@ -255,7 +251,6 @@ html {
   background: var(--c-brown);
   color: white;
 }
-
 .hero-stats {
   display: flex;
   gap: 30px;
@@ -278,7 +273,6 @@ html {
   height: 30px;
   background: #ccc;
 }
-
 .hero-right {
   position: relative;
   height: 100%;
@@ -301,8 +295,6 @@ html {
 .op10-section {
   padding: 100px 0;
 }
-
-/* Grid 50:50 */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -315,7 +307,6 @@ html {
   gap: 60px;
   align-items: center;
 }
-
 .about-img-wrap,
 .specialist-img {
   position: relative;
@@ -327,7 +318,6 @@ html {
   box-shadow: var(--shadow);
   object-fit: cover;
 }
-
 .exp-badge,
 .material-badge {
   position: absolute;
@@ -340,12 +330,10 @@ html {
   text-align: center;
   box-shadow: var(--shadow);
 }
-
 .material-badge.badge-left {
   right: auto;
   left: -30px;
 }
-
 .exp-badge span,
 .material-badge span {
   font-size: 1.5rem;
@@ -357,7 +345,6 @@ html {
   font-size: 0.8rem;
   letter-spacing: 1px;
 }
-
 .sub-head {
   color: #999;
   font-weight: 700;
@@ -388,6 +375,68 @@ html {
 }
 .icon-check {
   color: var(--c-brown);
+}
+
+/* --- 3 POINT CARDS STYLE (VERTICAL) --- */
+.vertical-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.v-feature-card {
+  /* Ubah background jadi putih bersih atau krem sangat muda agar kontras tapi lembut */
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px); /* Efek Glass */
+  border: 1px solid rgba(83, 63, 49, 0.15); /* Border Cokelat Tipis */
+  border-left: 4px solid var(--c-brown); /* Aksen garis cokelat di kiri */
+  border-radius: 12px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center; /* Vertikal tengah */
+  gap: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(83, 63, 49, 0.05); /* Bayangan cokelat halus */
+}
+
+.v-feature-card:hover {
+  transform: translateX(8px); /* Geser sedikit saat hover */
+  background-color: #fff; /* Jadi putih solid saat hover */
+  box-shadow: 0 8px 25px rgba(83, 63, 49, 0.12);
+}
+
+.v-icon-circle {
+  flex-shrink: 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  /* Ganti warna hijau jadi cokelat tema */
+  background-color: rgba(83, 63, 49, 0.1);
+  color: var(--c-brown);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(83, 63, 49, 0.2);
+}
+
+.v-card-text {
+  flex: 1;
+}
+
+.v-card-text h4 {
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-brown); /* Judul Cokelat Gelap */
+  letter-spacing: 0.5px;
+}
+
+.v-card-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666; /* Deskripsi Abu-abu Gelap */
+  line-height: 1.4;
 }
 
 /* 4. SERVICES */
@@ -478,7 +527,7 @@ html {
   color: #666;
 }
 
-/* 6. GALLERY (MULTI-SLIDER - BEAUTIFIED) */
+/* 6. GALLERY (MULTI-SLIDER) */
 .header-flex {
   display: flex;
   justify-content: space-between;
@@ -493,27 +542,20 @@ html {
   align-items: center;
   gap: 5px;
 }
-
-/* Container Utama untuk 5 Kategori */
 .multi-slider-wrapper {
   display: flex;
   flex-direction: column;
   gap: 60px;
   margin-top: 50px;
 }
-
 .project-category-wrapper {
   position: relative;
 }
-
-/* Header Kategori (Tengah) */
 .cat-title-wrap {
   text-align: center;
   margin-bottom: 35px;
   position: relative;
 }
-
-/* Judul Kategori */
 .cat-title {
   color: var(--c-cream);
   font-size: 1.8rem;
@@ -522,43 +564,29 @@ html {
   position: relative;
   padding-bottom: 15px;
   font-weight: 700;
-  /* Garis Bawah */
   border-bottom: 3px solid var(--c-cream);
 }
-
-/* Container Slider (Relatif untuk tombol absolute) */
 .slider-container-relative {
   position: relative;
-  padding: 0;
-  /* Tambah padding vertikal agar efek hover shadow tidak terpotong */
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 20px 0;
   margin-top: -20px;
 }
-
-/* Jendela Slider (Hidden Overflow) */
 .carousel-window-small {
   overflow: hidden;
   width: 100%;
   padding: 0 5px;
 }
-
-/* Track Slider */
 .carousel-track {
   display: flex;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   width: 100%;
 }
-
-/* Ukuran Kartu Wrapper */
 .carousel-card-small {
   min-width: 100%;
   padding: 0 12px;
   box-sizing: border-box;
   flex-shrink: 0;
 }
-
-/* TAMPILAN KARTU (Premium) */
 .gal-item-card-small {
   height: 350px;
   position: relative;
@@ -568,15 +596,12 @@ html {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
   transition: all 0.4s ease;
 }
-
 .gal-item-card-small img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.6s;
 }
-
-/* Efek Hover: Angkat & Zoom */
 .gal-item-card-small:hover {
   transform: translateY(-10px);
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
@@ -584,8 +609,6 @@ html {
 .gal-item-card-small:hover img {
   transform: scale(1.08);
 }
-
-/* Overlay Gradient */
 .gal-overlay-small {
   position: absolute;
   bottom: 0;
@@ -613,8 +636,6 @@ html {
   letter-spacing: 1px;
   color: var(--c-cream);
 }
-
-/* TOMBOL NAVIGASI BARU (Glassmorphism) */
 .btn-nav-abs {
   position: absolute;
   top: 50%;
@@ -648,10 +669,6 @@ html {
 .btn-nav-abs.right {
   right: 15px;
 }
-
-/* --- Styling Tambahan untuk Info Kategori (3 Baris) --- */
-
-/* 1. Deskripsi Jasa */
 .cat-desc {
   font-size: 1.2rem;
   color: rgba(237, 220, 194, 0.9);
@@ -662,27 +679,18 @@ html {
   margin-left: auto;
   margin-right: auto;
 }
-
-/* 2. Info Project */
 .cat-project {
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.6);
   font-style: italic;
   margin-bottom: 25px;
 }
-
-/* 3. Wrapper Tombol Action */
 .cat-action {
   display: flex;
   justify-content: center;
   margin-top: 25px;
   margin-bottom: 40px;
 }
-.mt-20 {
-  margin-top: 20px;
-}
-
-/* 4. Tombol WA Special */
 .btn-wa-special {
   display: inline-flex;
   align-items: center;
@@ -698,7 +706,6 @@ html {
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
 }
-
 .btn-wa-special:hover {
   background-color: var(--c-cream);
   color: var(--c-brown);
@@ -734,7 +741,6 @@ html {
   color: #666;
   font-size: 0.95rem;
 }
-
 .form-card {
   background: white;
   padding: 40px;
@@ -822,7 +828,6 @@ html {
   opacity: 0.4;
   font-size: 0.85rem;
 }
-
 .op10-back-float {
   position: fixed;
   top: 20px;
@@ -859,13 +864,11 @@ html {
   .hero-btns {
     justify-content: center;
   }
-
   .grid-2,
   .grid-2-faq,
   .grid-2-reverse {
     grid-template-columns: 1fr;
   }
-
   .about-img-wrap,
   .specialist-img {
     order: -1;
@@ -875,7 +878,6 @@ html {
     left: auto;
     right: -30px;
   }
-
   .services-grid-cards {
     grid-template-columns: 1fr 1fr;
   }
@@ -891,8 +893,6 @@ html {
   .f-sosmed {
     justify-content: center;
   }
-
-  /* Nav Mobile */
   .nav-links {
     position: fixed;
     top: 0;
@@ -932,31 +932,29 @@ html {
   .btn-nav-cta {
     display: none;
   }
+
+  /* Reset Vertical Cards di Mobile */
+  .vertical-features-list {
+    margin-top: 30px;
+  }
 }
 
-/* --- RESPONSIVE UNTUK MULTI SLIDER --- */
-
-/* Desktop: Tampilkan 3 Item */
 @media (min-width: 1025px) {
   .carousel-card-small {
     min-width: 33.33%;
   }
 }
-
-/* Tablet: Tampilkan 2 Item */
 @media (min-width: 600px) and (max-width: 1024px) {
   .carousel-card-small {
     min-width: 50%;
   }
 }
-
-/* Mobile: Tampil 1 Item */
 @media (max-width: 600px) {
   .carousel-card-small {
     min-width: 100%;
   }
   .gal-item-card-small {
-    height: 280px; /* Sedikit lebih pendek di HP */
+    height: 280px;
   }
   .cat-title {
     font-size: 1.5rem;
@@ -964,7 +962,6 @@ html {
   .multi-slider-wrapper {
     gap: 60px;
   }
-
   .services-grid-cards {
     grid-template-columns: 1fr;
   }
@@ -989,5 +986,14 @@ html {
   }
   .op10-container {
     padding: 0 20px;
+  }
+}
+@media (max-width: 600px) {
+  .v-feature-card {
+    padding: 15px;
+    align-items: flex-start; /* Di HP icon sejajar atas teks */
+  }
+  .v-icon-circle {
+    margin-top: 2px;
   }
 }
