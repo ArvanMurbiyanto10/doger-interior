@@ -1,0 +1,128 @@
+/* --- ABOUT PAGE STYLES --- */
+
+/* Reset & Global */
+.op10-root {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Container Full-Width dengan Padding Proporsional */
+.op10-container {
+  width: 100%;
+  max-width: 1400px; /* Memberikan kesan luas namun tetap teratur */
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+@media (max-width: 768px) {
+  .op10-container {
+    padding: 0 20px;
+  }
+}
+
+/* --- Hero Section --- */
+.hero-photo-wrapper {
+  transition: transform 0.5s ease;
+}
+
+.hero-photo-wrapper:hover {
+  transform: scale(1.02);
+}
+
+/* Tag Est. 2004 */
+.est-tag {
+  box-shadow: 15px 15px 0px rgba(93, 64, 55, 0.1);
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(-30px); opacity: 1; }
+}
+
+/* --- Statistik Bar --- */
+.stat-item {
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  color: #ffffff;
+}
+
+/* --- Process / Tahapan Pemesanan --- */
+/* Styling untuk angka latar belakang yang besar (01, 02, dst) */
+.process-number-bg {
+  user-select: none;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.process-card-hover:hover .process-number-bg {
+  color: #EBD9B4 !important; /* Cream saat di-hover */
+}
+
+/* --- Photo & Team Section --- */
+.team-overlay-card {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* --- Project Scope (Dark Section) --- */
+.scope-item-card {
+  transition: all 0.3s ease;
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.scope-item-card:hover {
+  background-color: rgba(235, 217, 180, 0.1); /* Cream transparan */
+  border-color: #EBD9B4 !important;
+  transform: translateY(-3px);
+}
+
+.scope-item-card svg {
+  transition: transform 0.3s ease;
+}
+
+.scope-item-card:hover svg {
+  transform: scale(1.1) rotate(5deg);
+  color: #EBD9B4;
+}
+
+/* --- Navigation & Buttons --- */
+.op10-back-float {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.op10-back-float:hover {
+  background-color: #5D4037 !important; /* Brown saat hover */
+  color: #EBD9B4 !important; /* Cream saat hover */
+  transform: scale(1.1);
+}
+
+/* --- Animasi Masuk --- */
+.fade-up {
+  animation: fadeUp 1s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivitas untuk Grid */
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+  
+  .narrative-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+}
