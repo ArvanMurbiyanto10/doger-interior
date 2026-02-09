@@ -1,0 +1,32 @@
+.projek-root { background: #fdfbf7; min-height: 100vh; padding-bottom: 100px; }
+.page-header { padding: 100px 0 50px; text-align: center; color: #3e2723; }
+.page-header h1 { font-size: 3rem; font-weight: 900; }
+.italic { font-style: italic; color: #5d4037; font-weight: 300; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+/* Styles Kartu Mewah */
+.projects-wrapper { display: flex; flex-direction: column; gap: 60px; }
+.project-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+.card-header-brown { 
+    background: #4e362e; color: white; padding: 30px; 
+    display: flex; justify-content: space-between; align-items: center; 
+}
+.title { margin: 0; font-size: 1.8rem; text-transform: uppercase; }
+.client { margin: 5px 0 0; color: #d7ccc8; }
+
+.btn-contact { 
+    border: 1px solid rgba(255,255,255,0.5); padding: 10px 20px; 
+    color: white; text-decoration: none; border-radius: 4px; display: flex; gap: 10px; font-weight: 600;
+}
+.btn-contact:hover { background: white; color: #4e362e; }
+
+/* Galeri Scroll Horizontal */
+.card-gallery { padding: 20px; background: white; }
+.gallery-scroll { 
+    display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;
+    scrollbar-width: thin; scrollbar-color: #d7ccc8 transparent;
+}
+.img-box { min-width: 300px; height: 220px; border-radius: 8px; overflow: hidden; }
+.img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.img-box:hover img { transform: scale(1.1); }

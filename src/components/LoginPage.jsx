@@ -1,8 +1,8 @@
 // src/components/LoginPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './AdminPage.css'; // Import CSS yang sama
+import { useNavigate, Link } from 'react-router-dom'; // Tambahkan Link
+import './LoginPage.css'; // Ganti CSS ke file baru agar spesifik
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -12,25 +12,20 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error
+    setError('');
 
     try {
-      // Kirim data ke backend
       const res = await axios.post('http://localhost:5000/api/login', {
         username,
         password
       });
 
       if (res.data.success) {
-        // Simpan tiket masuk di LocalStorage
         localStorage.setItem('isAdminLoggedIn', 'true');
-        localStorage.setItem('adminName', res.data.user.nama); // Opsional: simpan nama
-        
-        // Pindah ke halaman admin
+        localStorage.setItem('adminName', res.data.user.nama);
         navigate('/admin');
       }
     } catch (err) {
-      // Tampilkan pesan error jika login gagal
       if (err.response) {
         setError(err.response.data.message);
       } else {
@@ -40,38 +35,42 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="admin-container">
-      <div className="admin-card" style={{ maxWidth: '400px' }}>
-        <h2 className="admin-title" style={{ marginBottom: '20px' }}>Login Admin</h2>
+    <div className="login-page-container">
+      {/* Overlay Gelap untuk background image */}
+      <div className="login-overlay"></div> 
+      
+      <div className="login-glass-card">
+        <h2 className="login-title">LOGIN</h2>
         
-        {error && <div className="message error">{error}</div>}
+        {/* Garis ungu di bawah judul (opsional, sesuai tema) */}
+        <div className="title-divider"></div>
+
+        {error && <div className="login-error-message">{error}</div>}
 
         <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label className="form-label">Username</label>
+          <div className="input-group">
+            <label>Username</label>
             <input 
               type="text" 
-              className="form-input" 
-              placeholder="Masukkan username"
+              placeholder="Username" // Placeholder sesuai gambar
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Password</label>
+          <div className="input-group">
+            <label>Password</label>
             <input 
               type="password" 
-              className="form-input" 
-              placeholder="Masukkan password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <button type="submit" className="btn-submit">Masuk</button>
+          <button type="submit" className="btn-login">Log in</button>
         </form>
       </div>
     </div>

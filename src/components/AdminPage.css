@@ -1,18 +1,231 @@
-.admin-layout { display: flex; min-height: 100vh; background: #f4f6f9; font-family: sans-serif; }
-.sidebar { width: 240px; background: #1a252f; color: white; padding: 20px; display: flex; flex-direction: column; }
-.menu-item { padding: 12px; margin-bottom: 5px; cursor: pointer; border-radius: 4px; }
-.menu-item.active { background: #34495e; color: #3498db; }
-.menu-logout { margin-top: auto; padding: 10px; background: #c0392b; color: white; border: none; cursor: pointer; }
-.main-content { flex: 1; padding: 30px; }
-.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-.form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; }
-.btn-primary { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-.btn-cancel { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
-.data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-.thumb-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
-.btn-edit { background: #f1c40f; color: black; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-.btn-delete { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
-.table-header { display: flex; justify-content: space-between; align-items: center; }
-tr.selected { background: #fff5f5; }
+/* --- LAYOUT UTAMA --- */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f9; /* Warna abu-abu muda lembut */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 250px;
+  background-color: #343a40; /* Hitam keabuan */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: fixed; /* Sidebar tetap diam saat discroll */
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #EBD9B4; /* Warna emas */
+  border-bottom: 1px solid #4b545c;
+  padding-bottom: 15px;
+}
+
+.sidebar button {
+  background: transparent;
+  border: none;
+  color: #c2c7d0;
+  padding: 15px;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.sidebar button:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+/* Tombol Logout Spesifik */
+.sidebar button:last-child {
+  margin-top: auto; /* Dorong ke paling bawah */
+  background-color: #dc3545;
+  color: white;
+  text-align: center;
+}
+
+.sidebar button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* --- KONTEN UTAMA --- */
+.main-content {
+  margin-left: 250px; /* Beri jarak selebar sidebar */
+  flex: 1;
+  padding: 30px;
+  width: calc(100% - 250px);
+}
+
+/* --- CARD (KOTAK PUTIH) --- */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 20px;
+  border-left: 5px solid #5D4037; /* Aksen garis di kiri judul */
+  padding-left: 10px;
+}
+
+/* --- FORM STYLES --- */
+.form-control {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box; /* Agar padding tidak merusak lebar */
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  border-color: #5D4037;
+  outline: none;
+  box-shadow: 0 0 5px rgba(93, 64, 55, 0.2);
+}
+
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* --- TABLE STYLES --- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+}
+
+.data-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.data-table img {
+  display: block;
+}
+
+/* --- ACTION BUTTONS DI TABEL --- */
+.btn-edit {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* --- RESPONSIVE (HP) --- */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px; /* Sidebar mengecil */
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    display: none; /* Sembunyikan judul */
+  }
+
+  .sidebar button {
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 5px;
+  }
+
+  .main-content {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+    padding: 15px;
+  }
+
+  .data-table th, 
+  .data-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
