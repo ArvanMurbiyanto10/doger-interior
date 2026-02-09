@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Import axios untuk ambil data logo
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
@@ -15,20 +16,43 @@ import {
   Hammer,
   CheckCircle2,
 } from "lucide-react";
-import Navbar from "./Navbar";
+
+// Hapus import Navbar jika sudah ada di App.jsx agar tidak double
+// import Navbar from "./Navbar"; 
 import "./AboutPage.css";
 
 // --- IMPORT ASSETS ---
-import logoDoggerImg from "../assets/logo-dogger.jpg";
+// Logo default tetap diimpor sebagai cadangan (fallback)
+import defaultLogo from "../assets/logo-dogger.jpg"; 
 import photo1 from "../assets/foto-1.jpg";
 import photo2 from "../assets/foto-2.jpg";
 import photo3 from "../assets/foto-3.jpg";
 import photo4 from "../assets/foto-4.jpg";
 
+const API_URL = "http://localhost:5000";
+
 const AboutPage = () => {
+  const [dbLogo, setDbLogo] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // 1. Fetch Logo dari Database (Logic sama dengan Navbar)
+    const fetchLogo = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/settings/logo`);
+        if (res.data && res.data.key_value) {
+          setDbLogo(res.data.key_value);
+        }
+      } catch (error) {
+        console.error("Gagal memuat logo custom di About:", error);
+      }
+    };
+    fetchLogo();
   }, []);
+
+  // 2. Tentukan Sumber Logo: Database atau Default Asset
+  const logoSource = dbLogo ? `${API_URL}/uploads/${dbLogo}` : defaultLogo;
 
   // Data Statistik untuk Hero
   const statsData = [
@@ -40,10 +64,10 @@ const AboutPage = () => {
 
   return (
     <div className="op10-root">
-      <Navbar />
+      {/* Navbar dihapus karena sudah ada di App.jsx */}
 
       <main>
-        {/* --- SECTION 1: HERO (STAGGERED GRID & SPLIT TEXT) --- */}
+        {/* --- SECTION 1: HERO --- */}
         <section className="section-hero op10-container">
           <div className="hero-grid">
             {/* Kiri: Teks */}
@@ -51,7 +75,6 @@ const AboutPage = () => {
               <span className="sub-header">Profil Perusahaan</span>
               <h1 className="main-header">Doger Interior</h1>
 
-              {/* Container Teks Rapi (Split Paragraphs) */}
               <div className="text-content-wrapper">
                 <p className="text-paragraph">
                   Selama kami berkarya, kami percaya bahwa kualitas sejati
@@ -86,46 +109,27 @@ const AboutPage = () => {
               <div className="est-badge-hero">Est. 2019 — Depok</div>
             </div>
 
-            {/* Kanan: Foto Grid Staggered & Stats */}
+            {/* Kanan: Foto Grid & Logo Dinamis */}
             <div className="hero-right-wrapper">
               <div className="photo-grid-container">
                 <div className="four-photo-grid">
-                  {/* Foto 1: Kiri Atas */}
-                  <img
-                    src={photo1}
-                    alt="Project 1"
-                    className="grid-img grid-img-1"
-                  />
-
-                  {/* Foto 2: Kanan Atas (Turun Dikit) */}
-                  <img
-                    src={photo2}
-                    alt="Project 2"
-                    className="grid-img grid-img-2"
-                  />
-
-                  {/* Foto 3: Kiri Bawah */}
-                  <img
-                    src={photo3}
-                    alt="Project 3"
-                    className="grid-img grid-img-3"
-                  />
-
-                  {/* Foto 4: Kanan Bawah (Turun Dikit) */}
-                  <img
-                    src={photo4}
-                    alt="Project 4"
-                    className="grid-img grid-img-4"
-                  />
+                  <img src={photo1} alt="Project 1" className="grid-img grid-img-1" />
+                  <img src={photo2} alt="Project 2" className="grid-img grid-img-2" />
+                  <img src={photo3} alt="Project 3" className="grid-img grid-img-3" />
+                  <img src={photo4} alt="Project 4" className="grid-img grid-img-4" />
                 </div>
 
-                {/* Logo Mengapung di Tengah */}
+                {/* LOGO DINAMIS DI TENGAH */}
                 <div className="center-logo-overlay">
-                  <img src={logoDoggerImg} alt="Logo Doger" />
+                  <img 
+                    src={logoSource} 
+                    alt="Logo Doger" 
+                    // Fallback aman jika gambar rusak
+                    onError={(e) => { e.target.onerror = null; e.target.src = defaultLogo; }}
+                  />
                 </div>
               </div>
 
-              {/* Statistik Kecil */}
               <div className="hero-small-stats">
                 {statsData.map((item, index) => (
                   <div key={index} className="small-stat-item">
@@ -167,42 +171,12 @@ const AboutPage = () => {
             </div>
 
             <div className="process-grid">
-              <ProcessCard
-                step="01"
-                icon={<Compass size={28} />}
-                title="Konsultasi"
-                desc="Diskusi kebutuhan & konsep."
-              />
-              <ProcessCard
-                step="02"
-                icon={<TrendingUp size={28} />}
-                title="Survey Lokasi"
-                desc="Pengukuran presisi di lokasi."
-              />
-              <ProcessCard
-                step="03"
-                icon={<PenTool size={28} />}
-                title="Design 3D"
-                desc="Visualisasi desain final."
-              />
-              <ProcessCard
-                step="04"
-                icon={<FileText size={28} />}
-                title="Invoice & DP"
-                desc="Administrasi & jadwal produksi."
-              />
-              <ProcessCard
-                step="05"
-                icon={<Hammer size={28} />}
-                title="Produksi"
-                desc="Pengerjaan di workshop kami."
-              />
-              <ProcessCard
-                step="06"
-                icon={<CheckCircle2 size={28} />}
-                title="Instalasi"
-                desc="Pemasangan akhir di lokasi."
-              />
+              <ProcessCard step="01" icon={<Compass size={28} />} title="Konsultasi" desc="Diskusi kebutuhan & konsep." />
+              <ProcessCard step="02" icon={<TrendingUp size={28} />} title="Survey Lokasi" desc="Pengukuran presisi di lokasi." />
+              <ProcessCard step="03" icon={<PenTool size={28} />} title="Design 3D" desc="Visualisasi desain final." />
+              <ProcessCard step="04" icon={<FileText size={28} />} title="Invoice & DP" desc="Administrasi & jadwal produksi." />
+              <ProcessCard step="05" icon={<Hammer size={28} />} title="Produksi" desc="Pengerjaan di workshop kami." />
+              <ProcessCard step="06" icon={<CheckCircle2 size={28} />} title="Instalasi" desc="Pemasangan akhir di lokasi." />
             </div>
           </div>
         </section>
@@ -223,23 +197,10 @@ const ProcessCard = ({ step, icon, title, desc }) => (
       <div style={{ color: "var(--color-brown)", marginBottom: "15px" }}>
         {icon}
       </div>
-      <h4
-        style={{
-          fontWeight: "700",
-          marginBottom: "10px",
-          color: "var(--color-dark)",
-          fontSize: "1.2rem",
-        }}
-      >
+      <h4 style={{ fontWeight: "700", marginBottom: "10px", color: "var(--color-dark)", fontSize: "1.2rem" }}>
         {title}
       </h4>
-      <p
-        style={{
-          fontSize: "0.95rem",
-          color: "var(--color-gray)",
-          lineHeight: 1.6,
-        }}
-      >
+      <p style={{ fontSize: "0.95rem", color: "var(--color-gray)", lineHeight: 1.6 }}>
         {desc}
       </p>
     </div>
