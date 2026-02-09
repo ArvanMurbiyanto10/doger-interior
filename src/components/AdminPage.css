@@ -26,7 +26,7 @@
   /* Layout settings */
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: var(--font-sans);
   background-color: #fdfcf8;
   color: var(--text-main);
@@ -41,7 +41,7 @@
 .admin-layout .bg-blob {
   position: absolute;
   filter: blur(80px);
-  z-index: 0; /* Pastikan di belakang konten tapi di depan background dasar */
+  z-index: 0;
   opacity: 0.6;
   animation: floatBlob 10s infinite alternate;
   pointer-events: none;
@@ -83,13 +83,10 @@
   max-width: 1200px;
   height: 70px;
   border-radius: 20px;
-
-  /* Glassmorphism Effect */
-  background: rgba(43, 33, 24, 0.95); /* Dark Brown Glass */
+  background: rgba(43, 33, 24, 0.95);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -230,7 +227,6 @@
   display: flex;
   flex-direction: column;
   background-color: #fdfbf7;
-  /* Pola Garis Arsitek */
   background-image:
     linear-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(212, 175, 55, 0.07) 1px, transparent 1px);
@@ -298,8 +294,6 @@
   position: relative;
   z-index: 2;
 }
-
-/* Custom Scrollbar */
 .admin-layout .photo-scroll-area::-webkit-scrollbar {
   width: 4px;
 }
@@ -365,7 +359,6 @@
   position: relative;
   z-index: 2;
 }
-
 .admin-layout .btn-secondary {
   flex: 1;
   background: #fff;
@@ -427,13 +420,11 @@
 .admin-layout .table-wrapper {
   padding: 10px 20px 20px;
 }
-
 .admin-layout .modern-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 12px;
 }
-
 .admin-layout .modern-table th {
   text-align: left;
   color: #aaa;
@@ -443,11 +434,9 @@
   padding-bottom: 5px;
   font-weight: 700;
 }
-
 .admin-layout .modern-table tbody tr {
   transition: all 0.3s var(--ease-out-back);
 }
-
 .admin-layout .modern-table tbody tr:hover {
   transform: scale(1.01);
 }
@@ -492,7 +481,6 @@
   font-size: 0.85rem;
   margin-top: 2px;
 }
-
 .admin-layout .pill-badge {
   background: #fdf8e9;
   color: var(--gold);
@@ -574,6 +562,8 @@
     padding: 15px;
     margin-top: 80px;
   }
+
+  /* Form Jadi 1 Kolom */
   .admin-layout .form-grid {
     grid-template-columns: 1fr;
   }
@@ -586,6 +576,7 @@
     padding: 20px;
   }
 
+  /* Table Scroll Horizontal */
   .admin-layout .modern-table {
     display: block;
     overflow-x: auto;

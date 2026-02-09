@@ -1,0 +1,198 @@
+/* =========================================
+   1. DESKTOP STYLES (Default)
+========================================= */
+.op10-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  padding: 15px 0;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+.op10-nav.scrolled {
+  background: #533f31;
+  padding: 10px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.op10-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.nav-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* LOGO */
+.nav-brand {
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none !important;
+  gap: 10px;
+}
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  background: #fff;
+  padding: 2px;
+  border-radius: 4px;
+}
+.brand-text {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #533f31;
+  line-height: 1;
+  text-decoration: none !important;
+}
+.brand-text span {
+  color: #533f31;
+  font-weight: 400;
+  opacity: 0.7;
+}
+.op10-nav.scrolled .brand-text,
+.op10-nav.scrolled .brand-text span {
+  color: #fff;
+}
+
+/* MENU LINKS (Desktop) */
+.nav-links {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.nav-links a:not(.btn-nav-cta) {
+  text-decoration: none !important;
+  color: #533f31;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+.op10-nav.scrolled .nav-links a:not(.btn-nav-cta) {
+  color: #fff;
+}
+
+/* TOMBOL KONSULTASI (Desktop) */
+.btn-nav-cta {
+  background: #533f31;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 50px;
+  text-decoration: none !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.op10-nav.scrolled .btn-nav-cta {
+  background: #fff;
+  color: #533f31;
+}
+
+/* ELEMENTS HIDDEN ON DESKTOP */
+.sidebar-header {
+  display: none;
+} /* Tombol close hanya untuk mobile */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  z-index: 1002;
+}
+.burger-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #533f31;
+  padding: 0;
+}
+.op10-nav.scrolled .burger-menu {
+  color: #fff;
+}
+
+/* =========================================
+   2. MOBILE RESPONSIVE (SLIDE & NEAT)
+========================================= */
+@media (max-width: 992px) {
+  .op10-nav {
+    background-color: #3e2e24 !important;
+    padding: 15px 0;
+  }
+  .brand-text,
+  .brand-text span {
+    color: #fff !important;
+    font-size: 1.2rem;
+  }
+
+  /* Tampilkan Burger */
+  .burger-menu {
+    display: block !important;
+    color: #fff !important;
+  }
+
+  /* SIDEBAR MENU */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Sembunyi */
+    width: 280px; /* Lebar Sidebar Pas (Tidak terlalu lebar) */
+    height: 100vh;
+    background-color: #ffffff;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start; /* Mulai dari atas */
+    padding: 30px; /* Padding sisi */
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+    transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 10000;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  /* TOMBOL CLOSE (X) DI POJOK KANAN ATAS SIDEBAR */
+  .sidebar-header {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end; /* X di kanan */
+    margin-bottom: 30px; /* Jarak ke menu pertama */
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  /* LIST MENU LEBIH RAPI & KECIL */
+  .nav-links a:not(.btn-nav-cta) {
+    color: #444 !important;
+    font-size: 1rem; /* Ukuran font pas (tidak raksasa) */
+    font-weight: 600;
+    margin-bottom: 0;
+    width: 100%;
+    display: block;
+    padding: 12px 0; /* Jarak antar menu */
+    border-bottom: 1px solid #f0f0f0; /* Garis tipis */
+  }
+
+  /* TOMBOL KONSULTASI DI BAWAH */
+  .btn-nav-cta {
+    width: 100%;
+    text-align: center;
+    background: #533f31;
+    color: #fff !important;
+    margin-top: 25px;
+    padding: 12px 0;
+  }
+}

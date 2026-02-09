@@ -87,6 +87,7 @@ body {
    SECTION 1: HERO
 ========================================= */
 .section-hero {
+  /* Padding Top Cukup Besar Agar Tidak Tertutup Navbar Fixed */
   padding-top: 180px;
   padding-bottom: 100px;
   min-height: 90vh;
@@ -121,7 +122,6 @@ body {
 .photo-grid-container {
   position: relative;
   width: 100%;
-  /* Padding bottom agar foto yang turun tidak kepotong */
   padding-bottom: 40px;
 }
 
@@ -144,12 +144,10 @@ body {
 }
 
 /* STAGGERED EFFECT (NAIK TURUN) */
-/* Kolom Kiri Normal */
 .grid-img-1,
 .grid-img-3 {
   transform: translateY(0);
 }
-/* Kolom Kanan Turun */
 .grid-img-2,
 .grid-img-4 {
   transform: translateY(40px);
@@ -161,7 +159,6 @@ body {
   box-shadow: 0 20px 40px rgba(83, 63, 49, 0.2);
 }
 
-/* Pertahankan posisi turun saat hover */
 .grid-img-2:hover,
 .grid-img-4:hover {
   transform: translateY(40px) scale(1.03);
@@ -172,7 +169,6 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* Geser sedikit ke atas (-40%) agar pas di tengah visual karena kolom kanan turun */
   transform: translate(-50%, -40%);
   width: 130px;
   height: 130px;
@@ -378,14 +374,18 @@ body {
 ========================================= */
 @media (max-width: 992px) {
   .section-hero {
-    padding-top: 120px;
+    padding-top: 150px;
   }
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 60px;
+    text-align: center;
   }
   .hero-right-wrapper {
     order: -1;
+  }
+  .header-line {
+    margin: 0 auto;
   }
 
   /* Mobile: Reset Staggered Effect agar rapi */
@@ -417,6 +417,7 @@ body {
   .hero-small-stats {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
+    margin-top: 20px;
   }
   .main-header {
     font-size: 2.5rem;
