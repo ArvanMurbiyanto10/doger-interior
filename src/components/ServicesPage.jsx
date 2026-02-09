@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, ChevronsRight, PenTool, MessageSquare, Star } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  ChevronsRight,
+  PenTool,
+  MessageSquare,
+  Star,
+} from "lucide-react";
 import Navbar from "./Navbar";
 import "./ServicesPage.css";
 
@@ -15,46 +22,46 @@ import imgKanopi from "../assets/foto-10.jpg";
 const SERVICES_DATA = [
   {
     id: 1,
-    title: "Kitchen Set & Pantry",
+    title: "Kitchen Set",
     desc: "Dapur mewah dengan material premium (Multiplek, PVC, Aluminium) kustom.",
     img: imgKitchen,
-    features: ["Anti Rayap", "Finishing HPL/Duco", "Aksesoris High-End"]
+    features: [""],
   },
   {
     id: 2,
-    title: "Wardrobe & Closet",
+    title: "Wardrobe",
     desc: "Penyimpanan cerdas dan rapi untuk memaksimalkan ruang pakaian Anda.",
     img: imgWardrobe,
-    features: ["Lampu Sensor", "Soft-Close", "Custom Layout"]
+    features: [""],
   },
   {
     id: 3,
     title: "Lemari Bawah Tangga",
     desc: "Ubah area kosong bawah tangga menjadi storage multifungsi yang estetik.",
     img: imgTangga,
-    features: ["Desain Presisi", "Rak Sepatu", "Pintu Minimalis"]
+    features: [""],
   },
   {
     id: 4,
-    title: "Backdrop TV & Partisi",
+    title: "Backdrop TV",
     desc: "Area hiburan mewah tanpa kabel berantakan, menggunakan material berkualitas.",
     img: imgTV,
-    features: ["Hidden Cable", "Ambient Light", "Panel Mewah"]
+    features: [""],
   },
   {
     id: 5,
-    title: "Pintu Sliding & Penyekat",
+    title: "Pintu Sliding",
     desc: "Sekat ruangan fleksibel aluminium/kaca untuk privasi tanpa mengurangi cahaya.",
     img: imgSliding,
-    features: ["Rel Kokoh", "Kaca Tempered", "Hemat Ruang"]
+    features: [""],
   },
   {
     id: 6,
     title: "Interior Komersial",
     desc: "Solusi interior lengkap untuk kantor atau kafe yang elegan dan fungsional.",
     img: imgKanopi,
-    features: ["Meja Resepsionis", "Workstation", "Durabilitas Tinggi"]
-  }
+    features: [""],
+  },
 ];
 
 // DUPLIKASI DATA AGAR LOOPING MULUS (6 item x 2 = 12 item)
@@ -74,9 +81,13 @@ const ServicesPage = () => {
         <section className="services-header">
           <div className="op10-container center-text">
             <span className="brand-tag">Layanan Fabrikasi</span>
-            <h1>Kualitas Interior <br /><span className="text-brown">Standar Premium</span>.</h1>
+            <h1>
+              Kualitas Interior <br />
+              <span className="text-brown">Standar Premium</span>.
+            </h1>
             <p className="header-desc">
-              Pilihan layanan fabrikasi kustom yang dirancang untuk memenuhi kebutuhan fungsional dan estetika ruang Anda.
+              Pilihan layanan fabrikasi kustom yang dirancang untuk memenuhi
+              kebutuhan fungsional dan estetika ruang Anda.
             </p>
           </div>
         </section>
@@ -88,7 +99,6 @@ const ServicesPage = () => {
             {INFINITE_SERVICES.map((service, index) => (
               /* Gunakan index unik karena ID akan duplikat */
               <div key={`${service.id}-${index}`} className="service-v-card">
-                
                 {/* Gambar & Badge */}
                 <div className="card-img-top">
                   <img src={service.img} alt={service.title} />
@@ -113,11 +123,8 @@ const ServicesPage = () => {
                   <div className="btn-icon-box">
                     <ChevronsRight size={24} />
                   </div>
-                  <div className="btn-text-box">
-                    Pesan Sekarang
-                  </div>
+                  <div className="btn-text-box">Pesan Sekarang</div>
                 </Link>
-
               </div>
             ))}
           </div>
@@ -127,9 +134,21 @@ const ServicesPage = () => {
         <section className="services-values bg-cream-light">
           <div className="op10-container">
             <div className="values-grid">
-              <ValueBox icon={<PenTool />} title="Custom Sepenuhnya" text="Desain fleksibel mengikuti preferensi estetika Anda." />
-              <ValueBox icon={<MessageSquare />} title="Konsultasi Gratis" text="Diskusi mendalam online maupun offline." />
-              <ValueBox icon={<Star />} title="Bergaransi" text="Jaminan kualitas material dan pengerjaan." />
+              <ValueBox
+                icon={<PenTool />}
+                title="Custom Sepenuhnya"
+                text="Desain fleksibel mengikuti preferensi estetika Anda."
+              />
+              <ValueBox
+                icon={<MessageSquare />}
+                title="Konsultasi Gratis"
+                text="Diskusi mendalam online maupun offline."
+              />
+              <ValueBox
+                icon={<Star />}
+                title="Bergaransi"
+                text="Jaminan kualitas material dan pengerjaan."
+              />
             </div>
           </div>
         </section>
