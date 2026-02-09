@@ -1,302 +1,256 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
-  Plus,
-  Trash2,
-  LogOut,
-  LayoutDashboard,
-  Image as ImageIcon,
-  FolderOpen,
-  Save,
-  Edit3,
+  ArrowLeft,
+  Home,
+  Building2,
+  Palmtree,
+  Coffee,
+  Utensils,
+  Briefcase,
+  Compass,
+  TrendingUp,
+  PenTool,
+  FileText,
+  Hammer,
+  CheckCircle2,
 } from "lucide-react";
-import "./AdminPage.css";
+import Navbar from "./Navbar";
+import "./AboutPage.css";
 
-const API_URL = "http://localhost:5000";
+// --- IMPORT ASSETS ---
+import logoDoggerImg from "../assets/logo-dogger.jpg";
+import photo1 from "../assets/foto-1.jpg";
+import photo2 from "../assets/foto-2.jpg";
+import photo3 from "../assets/foto-3.jpg";
+import photo4 from "../assets/foto-4.jpg";
 
-const AdminPage = () => {
-  const [judul, setJudul] = useState("");
-  const [klien, setKlien] = useState("");
-  const [photoInputs, setPhotoInputs] = useState([
-    { id: Date.now(), file: null },
-  ]);
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const fetchProjects = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/projects?t=${Date.now()}`);
-      setProjects(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const AboutPage = () => {
   useEffect(() => {
-    if (!localStorage.getItem("isAdminLoggedIn")) navigate("/login");
-    else fetchProjects();
-  }, [navigate]);
+    window.scrollTo(0, 0);
+  }, []);
 
-  const addPhotoInput = () =>
-    setPhotoInputs([...photoInputs, { id: Date.now(), file: null }]);
-
-  const removePhotoInput = (id) => {
-    if (photoInputs.length > 1)
-      setPhotoInputs(photoInputs.filter((i) => i.id !== id));
-  };
-
-  const handleFileChange = (id, e) => {
-    const newInputs = photoInputs.map((item) =>
-      item.id === id ? { ...item, file: e.target.files[0] } : item,
-    );
-    setPhotoInputs(newInputs);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const validFiles = photoInputs.map((i) => i.file).filter((f) => f !== null);
-
-    if (validFiles.length < 1) {
-      alert("Mohon upload minimal 1 foto!");
-      setLoading(false);
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("judul", judul);
-    formData.append("klien", klien);
-    validFiles.forEach((file) => formData.append("images", file));
-
-    try {
-      await axios.post(`${API_URL}/api/projects`, formData);
-      alert("Proyek berhasil disimpan!");
-      setJudul("");
-      setKlien("");
-      setPhotoInputs([{ id: Date.now(), file: null }]);
-      fetchProjects();
-    } catch (err) {
-      console.error("Gagal simpan:", err);
-      alert("Gagal simpan. Periksa database!");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm("Hapus proyek ini secara permanen?")) return;
-    try {
-      await axios.delete(`${API_URL}/api/projects/${id}`);
-      fetchProjects();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // Data Statistik untuk Hero
+  const statsData = [
+    { number: "20+", label: "Tahun Pengalaman" },
+    { number: "300+", label: "Proyek Selesai" },
+    { number: "100%", label: "Klien Puas" },
+    { number: "A+", label: "Grade Material" },
+  ];
 
   return (
-    <div className="admin-layout">
-      {/* BACKGROUND DECORATION BLOB */}
-      <div className="bg-blob blob-1"></div>
-      <div className="bg-blob blob-2"></div>
+    <div className="op10-root">
+      <Navbar />
 
-      {/* NAVBAR GLASS */}
-      <nav className="admin-navbar glass">
-        <div className="nav-brand">
-          <div className="brand-icon">
-            <LayoutDashboard size={22} color="#fff" />
-          </div>
-          <h2>
-            Doger<span>Interior</span>
-          </h2>
-        </div>
-        <button
-          onClick={() => {
-            localStorage.clear();
-            navigate("/login");
-          }}
-          className="btn-logout"
-        >
-          <span>Sign Out</span> <LogOut size={16} />
-        </button>
-      </nav>
+      <main>
+        {/* --- SECTION 1: HERO (STAGGERED GRID & SPLIT TEXT) --- */}
+        <section className="section-hero op10-container">
+          <div className="hero-grid">
+            {/* Kiri: Teks */}
+            <div className="hero-text">
+              <span className="sub-header">Profil Perusahaan</span>
+              <h1 className="main-header">Doger Interior</h1>
 
-      <main className="main-content">
-        <div className="content-container">
-          {/* HEADER SECTION */}
-          <div className="dashboard-header animate-fade-up">
-            <h1>Dashboard Admin</h1>
-            <p>Kelola portofolio interior Anda dengan mudah dan elegan.</p>
-          </div>
+              {/* Container Teks Rapi (Split Paragraphs) */}
+              <div className="text-content-wrapper">
+                <p className="text-paragraph">
+                  Selama kami berkarya, kami percaya bahwa kualitas sejati
+                  adalah harmoni antara ketahanan material dengan kenyamanan
+                  penghuninya. Bagi kami, setiap proyek bukan hanya sekadar
+                  memproduksi furniture, melainkan sebuah kolaborasi erat untuk
+                  menciptakan ruangan yang benar-benar mewakili karakter dan
+                  kebutuhan client.
+                </p>
 
-          {/* FORM CARD (GLASS & NEUMORPHISM) */}
-          <div className="card form-card animate-fade-up delay-1">
-            <div className="card-header">
-              <h3>
-                <Plus size={20} className="icon-gold" /> Input Proyek Baru
-              </h3>
+                <p className="text-paragraph">
+                  Kami percaya bahwa setiap ruang memiliki cerita unik. Oleh
+                  karena itu, <strong>Doger Interior</strong> hadir untuk
+                  mengintegrasikan keahlian teknis yang telah terasah selama 20
+                  tahun dengan detail desain yang dipersonalisasikan sepenuhnya.
+                  Kami menciptakan solusi ruang yang cerdas melalui penguasaan
+                  berbagai material unggulan – mulai dari{" "}
+                  <strong>Multiplek, PVC Board hingga Aluminium</strong>.
+                </p>
+
+                <p className="text-paragraph">
+                  Bersama kami, Anda mendapatkan jaminan kualitas melalui
+                  pengerjaan teliti di workshop kami serta pendampingan personal
+                  mulai dari desain hingga instalasi. Kami menjunjung tinggi
+                  profesionalisme melalui
+                  <strong> transparansi di setiap langkah</strong>, memberikan
+                  update berkala agar Anda memiliki ketenangan pikiran
+                  sepenuhnya.
+                </p>
+              </div>
+
+              <div className="est-badge-hero">Est. 2019 — Depok</div>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="form-grid">
-                {/* Input Kiri: Teks */}
-                <div className="input-section">
-                  <div className="form-group">
-                    <label>Judul Proyek</label>
-                    <input
-                      className="form-control"
-                      value={judul}
-                      onChange={(e) => setJudul(e.target.value)}
-                      required
-                      placeholder="Misal: Villa Bali Modern"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Nama Klien</label>
-                    <input
-                      className="form-control"
-                      value={klien}
-                      onChange={(e) => setKlien(e.target.value)}
-                      placeholder="Misal: Mrs. Sarah"
-                    />
-                  </div>
+            {/* Kanan: Foto Grid Staggered & Stats */}
+            <div className="hero-right-wrapper">
+              <div className="photo-grid-container">
+                <div className="four-photo-grid">
+                  {/* Foto 1: Kiri Atas */}
+                  <img
+                    src={photo1}
+                    alt="Project 1"
+                    className="grid-img grid-img-1"
+                  />
+
+                  {/* Foto 2: Kanan Atas (Turun Dikit) */}
+                  <img
+                    src={photo2}
+                    alt="Project 2"
+                    className="grid-img grid-img-2"
+                  />
+
+                  {/* Foto 3: Kiri Bawah */}
+                  <img
+                    src={photo3}
+                    alt="Project 3"
+                    className="grid-img grid-img-3"
+                  />
+
+                  {/* Foto 4: Kanan Bawah (Turun Dikit) */}
+                  <img
+                    src={photo4}
+                    alt="Project 4"
+                    className="grid-img grid-img-4"
+                  />
                 </div>
 
-                {/* Input Kanan: Foto (Dengan Background Grid Arsitek) */}
-                <div className="upload-section">
-                  <label>Galeri Foto</label>
-                  <div className="photo-scroll-area">
-                    {photoInputs.map((input, index) => (
-                      <div key={input.id} className="file-input-row">
-                        <div className="file-index">{index + 1}</div>
-                        <div className="file-wrapper">
-                          <ImageIcon size={16} color="#888" />
-                          <input
-                            type="file"
-                            onChange={(e) => handleFileChange(input.id, e)}
-                            accept="image/*"
-                          />
-                        </div>
-                        {photoInputs.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => removePhotoInput(input.id)}
-                            className="btn-icon-danger"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="form-actions">
-                    <button
-                      type="button"
-                      onClick={addPhotoInput}
-                      className="btn-secondary"
-                    >
-                      <Plus size={16} /> Tambah Slot
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        "Processing..."
-                      ) : (
-                        <>
-                          <Save size={18} /> Simpan Data
-                        </>
-                      )}
-                    </button>
-                  </div>
+                {/* Logo Mengapung di Tengah */}
+                <div className="center-logo-overlay">
+                  <img src={logoDoggerImg} alt="Logo Doger" />
                 </div>
               </div>
-            </form>
-          </div>
 
-          {/* TABLE LIST */}
-          <div className="card table-card animate-fade-up delay-2">
-            <div className="card-header-simple">
-              <h3>
-                <FolderOpen size={20} className="icon-gold" /> Database Proyek{" "}
-                <span>({projects.length} Items)</span>
-              </h3>
-            </div>
-
-            <div className="table-wrapper">
-              <table className="modern-table">
-                <thead>
-                  <tr>
-                    <th>Visual</th>
-                    <th>Informasi Proyek</th>
-                    <th>Galeri</th>
-                    <th style={{ textAlign: "right" }}>Kontrol</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projects.map((item) => (
-                    <tr key={item.id}>
-                      <td width="100">
-                        <div className="img-frame">
-                          <img
-                            src={`${API_URL}/uploads/${item.foto}`}
-                            onError={(e) =>
-                              (e.target.src = "https://placehold.co/60")
-                            }
-                            alt="cover"
-                          />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="proj-title">{item.judul}</div>
-                        <div className="proj-client">
-                          {item.klien || "Tanpa Nama Klien"}
-                        </div>
-                      </td>
-                      <td>
-                        <span className="pill-badge">
-                          {item.gallery ? item.gallery.length : 0} Foto
-                        </span>
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        <div className="action-buttons">
-                          <button
-                            onClick={() => navigate(`/admin/edit/${item.id}`)}
-                            className="btn-action edit"
-                            title="Edit"
-                          >
-                            <Edit3 size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="btn-action delete"
-                            title="Hapus"
-                          >
-                            <Trash2 size={16} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {projects.length === 0 && (
-                    <tr>
-                      <td colSpan="4" className="empty-state">
-                        <FolderOpen size={40} />
-                        <p>Belum ada data proyek tersimpan.</p>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              {/* Statistik Kecil */}
+              <div className="hero-small-stats">
+                {statsData.map((item, index) => (
+                  <div key={index} className="small-stat-item">
+                    <strong>{item.number}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* --- SECTION 2: PROJECT SCOPE --- */}
+        <section className="section-scope">
+          <div className="op10-container center">
+            <div className="scope-heading-wrapper">
+              <h3 className="scope-heading">Project Scope</h3>
+              <div className="scope-line"></div>
+            </div>
+
+            <div className="scope-grid-original">
+              <ScopeItem icon={<Home size={32} />} label="Home" />
+              <ScopeItem icon={<Building2 size={32} />} label="Apartment" />
+              <ScopeItem icon={<Palmtree size={32} />} label="Villa" />
+              <ScopeItem icon={<Coffee size={32} />} label="Cafe" />
+              <ScopeItem icon={<Utensils size={32} />} label="Resto" />
+              <ScopeItem icon={<Briefcase size={32} />} label="Office" />
+            </div>
+          </div>
+        </section>
+
+        {/* --- SECTION 3: ALUR KERJA --- */}
+        <section className="section-process">
+          <div className="op10-container">
+            <div className="center Heading-wrapper">
+              <span className="sub-header">Tahapan Pemesanan</span>
+              <h2 className="main-header">Proses Terstruktur</h2>
+              <div className="header-line"></div>
+            </div>
+
+            <div className="process-grid">
+              <ProcessCard
+                step="01"
+                icon={<Compass size={28} />}
+                title="Konsultasi"
+                desc="Diskusi kebutuhan & konsep."
+              />
+              <ProcessCard
+                step="02"
+                icon={<TrendingUp size={28} />}
+                title="Survey Lokasi"
+                desc="Pengukuran presisi di lokasi."
+              />
+              <ProcessCard
+                step="03"
+                icon={<PenTool size={28} />}
+                title="Design 3D"
+                desc="Visualisasi desain final."
+              />
+              <ProcessCard
+                step="04"
+                icon={<FileText size={28} />}
+                title="Invoice & DP"
+                desc="Administrasi & jadwal produksi."
+              />
+              <ProcessCard
+                step="05"
+                icon={<Hammer size={28} />}
+                title="Produksi"
+                desc="Pengerjaan di workshop kami."
+              />
+              <ProcessCard
+                step="06"
+                icon={<CheckCircle2 size={28} />}
+                title="Instalasi"
+                desc="Pemasangan akhir di lokasi."
+              />
+            </div>
+          </div>
+        </section>
       </main>
+
+      <Link to="/" className="back-float">
+        <ArrowLeft size={24} />
+      </Link>
     </div>
   );
 };
 
-export default AdminPage;
+// --- SUB-COMPONENTS ---
+const ProcessCard = ({ step, icon, title, desc }) => (
+  <div className="process-card">
+    <span className="process-step-number">{step}</span>
+    <div className="process-content">
+      <div style={{ color: "var(--color-brown)", marginBottom: "15px" }}>
+        {icon}
+      </div>
+      <h4
+        style={{
+          fontWeight: "700",
+          marginBottom: "10px",
+          color: "var(--color-dark)",
+          fontSize: "1.2rem",
+        }}
+      >
+        {title}
+      </h4>
+      <p
+        style={{
+          fontSize: "0.95rem",
+          color: "var(--color-gray)",
+          lineHeight: 1.6,
+        }}
+      >
+        {desc}
+      </p>
+    </div>
+  </div>
+);
+
+const ScopeItem = ({ icon, label }) => (
+  <div className="scope-item">
+    {icon}
+    <span>{label}</span>
+  </div>
+);
+
+export default AboutPage;
