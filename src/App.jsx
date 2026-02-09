@@ -15,7 +15,7 @@ import EditProjectPage from "./components/EditProjectPage";
 
 // --- IMPORT GLOBAL COMPONENTS ---
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Footer from "./components/footer";
 
 // --- UTILITY: SCROLL TO TOP ---
 const ScrollToTop = () => {
