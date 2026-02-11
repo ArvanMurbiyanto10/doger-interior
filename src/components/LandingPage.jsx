@@ -37,7 +37,7 @@ import imgTV from "../assets/foto-3.jpg";
 import imgSliding from "../assets/foto-5.jpg";
 import imgCommercial from "../assets/foto-10.jpg";
 
-// --- IMPORT MATERIAL ---
+// --- IMPORT MATERIAL (SUDAH DIAKTIFKAN) ---
 import imgMultiplek from "../assets/bahan-multiplek.jpg";
 import imgPVC from "../assets/bahan-pvc.jpg";
 import imgAluminium from "../assets/bahan-alumunium.jpg"; // Pastikan ejaan file benar
@@ -364,6 +364,15 @@ function LandingPage() {
             </div>
           </div>
         </div>
+        <a
+          href="https://wa.me/6285282773811"
+          target="_blank"
+          rel="noreferrer"
+          className="float-wa"
+          aria-label="WhatsApp"
+        >
+          <MessageCircle size={32} />
+        </a>
       </section>
 
       {/* 3. ABOUT SECTION */}
@@ -740,6 +749,18 @@ function LandingPage() {
           </div>
         </div>
       </section>
+<<<<<<< HEAD
+=======
+
+      <a
+        href="https://wa.me/6285282773811"
+        target="_blank"
+        rel="noreferrer"
+        className="float-wa"
+      >
+        <MessageCircle size={32} />
+      </a>
+>>>>>>> e2b42dd32b055092c7f10e72b202c0ac2c338cc4
     </div>
   );
 }

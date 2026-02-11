@@ -141,3 +141,57 @@
   font-size: 10px;
   letter-spacing: 1px;
 }
+
+/* --- RESPONSIVE MOBILE LOGIN --- */
+
+@media (max-width: 600px) {
+  .login-overlay {
+    /* Mengubah padding agar box tidak menempel ke pinggir layar HP */
+    padding: 20px;
+    /* Pastikan tinggi layar cukup untuk konten yang memanjang */
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .login-box {
+    /* Mengurangi padding box agar area input lebih luas di layar sempit */
+    padding: 40px 25px;
+    border-radius: 12px;
+  }
+
+  .brand-logo h1 {
+    /* Ukuran font sedikit dikecilkan agar tidak pecah baris */
+    font-size: 24px;
+  }
+
+  .brand-logo p {
+    /* Mengurangi letter spacing agar teks tetap terbaca jelas */
+    letter-spacing: 2px;
+    font-size: 10px;
+  }
+
+  .form-field input {
+    /* Menyesuaikan padding input untuk kenyamanan sentuhan jari (Touch Target) */
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .login-submit {
+    /* Memastikan tombol login mudah ditekan */
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  .login-copy {
+    /* Mengurangi margin bawah agar lebih kompak */
+    margin-top: 30px;
+  }
+}
+
+/* Penyesuaian khusus untuk layar sangat pendek (Landscape HP) */
+@media (max-height: 700px) and (orientation: landscape) {
+  .login-overlay {
+    align-items: flex-start;
+    padding: 50px 20px;
+  }
+}
