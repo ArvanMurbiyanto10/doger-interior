@@ -18,16 +18,16 @@ import {
 } from "lucide-react";
 
 // Hapus import Navbar jika sudah ada di App.jsx agar tidak double
-// import Navbar from "./Navbar"; 
+// import Navbar from "./Navbar";
 import "./AboutPage.css";
 
 // --- IMPORT ASSETS ---
 // Logo default tetap diimpor sebagai cadangan (fallback)
-import defaultLogo from "../assets/logo-dogger.jpg"; 
-import photo1 from "../assets/foto-1.jpg";
-import photo2 from "../assets/foto-2.jpg";
-import photo3 from "../assets/foto-3.jpg";
-import photo4 from "../assets/foto-4.jpg";
+import defaultLogo from "../assets/logo-dogger.jpg";
+import photo1 from "../assets/about1.jpg";
+import photo2 from "../assets/about2.jpg";
+import photo3 from "../assets/about3.jpg";
+import photo4 from "../assets/about4.jpg";
 
 const API_URL = "http://localhost:5000";
 
@@ -113,19 +113,38 @@ const AboutPage = () => {
             <div className="hero-right-wrapper">
               <div className="photo-grid-container">
                 <div className="four-photo-grid">
-                  <img src={photo1} alt="Project 1" className="grid-img grid-img-1" />
-                  <img src={photo2} alt="Project 2" className="grid-img grid-img-2" />
-                  <img src={photo3} alt="Project 3" className="grid-img grid-img-3" />
-                  <img src={photo4} alt="Project 4" className="grid-img grid-img-4" />
+                  <img
+                    src={photo1}
+                    alt="Project 1"
+                    className="grid-img grid-img-1"
+                  />
+                  <img
+                    src={photo2}
+                    alt="Project 2"
+                    className="grid-img grid-img-2"
+                  />
+                  <img
+                    src={photo3}
+                    alt="Project 3"
+                    className="grid-img grid-img-3"
+                  />
+                  <img
+                    src={photo4}
+                    alt="Project 4"
+                    className="grid-img grid-img-4"
+                  />
                 </div>
 
                 {/* LOGO DINAMIS DI TENGAH */}
                 <div className="center-logo-overlay">
-                  <img 
-                    src={logoSource} 
-                    alt="Logo Doger" 
+                  <img
+                    src={logoSource}
+                    alt="Logo Doger"
                     // Fallback aman jika gambar rusak
-                    onError={(e) => { e.target.onerror = null; e.target.src = defaultLogo; }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = defaultLogo;
+                    }}
                   />
                 </div>
               </div>
@@ -171,12 +190,42 @@ const AboutPage = () => {
             </div>
 
             <div className="process-grid">
-              <ProcessCard step="01" icon={<Compass size={28} />} title="Konsultasi" desc="Diskusi kebutuhan & konsep." />
-              <ProcessCard step="02" icon={<TrendingUp size={28} />} title="Survey Lokasi" desc="Pengukuran presisi di lokasi." />
-              <ProcessCard step="03" icon={<PenTool size={28} />} title="Design 3D" desc="Visualisasi desain final." />
-              <ProcessCard step="04" icon={<FileText size={28} />} title="Invoice & DP" desc="Administrasi & jadwal produksi." />
-              <ProcessCard step="05" icon={<Hammer size={28} />} title="Produksi" desc="Pengerjaan di workshop kami." />
-              <ProcessCard step="06" icon={<CheckCircle2 size={28} />} title="Instalasi" desc="Pemasangan akhir di lokasi." />
+              <ProcessCard
+                step="01"
+                icon={<Compass size={28} />}
+                title="Konsultasi"
+                desc="Diskusi kebutuhan & konsep."
+              />
+              <ProcessCard
+                step="02"
+                icon={<TrendingUp size={28} />}
+                title="Survey Lokasi"
+                desc="Pengukuran presisi di lokasi."
+              />
+              <ProcessCard
+                step="03"
+                icon={<PenTool size={28} />}
+                title="Design 3D"
+                desc="Visualisasi desain final."
+              />
+              <ProcessCard
+                step="04"
+                icon={<FileText size={28} />}
+                title="Invoice & DP"
+                desc="Administrasi & jadwal produksi."
+              />
+              <ProcessCard
+                step="05"
+                icon={<Hammer size={28} />}
+                title="Produksi"
+                desc="Pengerjaan di workshop kami."
+              />
+              <ProcessCard
+                step="06"
+                icon={<CheckCircle2 size={28} />}
+                title="Instalasi"
+                desc="Pemasangan akhir di lokasi."
+              />
             </div>
           </div>
         </section>
@@ -197,10 +246,23 @@ const ProcessCard = ({ step, icon, title, desc }) => (
       <div style={{ color: "var(--color-brown)", marginBottom: "15px" }}>
         {icon}
       </div>
-      <h4 style={{ fontWeight: "700", marginBottom: "10px", color: "var(--color-dark)", fontSize: "1.2rem" }}>
+      <h4
+        style={{
+          fontWeight: "700",
+          marginBottom: "10px",
+          color: "var(--color-dark)",
+          fontSize: "1.2rem",
+        }}
+      >
         {title}
       </h4>
-      <p style={{ fontSize: "0.95rem", color: "var(--color-gray)", lineHeight: 1.6 }}>
+      <p
+        style={{
+          fontSize: "0.95rem",
+          color: "var(--color-gray)",
+          lineHeight: 1.6,
+        }}
+      >
         {desc}
       </p>
     </div>

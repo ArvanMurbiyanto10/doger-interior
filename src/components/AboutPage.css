@@ -20,6 +20,7 @@
   margin: 0;
   padding: 0;
 }
+
 html,
 body {
   width: 100%;
@@ -34,14 +35,23 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+
+/* CONTAINER YANG LEBIH AMAN UNTUK LAYAR LEBAR */
 .op10-container {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 5%;
+  padding: 0 20px; /* Padding standar mobile */
   position: relative;
   z-index: 2;
 }
+
+@media (min-width: 768px) {
+  .op10-container {
+    padding: 0 40px; /* Padding Tablet */
+  }
+}
+
 .center {
   text-align: center;
 }
@@ -58,20 +68,24 @@ body {
   border-bottom: 2px solid var(--color-cream);
   padding-bottom: 5px;
 }
+
 .main-header {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  /* Clamp font size agar fluid dari HP ke Desktop */
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.2;
   margin-bottom: 30px;
   color: var(--color-brown);
 }
+
 .text-paragraph {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.1vw, 1.15rem);
   line-height: 1.8;
   color: var(--color-gray);
   margin-bottom: 20px;
 }
+
 .header-line {
   width: 80px;
   height: 4px;
@@ -79,28 +93,45 @@ body {
   margin: 0 auto;
   border-radius: 2px;
 }
+
 .Heading-wrapper {
   margin-bottom: 60px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* =========================================
    SECTION 1: HERO
 ========================================= */
 .section-hero {
-  /* Padding Top Cukup Besar Agar Tidak Tertutup Navbar Fixed */
-  padding-top: 180px;
-  padding-bottom: 100px;
-  min-height: 90vh;
+  padding-top: 140px; /* Sesuaikan dengan tinggi navbar */
+  padding-bottom: 80px;
+  min-height: auto; /* Ubah ke auto agar tidak memaksa tinggi di layar kecil */
   display: flex;
   align-items: center;
 }
+
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1fr; /* Default Mobile 1 Kolom */
+  gap: 60px;
   align-items: center;
   width: 100%;
 }
+
+@media (min-width: 992px) {
+  .section-hero {
+    min-height: 90vh;
+    padding-top: 180px;
+    padding-bottom: 100px;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr 1fr; /* Desktop 2 Kolom */
+    gap: 80px;
+  }
+}
+
 .est-badge-hero {
   display: inline-block;
   margin-top: 30px;
@@ -112,7 +143,7 @@ body {
   letter-spacing: 1px;
 }
 
-/* --- HERO RIGHT (STAGGERED SQUARE GRID) --- */
+/* --- HERO RIGHT (PHOTO GRID) --- */
 .hero-right-wrapper {
   display: flex;
   flex-direction: column;
@@ -122,46 +153,51 @@ body {
 .photo-grid-container {
   position: relative;
   width: 100%;
-  padding-bottom: 40px;
+  /* Padding bottom hanya perlu di desktop untuk efek staggered */
+  padding-bottom: 0;
 }
 
-/* Grid 2 Kolom Biasa */
+@media (min-width: 992px) {
+  .photo-grid-container {
+    padding-bottom: 40px;
+  }
+}
+
+/* Grid Foto */
 .four-photo-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 15px;
   width: 100%;
 }
 
-/* Base Style Foto (Wajib Kotak) */
 .grid-img {
   width: 100%;
-  aspect-ratio: 1 / 1; /* Kotak Sempurna */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: var(--radius);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
 }
 
-/* STAGGERED EFFECT (NAIK TURUN) */
-.grid-img-1,
-.grid-img-3 {
-  transform: translateY(0);
-}
-.grid-img-2,
-.grid-img-4 {
-  transform: translateY(40px);
-}
-
-.grid-img:hover {
-  transform: scale(1.03);
-  z-index: 2;
-  box-shadow: 0 20px 40px rgba(83, 63, 49, 0.2);
-}
-
-.grid-img-2:hover,
-.grid-img-4:hover {
-  transform: translateY(40px) scale(1.03);
+/* STAGGERED EFFECT (Hanya Desktop) */
+@media (min-width: 992px) {
+  .four-photo-grid {
+    gap: 20px;
+  }
+  .grid-img-2,
+  .grid-img-4 {
+    transform: translateY(40px);
+  }
+  .grid-img:hover {
+    transform: scale(1.03);
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(83, 63, 49, 0.2);
+  }
+  .grid-img-2:hover,
+  .grid-img-4:hover {
+    transform: translateY(40px) scale(1.03);
+  }
 }
 
 /* Logo Overlay */
@@ -169,9 +205,9 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%);
-  width: 130px;
-  height: 130px;
+  transform: translate(-50%, -50%);
+  width: 100px; /* Ukuran mobile */
+  height: 100px;
   background: #fff;
   border-radius: 50%;
   display: flex;
@@ -183,40 +219,51 @@ body {
   transition: var(--transition);
 }
 
-.center-logo-overlay:hover {
-  transform: translate(-50%, -40%) scale(1.1);
-  box-shadow: 0 20px 50px rgba(83, 63, 49, 0.3);
+@media (min-width: 992px) {
+  .center-logo-overlay {
+    width: 130px;
+    height: 130px;
+    transform: translate(-50%, -40%); /* Sesuaikan offset staggered */
+  }
+  .center-logo-overlay:hover {
+    transform: translate(-50%, -40%) scale(1.1);
+  }
 }
+
 .center-logo-overlay img {
-  width: 80%;
+  width: 70%;
   height: auto;
   object-fit: contain;
 }
 
-/* Stats Kecil */
+/* Stats Kecil Responsive */
 .hero-small-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* Auto fit agar responsif tanpa media query berlebihan */
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 20px;
-  padding: 30px;
+  padding: 25px;
   background: var(--color-light-bg);
   border-radius: var(--radius);
   border: 1px solid rgba(83, 63, 49, 0.1);
 }
+
 .small-stat-item {
   text-align: center;
 }
+
 .small-stat-item strong {
   display: block;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: var(--color-brown);
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   font-family: var(--font-heading);
 }
+
 .small-stat-item span {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #888;
@@ -228,7 +275,7 @@ body {
 ========================================= */
 .section-scope {
   background-color: var(--color-brown);
-  padding: 100px 0;
+  padding: 80px 0;
   color: #fff;
   position: relative;
   background-image: radial-gradient(
@@ -239,14 +286,16 @@ body {
 }
 
 .scope-heading-wrapper {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
+
 .scope-heading {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
   font-family: var(--font-heading);
   color: var(--color-cream);
   margin-bottom: 15px;
 }
+
 .scope-line {
   width: 60px;
   height: 3px;
@@ -256,10 +305,18 @@ body {
   border-radius: 2px;
 }
 
+/* Responsive Grid untuk Scope */
 .scope-grid-original {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
+  /* Otomatis mengisi kolom, minimal lebar 140px per item */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+@media (min-width: 992px) {
+  .scope-grid-original {
+    gap: 20px;
+  }
 }
 
 .scope-item {
@@ -267,36 +324,38 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  padding: 30px 15px;
+  gap: 12px;
+  padding: 25px 15px;
   background: rgba(237, 220, 194, 0.05);
   border: 1px solid rgba(237, 220, 194, 0.2);
   border-radius: 16px;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
   cursor: pointer;
+  text-align: center;
+}
+
+.scope-item:hover {
+  background: var(--color-cream);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .scope-item svg {
   color: var(--color-cream);
   transition: var(--transition);
+  width: 32px;
+  height: 32px;
 }
+
 .scope-item span {
   font-weight: 600;
-  letter-spacing: 1px;
-  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
   transition: var(--transition);
 }
 
-.scope-item:hover {
-  background: var(--color-cream);
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-}
-.scope-item:hover svg {
-  color: var(--color-brown);
-  transform: scale(1.1);
-}
+.scope-item:hover svg,
 .scope-item:hover span {
   color: var(--color-brown);
 }
@@ -306,55 +365,85 @@ body {
 ========================================= */
 .section-process {
   background-color: var(--color-light-bg);
-  padding: 120px 0;
+  padding: 80px 0;
   width: 100%;
-  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+  /* Clip path dimatikan di mobile agar tidak memotong konten */
+  clip-path: none;
 }
+
+@media (min-width: 992px) {
+  .section-process {
+    padding: 120px 0;
+    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
+  }
+}
+
 .process-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Responsive card grid */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
-  margin-top: 60px;
+  margin-top: 40px;
 }
+
 .process-card {
   background: #fff;
-  padding: 40px 30px;
+  padding: 30px 25px;
   border-radius: 16px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
   border-bottom: 4px solid transparent;
+  height: 100%; /* Agar tinggi kartu sama rata */
 }
+
 .process-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(83, 63, 49, 0.15);
   border-bottom: 4px solid var(--color-brown);
 }
+
 .process-step-number {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  font-size: 5rem;
+  top: -5px;
+  right: -5px;
+  font-size: 4rem;
   font-weight: 900;
   color: #f4f4f4;
   z-index: 0;
   font-family: var(--font-heading);
+  line-height: 1;
 }
+
 .process-content {
   position: relative;
   z-index: 1;
 }
 
+.process-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--color-brown);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.process-content p {
+  font-size: 0.95rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}
+
 /* BACK BUTTON */
 .back-float {
   position: fixed;
-  bottom: 40px;
-  left: 40px;
+  bottom: 30px;
+  left: 30px;
   background-color: var(--color-cream);
   color: var(--color-brown);
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -363,6 +452,16 @@ body {
   z-index: 100;
   transition: var(--transition);
 }
+
+@media (min-width: 768px) {
+  .back-float {
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    left: 40px;
+  }
+}
+
 .back-float:hover {
   transform: scale(1.1) rotate(-45deg);
   background-color: #fff;
@@ -370,88 +469,37 @@ body {
 }
 
 /* =========================================
-   RESPONSIVE
+   ADDITIONAL MOBILE TWEAKS
 ========================================= */
 @media (max-width: 992px) {
-  .section-hero {
-    padding-top: 150px;
-  }
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 60px;
-    text-align: center;
-  }
   .hero-right-wrapper {
-    order: -1;
-  }
-  .header-line {
-    margin: 0 auto;
+    order: -1; /* Gambar di atas teks pada mobile */
+    margin-bottom: 20px;
   }
 
-  /* Mobile: Reset Staggered Effect agar rapi */
   .photo-grid-container {
     max-width: 500px;
     margin: 0 auto;
-    padding-bottom: 0;
-  }
-  .grid-img-2,
-  .grid-img-4 {
-    transform: translateY(0);
-  }
-  .grid-img-2:hover,
-  .grid-img-4:hover {
-    transform: scale(1.03);
-  }
-
-  .center-logo-overlay {
-    top: 50%;
-    left: 50%;
-    width: 100px;
-    height: 100px;
-    transform: translate(-50%, -50%);
-  }
-  .center-logo-overlay:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-
-  .hero-small-stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    margin-top: 20px;
-  }
-  .main-header {
-    font-size: 2.5rem;
-  }
-  .section-process {
-    padding: 80px 0;
-    clip-path: none;
-  }
-  .scope-grid-original {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+  /* Fix untuk layar HP kecil */
   .hero-small-stats {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 20px;
-  }
-  .small-stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(83, 63, 49, 0.1);
-    padding-bottom: 10px;
-  }
-  .small-stat-item:last-child {
-    border-bottom: none;
-  }
-  .scope-grid-original {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr; /* Paksa 2 kolom di HP kecil */
     gap: 15px;
+    padding: 15px;
   }
-  .scope-item {
-    padding: 25px 15px;
+
+  .small-stat-item strong {
+    font-size: 1.3rem;
+  }
+
+  .scope-grid-original {
+    grid-template-columns: repeat(2, 1fr); /* 2 Kolom icon di HP */
+  }
+
+  .main-header {
+    margin-bottom: 20px;
   }
 }

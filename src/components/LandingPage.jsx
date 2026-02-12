@@ -357,22 +357,13 @@ function LandingPage() {
             <div className="wm-body">
               <p className="lead-paragraph">
                 <strong>Doger Interior</strong> merupakan spesialis{" "}
-                <em>jasa Interior Kitchen Set</em>. Kami melayani jasa pembuatan
-                kitchen set aluminium minimalis baik untuk rumah, kantor, hotel,
-                apartemen, restaurant dan lainnya.
+                <em>jasa Interior</em>. Kami melayani jasa pembuatan berbagai
+                interior baik untuk rumah, kantor, hotel, apartemen, restaurant
+                dan lainnya dengan berbagai pilihan material.
               </p>
             </div>
           </div>
         </div>
-        <a
-          href="https://wa.me/6285282773811"
-          target="_blank"
-          rel="noreferrer"
-          className="float-wa"
-          aria-label="WhatsApp"
-        >
-          <MessageCircle size={32} />
-        </a>
       </section>
 
       {/* 3. ABOUT SECTION */}
@@ -749,18 +740,6 @@ function LandingPage() {
           </div>
         </div>
       </section>
-<<<<<<< HEAD
-=======
-
-      <a
-        href="https://wa.me/6285282773811"
-        target="_blank"
-        rel="noreferrer"
-        className="float-wa"
-      >
-        <MessageCircle size={32} />
-      </a>
->>>>>>> e2b42dd32b055092c7f10e72b202c0ac2c338cc4
     </div>
   );
 }
