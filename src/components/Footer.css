@@ -1,10 +1,10 @@
 /* --- FOOTER ROOT --- */
 .footer-root {
-  background-color: var(--c-brown, #533f31); /* Gunakan variabel global jika ada */
+  background-color: var(--c-brown, #533f31);
   color: var(--c-white, #ffffff);
   padding: 80px 0 30px;
   font-family: var(--font-main, "Plus Jakarta Sans", sans-serif);
-  border-top: 5px solid var(--c-cream, #eddcc2); /* Aksen Cream di atas */
+  border-top: 5px solid var(--c-cream, #eddcc2);
   position: relative;
   z-index: 10;
 }
@@ -18,19 +18,38 @@
 /* --- GRID LAYOUT --- */
 .footer-content {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.2fr; /* Kolom Brand lebih lebar */
+  grid-template-columns: 1.5fr 1fr 1.2fr;
   gap: 60px;
   margin-bottom: 60px;
 }
 
+/* --- BRAND ROW (LOGO + TEXT) --- */
+.footer-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* --- IMAGE LOGO (DISAMAKAN FEEL NAVBAR) --- */
+.footer-logo-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 6px;
+  padding: 0;
+  background: transparent;
+}
+
 /* --- KOLOM BRAND --- */
 .footer-logo {
-  font-family: "Playfair Display", serif; /* Font Serif untuk kesan mewah */
+  font-family: "Playfair Display", serif;
   font-size: 28px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 20px 0;
+  margin: 0;
   letter-spacing: 1px;
+  line-height: 1;
 }
 
 .footer-logo span {
@@ -47,6 +66,7 @@
   max-width: 350px;
 }
 
+/* --- SOCIALS --- */
 .footer-socials {
   display: flex;
   gap: 15px;
@@ -85,7 +105,7 @@
 }
 
 .footer-heading::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: -8px;
@@ -115,7 +135,7 @@
   flex-shrink: 0;
 }
 
-/* --- ALAMAT & MAP --- */
+/* --- ALAMAT --- */
 .address-text {
   font-size: 15px;
   line-height: 1.6;
@@ -123,6 +143,7 @@
   margin-bottom: 20px;
 }
 
+/* --- MAP --- */
 .footer-map iframe {
   border-radius: 12px;
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -135,13 +156,19 @@
   border-color: var(--c-cream, #eddcc2);
 }
 
-/* --- COPYRIGHT BAR --- */
+/* --- DIVIDER --- */
 .footer-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   margin-bottom: 30px;
 }
 
+/* --- COPYRIGHT --- */
 .footer-bottom {
   text-align: center;
   font-size: 13px;
@@ -175,6 +202,10 @@
   }
 
   .contact-list li {
+    justify-content: center;
+  }
+
+  .footer-brand-row {
     justify-content: center;
   }
 }

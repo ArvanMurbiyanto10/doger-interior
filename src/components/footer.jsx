@@ -1,18 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // IMPORT INI PENTING
+import { useNavigate } from "react-router-dom";
 import { Instagram, Phone, Mail, MapPin, Clock } from "lucide-react";
 import "./Footer.css";
 
+// IMPORT LOGO (sesuaikan path jika perlu)
+import logoDogger from "../assets/logo-dogger.jpg";
+
 const Footer = () => {
-  const navigate = useNavigate(); // HOOK NAVIGASI
+  const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
 
-  // Linktree yang sudah dibersihkan dari tracker
   const linktreeUrl = "https://linktr.ee/doger.interior";
 
-  // --- FUNGSI RAHASIA (TRIK 1) ---
   const handleSecretLogin = () => {
-    console.log("Secret access triggered!"); // Cek di console jika perlu
+    console.log("Secret access triggered!");
     if (localStorage.getItem("isAdminLoggedIn")) {
       navigate("/admin");
     } else {
@@ -26,13 +27,23 @@ const Footer = () => {
         <div className="footer-content">
           {/* KOLOM 1: BRAND & SOSMED */}
           <div className="f-col-brand">
-            <h2 className="footer-logo">
-              DOGER<span>.INTERIOR</span>
-            </h2>
+            {/* WRAPPER LOGO + TEXT */}
+            <div className="footer-brand-row">
+              <img
+                src={logoDogger}
+                alt="Dogger Interior Logo"
+                className="footer-logo-img"
+              />
+              <h2 className="footer-logo">
+                DOGER<span>.INTERIOR</span>
+              </h2>
+            </div>
+
             <p className="footer-tagline">
               Solusi interior & kitchen set premium Jabodetabek. Mewujudkan
               ruang impian dengan kualitas terbaik dan harga transparan.
             </p>
+
             <div className="footer-socials">
               <a
                 href="https://instagram.com/doger.interior"
@@ -42,7 +53,7 @@ const Footer = () => {
               >
                 <Instagram size={20} />
               </a>
-              {/* WhatsApp sekarang mengarah ke Linktree sesuai permintaan Anda */}
+
               <a
                 href={linktreeUrl}
                 target="_blank"
@@ -51,19 +62,19 @@ const Footer = () => {
               >
                 <Phone size={20} />
               </a>
+
               <a href="mailto:doger.interior@gmail.com" aria-label="Email">
                 <Mail size={20} />
               </a>
             </div>
           </div>
 
-          {/* KOLOM 2: HUBUNGI KAMI */}
+          {/* KOLOM 2 */}
           <div className="f-col-contact">
             <h3 className="footer-heading">HUBUNGI KAMI</h3>
             <ul className="contact-list">
               <li>
                 <Phone size={18} className="icon-accent" />
-                {/* Link teks juga diarahkan ke Linktree agar seragam */}
                 <a
                   href={linktreeUrl}
                   target="_blank"
@@ -84,7 +95,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* KOLOM 3: LOKASI WORKSHOP (MAPS FIXED) */}
+          {/* KOLOM 3 */}
           <div className="f-col-address">
             <h3 className="footer-heading">LOKASI WORKSHOP</h3>
             <p className="address-text">
@@ -99,7 +110,6 @@ const Footer = () => {
                 width="100%"
                 height="150"
                 style={{ border: 0, borderRadius: "12px" }}
-                allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>
@@ -108,12 +118,10 @@ const Footer = () => {
 
         <div className="footer-divider"></div>
 
-        {/* --- BAGIAN RAHASIA DI SINI --- */}
         <div className="footer-bottom">
           <p
             onDoubleClick={handleSecretLogin}
             style={{ cursor: "default", userSelect: "none" }}
-            title=""
           >
             © {currentYear} <strong>Doger Interior</strong>. All Rights
             Reserved.
