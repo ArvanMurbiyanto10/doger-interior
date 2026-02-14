@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import API, { IMAGE_URL } from "../api"; // Tambahkan IMAGE_URL di sini
 import { useNavigate } from "react-router-dom";
+
 import {
   Plus,
   Trash2,
@@ -26,18 +27,20 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
       setProjects(resProjects.data);
     } catch (err) {
       console.error("Gagal ambil data:", err);
+      // Jika error 401 (unauthorized), arahkan ke login
       if (err.response && err.response.status === 401) {
         navigate("/login");
       }
     }
-  };
+  }, [navigate]); // Dependensi fetchData adalah navigate
 
+  // 2. Tambahkan fetchData ke dalam array dependensi useEffect
   useEffect(() => {
     const isAuth = localStorage.getItem("isAdminLoggedIn");
     if (!isAuth) {
@@ -45,7 +48,7 @@ const AdminPage = () => {
     } else {
       fetchData();
     }
-  }, [navigate]);
+  }, [navigate, fetchData]);
 
   const addPhotoInput = () =>
     setPhotoInputs([...photoInputs, { id: Date.now(), file: null }]);
