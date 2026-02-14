@@ -1,22 +1,18 @@
 import axios from "axios";
 
 // --- KONFIGURASI URL ---
-// 1. Link Ngrok Backend (Ganti jika expired)
-const NGROK_URL = "https://tomasa-ridiculous-klara.ngrok-free.dev";
+// Karena Backend (index.js) Anda berjalan di laptop sendiri (Localhost),
+// maka gunakan alamat ini:
+const BASE_URL = "http://localhost:5000";
 
-// 2. Logika Deteksi Otomatis
-// Jika buka di Laptop -> Pakai Localhost (Cepat & Stabil)
-// Jika buka di HP -> Pakai Ngrok
-const isLocal =
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1";
-const BASE_URL = isLocal ? "http://localhost:5000" : NGROK_URL;
+// CATATAN PENTING:
+// Jangan gunakan IP Database (76.13.196.121) di sini.
+// File api.js ini tugasnya menghubungi 'index.js', bukan 'phpMyAdmin'.
 
 const API = axios.create({
   baseURL: BASE_URL,
   headers: {
-    // HANYA Header ini yang boleh ada (khusus Ngrok).
-    // JANGAN PERNAH MENAMBAHKAN 'Content-Type': 'multipart/form-data' DI SINI!
+    // Header ini biasanya hanya untuk Ngrok, tapi dibiarkan aman saja
     "ngrok-skip-browser-warning": "true",
   },
 });
@@ -24,6 +20,7 @@ const API = axios.create({
 console.log("🔗 API Connected to:", BASE_URL);
 
 // Export helper URL agar bisa dipakai di komponen lain
+// Ini akan menghasilkan: "http://localhost:5000/uploads/"
 export const IMAGE_URL = `${BASE_URL}/uploads/`;
 
 export default API;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API from "../api";
+import API, { IMAGE_URL } from "../api"; // Tambahkan IMAGE_URL di sini
 import { useNavigate } from "react-router-dom";
 import {
   Plus,
@@ -17,18 +17,15 @@ import "./AdminPage.css";
 import adminBg from "../assets/foto-9.jpg";
 
 const AdminPage = () => {
-  // --- STATE PROYEK ---
   const [judul, setJudul] = useState("");
   const [klien, setKlien] = useState("");
   const [photoInputs, setPhotoInputs] = useState([
     { id: Date.now(), file: null },
   ]);
   const [projects, setProjects] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // --- FETCH DATA (Hanya Proyek) ---
   const fetchData = async () => {
     try {
       const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
@@ -50,7 +47,6 @@ const AdminPage = () => {
     }
   }, [navigate]);
 
-  // --- HANDLER PROYEK ---
   const addPhotoInput = () =>
     setPhotoInputs([...photoInputs, { id: Date.now(), file: null }]);
 
@@ -61,7 +57,6 @@ const AdminPage = () => {
 
   const handleFileChange = (id, e) => {
     const file = e.target.files[0];
-    // Validasi sederhana (Max 5MB)
     if (file && file.size > 5 * 1024 * 1024) {
       alert("Ukuran file terlalu besar (Max 5MB)");
       return;
@@ -91,7 +86,6 @@ const AdminPage = () => {
     try {
       await API.post(`/api/projects`, formData);
       alert("Proyek berhasil disimpan!");
-      // Reset Form
       setJudul("");
       setKlien("");
       setPhotoInputs([{ id: Date.now(), file: null }]);
@@ -117,17 +111,13 @@ const AdminPage = () => {
 
   return (
     <div className="admin-layout">
-      {/* --- BACKGROUND IMAGE FIXED --- */}
       <div
         className="admin-bg-fixed"
-        style={{
-          backgroundImage: `url(${adminBg})`,
-        }}
+        style={{ backgroundImage: `url(${adminBg})` }}
       >
         <div className="admin-bg-overlay"></div>
       </div>
 
-      {/* --- NAVBAR --- */}
       <nav className="admin-navbar glass">
         <div className="nav-brand">
           <div className="brand-icon">
@@ -148,29 +138,16 @@ const AdminPage = () => {
         </button>
       </nav>
 
-      {/* --- MAIN CONTENT --- */}
       <main className="main-content">
         <div className="content-container">
           <div className="dashboard-header animate-fade-up">
-            <h1
-              style={{
-                color: "#fff",
-                textShadow: "0 2px 10px rgba(0,0,0,0.5)",
-              }}
-            >
-              Dashboard Admin
-            </h1>
-            <p style={{ color: "rgba(255,255,255,0.9)" }}>
-              Kelola portofolio proyek Anda di sini.
-            </p>
+            <h1>Dashboard Admin</h1>
+            <p>Kelola portofolio proyek Anda di sini.</p>
           </div>
 
-          {/* 1. INPUT PROYEK (Form) */}
           <div className="card form-card animate-fade-up delay-1">
             <div className="card-header">
-              <h3>
-                <Plus size={20} className="icon-gold" /> Input Proyek Baru
-              </h3>
+              <h3><Plus size={20} className="icon-gold" /> Input Proyek Baru</h3>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -216,33 +193,17 @@ const AdminPage = () => {
                             type="button"
                             onClick={() => removePhotoInput(input.id)}
                             className="btn-icon-danger"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          ><Trash2 size={16} /></button>
                         )}
                       </div>
                     ))}
                   </div>
                   <div className="form-actions">
-                    <button
-                      type="button"
-                      onClick={addPhotoInput}
-                      className="btn-secondary"
-                    >
+                    <button type="button" onClick={addPhotoInput} className="btn-secondary">
                       <Plus size={16} /> Tambah Slot
                     </button>
-                    <button
-                      type="submit"
-                      className="btn-primary"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        "Menyimpan..."
-                      ) : (
-                        <>
-                          <Save size={18} /> Simpan Proyek
-                        </>
-                      )}
+                    <button type="submit" className="btn-primary" disabled={loading}>
+                      {loading ? "Menyimpan..." : <><Save size={18} /> Simpan Proyek</>}
                     </button>
                   </div>
                 </div>
@@ -250,13 +211,9 @@ const AdminPage = () => {
             </form>
           </div>
 
-          {/* 2. DAFTAR PROYEK (Table) */}
           <div className="card table-card animate-fade-up delay-2">
             <div className="card-header-simple">
-              <h3>
-                <FolderOpen size={20} className="icon-gold" /> Database Proyek{" "}
-                <span>({projects.length} Items)</span>
-              </h3>
+              <h3><FolderOpen size={20} className="icon-gold" /> Database Proyek <span>({projects.length} Items)</span></h3>
             </div>
 
             <div className="table-wrapper">
@@ -274,19 +231,18 @@ const AdminPage = () => {
                     <tr key={item.id}>
                       <td width="100">
                         <div className="img-frame">
+                          {/* Menggunakan IMAGE_URL dari api.js */}
                           <img
-                            src={`${API.defaults.baseURL}/uploads/${item.foto}`}
-                            onError={(e) =>
-                              (e.target.src =
-                                "https://placehold.co/60?text=No+Img")
-                            }
+                            src={`${IMAGE_URL}${item.foto}`}
+                            onError={(e) => (e.target.src = "https://placehold.co/60?text=No+Img")}
                             alt="cover"
                           />
                         </div>
                       </td>
                       <td>
-                        <div className="proj-title">{item.judul}</div>
-                        <div className="proj-client">{item.klien || "-"}</div>
+                        {/* PERBAIKAN: Menggunakan item.Judul dan item.nama_projek agar sinkron dengan Database */}
+                        <div className="proj-title">{item.Judul}</div>
+                        <div className="proj-client">{item.nama_projek || "-"}</div>
                       </td>
                       <td>
                         <span className="pill-badge">
@@ -295,18 +251,10 @@ const AdminPage = () => {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <div className="action-buttons">
-                          <button
-                            onClick={() => navigate(`/admin/edit/${item.id}`)}
-                            className="btn-action edit"
-                            title="Edit"
-                          >
+                          <button onClick={() => navigate(`/admin/edit/${item.id}`)} className="btn-action edit">
                             <Edit3 size={16} />
                           </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="btn-action delete"
-                            title="Hapus"
-                          >
+                          <button onClick={() => handleDelete(item.id)} className="btn-action delete">
                             <Trash2 size={16} />
                           </button>
                         </div>
