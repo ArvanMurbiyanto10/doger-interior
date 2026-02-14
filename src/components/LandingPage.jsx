@@ -357,9 +357,9 @@ function LandingPage() {
             <div className="wm-body">
               <p className="lead-paragraph">
                 <strong>Doger Interior</strong> merupakan spesialis{" "}
-                <em>jasa Interior</em>. Kami melayani jasa pembuatan berbagai
-                interior baik untuk rumah, kantor, hotel, apartemen, restaurant
-                dan lainnya dengan berbagai pilihan material.
+                <em>jasa Interior Kitchen Set</em>. Kami melayani jasa pembuatan
+                kitchen set aluminium minimalis baik untuk rumah, kantor, hotel,
+                apartemen, restaurant dan lainnya.
               </p>
             </div>
           </div>

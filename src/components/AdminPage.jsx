@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-// 1. GANTI: Import API dari file api.js
-import API from "../api"; 
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import {
   Plus,
@@ -11,65 +10,45 @@ import {
   FolderOpen,
   Save,
   Edit3,
-  Settings
 } from "lucide-react";
 import "./AdminPage.css";
 
-// 2. HAPUS: const API_URL = "http://localhost:5000"; 
-// Kita tidak butuh ini lagi karena URL sudah diatur di api.js
+// Import Background Image
+import adminBg from "../assets/foto-9.jpg";
 
 const AdminPage = () => {
-  // State untuk Proyek
+  // --- STATE PROYEK ---
   const [judul, setJudul] = useState("");
   const [klien, setKlien] = useState("");
-  const [photoInputs, setPhotoInputs] = useState([{ id: Date.now(), file: null }]);
+  const [photoInputs, setPhotoInputs] = useState([
+    { id: Date.now(), file: null },
+  ]);
   const [projects, setProjects] = useState([]);
-  
-  // State untuk Logo Navbar
-  const [currentLogo, setCurrentLogo] = useState("");
-  const [newLogoFile, setNewLogoFile] = useState(null);
-  
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // --- FETCH DATA (Proyek & Logo) ---
+  // --- FETCH DATA (Hanya Proyek) ---
   const fetchData = async () => {
     try {
-      // 3. GANTI: Gunakan API.get (URL otomatis dari api.js)
       const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
       setProjects(resProjects.data);
-
-      const resLogo = await API.get(`/api/settings/logo`);
-      setCurrentLogo(resLogo.data.key_value);
     } catch (err) {
       console.error("Gagal ambil data:", err);
+      if (err.response && err.response.status === 401) {
+        navigate("/login");
+      }
     }
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("isAdminLoggedIn")) navigate("/login");
-    else fetchData();
-  }, [navigate]);
-
-  // --- HANDLER LOGO ---
-  const handleLogoUpdate = async (e) => {
-    e.preventDefault();
-    if (!newLogoFile) return alert("Pilih file logo baru terlebih dahulu!");
-
-    const formData = new FormData();
-    formData.append('logo', newLogoFile);
-
-    try {
-      // 4. GANTI: Gunakan API.post
-      await API.post(`/api/settings/logo`, formData);
-      alert("Logo Navbar Berhasil Diubah!");
-      setNewLogoFile(null); 
-      fetchData(); 
-    } catch (err) {
-      console.error(err);
-      alert("Gagal mengubah logo. Cek koneksi server.");
+    const isAuth = localStorage.getItem("isAdminLoggedIn");
+    if (!isAuth) {
+      navigate("/login");
+    } else {
+      fetchData();
     }
-  };
+  }, [navigate]);
 
   // --- HANDLER PROYEK ---
   const addPhotoInput = () =>
@@ -81,8 +60,14 @@ const AdminPage = () => {
   };
 
   const handleFileChange = (id, e) => {
+    const file = e.target.files[0];
+    // Validasi sederhana (Max 5MB)
+    if (file && file.size > 5 * 1024 * 1024) {
+      alert("Ukuran file terlalu besar (Max 5MB)");
+      return;
+    }
     const newInputs = photoInputs.map((item) =>
-      item.id === id ? { ...item, file: e.target.files[0] } : item,
+      item.id === id ? { ...item, file: file } : item,
     );
     setPhotoInputs(newInputs);
   };
@@ -104,16 +89,16 @@ const AdminPage = () => {
     validFiles.forEach((file) => formData.append("images", file));
 
     try {
-      // 5. GANTI: Gunakan API.post
       await API.post(`/api/projects`, formData);
       alert("Proyek berhasil disimpan!");
+      // Reset Form
       setJudul("");
       setKlien("");
       setPhotoInputs([{ id: Date.now(), file: null }]);
       fetchData();
     } catch (err) {
       console.error("Gagal simpan:", err);
-      alert("Gagal simpan. Periksa database!");
+      alert("Gagal simpan. Periksa koneksi atau ukuran file.");
     } finally {
       setLoading(false);
     }
@@ -122,29 +107,39 @@ const AdminPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Hapus proyek ini secara permanen?")) return;
     try {
-      // 6. GANTI: Gunakan API.delete
       await API.delete(`/api/projects/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);
+      alert("Gagal menghapus proyek.");
     }
   };
 
   return (
     <div className="admin-layout">
-      <div className="bg-blob blob-1"></div>
-      <div className="bg-blob blob-2"></div>
+      {/* --- BACKGROUND IMAGE FIXED --- */}
+      <div
+        className="admin-bg-fixed"
+        style={{
+          backgroundImage: `url(${adminBg})`,
+        }}
+      >
+        <div className="admin-bg-overlay"></div>
+      </div>
 
+      {/* --- NAVBAR --- */}
       <nav className="admin-navbar glass">
         <div className="nav-brand">
           <div className="brand-icon">
             <LayoutDashboard size={22} color="#fff" />
           </div>
-          <h2>Doger<span>Interior</span></h2>
+          <h2>
+            Doger<span>Interior</span>
+          </h2>
         </div>
         <button
           onClick={() => {
-            localStorage.clear();
+            localStorage.removeItem("isAdminLoggedIn");
             navigate("/login");
           }}
           className="btn-logout"
@@ -153,52 +148,25 @@ const AdminPage = () => {
         </button>
       </nav>
 
+      {/* --- MAIN CONTENT --- */}
       <main className="main-content">
         <div className="content-container">
-          
           <div className="dashboard-header animate-fade-up">
-            <h1>Dashboard Admin</h1>
-            <p>Kelola portofolio dan tampilan website Anda.</p>
+            <h1
+              style={{
+                color: "#fff",
+                textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+              }}
+            >
+              Dashboard Admin
+            </h1>
+            <p style={{ color: "rgba(255,255,255,0.9)" }}>
+              Kelola portofolio proyek Anda di sini.
+            </p>
           </div>
 
-          {/* 1. PENGATURAN LOGO */}
-          <div className="card form-card animate-fade-up delay-1" style={{marginBottom: '30px'}}>
-            <div className="card-header">
-              <h3>
-                <Settings size={20} className="icon-gold" /> Pengaturan Logo Navbar
-              </h3>
-            </div>
-            <form onSubmit={handleLogoUpdate} className="logo-form" style={{display: 'flex', gap: '30px', alignItems: 'center', flexWrap: 'wrap'}}>
-              <div className="current-logo-preview" style={{textAlign: 'center'}}>
-                <span style={{fontSize: '12px', color: '#888', display:'block', marginBottom:'5px'}}>Logo Saat Ini:</span>
-                <div className="img-frame" style={{width: '100px', height: '100px', border:'1px solid #ddd', padding:'5px', background:'#fff'}}>
-                  <img 
-                    // 7. URL GAMBAR: Gunakan baseURL dari axios defaults (karena API.defaults.baseURL menyimpan link ngrok)
-                    src={currentLogo ? `${API.defaults.baseURL}/uploads/${currentLogo}` : "https://placehold.co/100x100?text=No+Logo"} 
-                    alt="Current Logo" 
-                    style={{width:'100%', height:'100%', objectFit:'contain'}}
-                  />
-                </div>
-              </div>
-              
-              <div className="upload-logo-action" style={{flex: 1}}>
-                <label style={{display:'block', marginBottom:'10px', fontWeight:'600', color:'#555'}}>Upload Logo Baru:</label>
-                <input 
-                  type="file" 
-                  onChange={(e) => setNewLogoFile(e.target.files[0])} 
-                  accept="image/*" 
-                  className="form-control"
-                  style={{marginBottom: '15px'}}
-                />
-                <button type="submit" className="btn-primary" disabled={!newLogoFile}>
-                  <Save size={16} /> Simpan Logo Baru
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* 2. INPUT PROYEK */}
-          <div className="card form-card animate-fade-up delay-2">
+          {/* 1. INPUT PROYEK (Form) */}
+          <div className="card form-card animate-fade-up delay-1">
             <div className="card-header">
               <h3>
                 <Plus size={20} className="icon-gold" /> Input Proyek Baru
@@ -215,16 +183,16 @@ const AdminPage = () => {
                       value={judul}
                       onChange={(e) => setJudul(e.target.value)}
                       required
-                      placeholder="Misal: Villa Bali Modern"
+                      placeholder="Misal: Kitchen Set Minimalis"
                     />
                   </div>
                   <div className="form-group">
-                    <label>Nama Klien</label>
+                    <label>Nama Klien / Lokasi</label>
                     <input
                       className="form-control"
                       value={klien}
                       onChange={(e) => setKlien(e.target.value)}
-                      placeholder="Misal: Mrs. Sarah"
+                      placeholder="Misal: Ibu Ani - Depok"
                     />
                   </div>
                 </div>
@@ -261,14 +229,20 @@ const AdminPage = () => {
                       onClick={addPhotoInput}
                       className="btn-secondary"
                     >
-                      <Plus size={16} /> Slot
+                      <Plus size={16} /> Tambah Slot
                     </button>
                     <button
                       type="submit"
                       className="btn-primary"
                       disabled={loading}
                     >
-                      {loading ? "Menyimpan..." : <><Save size={18} /> Simpan Proyek</>}
+                      {loading ? (
+                        "Menyimpan..."
+                      ) : (
+                        <>
+                          <Save size={18} /> Simpan Proyek
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -276,8 +250,8 @@ const AdminPage = () => {
             </form>
           </div>
 
-          {/* 3. DAFTAR PROYEK */}
-          <div className="card table-card animate-fade-up delay-3">
+          {/* 2. DAFTAR PROYEK (Table) */}
+          <div className="card table-card animate-fade-up delay-2">
             <div className="card-header-simple">
               <h3>
                 <FolderOpen size={20} className="icon-gold" /> Database Proyek{" "}
@@ -301,16 +275,18 @@ const AdminPage = () => {
                       <td width="100">
                         <div className="img-frame">
                           <img
-                            // 8. URL GAMBAR: Gunakan baseURL dari axios defaults
                             src={`${API.defaults.baseURL}/uploads/${item.foto}`}
-                            onError={(e) => (e.target.src = "https://placehold.co/60")}
+                            onError={(e) =>
+                              (e.target.src =
+                                "https://placehold.co/60?text=No+Img")
+                            }
                             alt="cover"
                           />
                         </div>
                       </td>
                       <td>
                         <div className="proj-title">{item.judul}</div>
-                        <div className="proj-client">{item.klien || "Tanpa Nama Klien"}</div>
+                        <div className="proj-client">{item.klien || "-"}</div>
                       </td>
                       <td>
                         <span className="pill-badge">
@@ -341,7 +317,7 @@ const AdminPage = () => {
                     <tr>
                       <td colSpan="4" className="empty-state">
                         <FolderOpen size={40} />
-                        <p>Belum ada data proyek tersimpan.</p>
+                        <p>Belum ada data proyek.</p>
                       </td>
                     </tr>
                   )}

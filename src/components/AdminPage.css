@@ -1,92 +1,87 @@
-/* --- 1. LUXURY VARIABLES & RESET (SCOPED TO ADMIN) --- */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap");
+
+/* --- 1. SCOPED VARIABLES & RESET --- */
+/* Menggunakan .admin-layout sebagai scope agar variabel tidak bocor ke global :root */
 .admin-layout {
-  /* Colors */
-  --bg-dark: #1e1e1e;
-  --bg-gradient-start: #2b2118;
-  --bg-gradient-end: #1a120b;
-
-  --gold: #d4af37;
-  --gold-hover: #f2c94c;
-  --brown-text: #3e2723;
-
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-
+  /* Brand Colors khusus Admin */
+  --gold-primary: #d4af37;
+  --gold-hover: #b5952f;
+  --brown-dark: #2d241e;
   --text-main: #2d3436;
   --text-muted: #636e72;
 
-  /* Fonts */
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Plus Jakarta Sans", sans-serif;
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 
-  /* Animation */
-  --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Layout */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
 
-  /* Layout settings */
-  position: relative;
+  /* Base Settings */
+  font-family: "Plus Jakarta Sans", sans-serif;
   min-height: 100vh;
+  position: relative;
   overflow-x: hidden;
-  font-family: var(--font-sans);
-  background-color: #fdfcf8;
   color: var(--text-main);
+
+  /* Reset Background agar transparan (untuk fix background image) */
+  background-color: transparent !important;
+  background-image: none !important;
 }
 
-/* Reset box-sizing hanya untuk children admin-layout agar aman */
+/* Reset box-sizing hanya untuk anak-anak admin-layout */
 .admin-layout * {
   box-sizing: border-box;
 }
 
-/* --- 2. ANIMATED BACKGROUND BLOBS --- */
-.admin-layout .bg-blob {
+/* --- BACKGROUND IMAGE FIXED --- */
+/* Selector spesifik agar tidak kena halaman lain */
+.admin-layout .admin-bg-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.admin-layout .admin-bg-overlay {
   position: absolute;
-  filter: blur(80px);
-  z-index: 0;
-  opacity: 0.6;
-  animation: floatBlob 10s infinite alternate;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 20, 10, 0.7),
+    rgba(30, 20, 10, 0.85)
+  );
+  backdrop-filter: blur(3px);
 }
 
-.admin-layout .blob-1 {
-  width: 400px;
-  height: 400px;
-  background: rgba(212, 175, 55, 0.15); /* Gold Blob */
-  top: -100px;
-  left: -100px;
-}
-
-.admin-layout .blob-2 {
-  width: 500px;
-  height: 500px;
-  background: rgba(43, 33, 24, 0.08); /* Brown Blob */
-  bottom: -100px;
-  right: -100px;
-  animation-delay: 5s;
-}
-
-@keyframes floatBlob {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(50px, 50px);
-  }
-}
-
-/* --- 3. GLASS NAVBAR (TOP) --- */
+/* --- 2. NAVBAR (SCOPED) --- */
 .admin-layout .admin-navbar {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 95%;
+  width: 90%;
   max-width: 1200px;
-  height: 70px;
-  border-radius: 20px;
-  background: rgba(43, 33, 24, 0.95);
-  backdrop-filter: blur(10px);
+  height: 75px;
+
+  background: rgba(45, 36, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  border-radius: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -102,52 +97,54 @@
 }
 
 .admin-layout .brand-icon {
-  background: var(--gold);
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--gold-primary), #f2d06b);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
 .admin-layout .nav-brand h2 {
-  font-family: var(--font-serif);
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
   color: #fff;
-  font-size: 1.4rem;
-  letter-spacing: 0.5px;
   margin: 0;
+  letter-spacing: 0.5px;
 }
+
 .admin-layout .nav-brand h2 span {
-  color: var(--gold);
-  font-weight: 300;
+  font-weight: 400;
+  color: var(--gold-primary);
 }
 
 .admin-layout .btn-logout {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 8px 18px;
+  padding: 10px 20px;
   border-radius: 30px;
-  font-size: 0.85rem;
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s;
-}
-.admin-layout .btn-logout:hover {
-  background: #e74c3c;
-  border-color: #e74c3c;
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+  transition: all 0.3s ease;
 }
 
-/* --- 4. MAIN CONTENT --- */
+.admin-layout .btn-logout:hover {
+  background: #ff4757;
+  border-color: #ff4757;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+}
+
+/* --- 3. MAIN CONTENT (SCOPED) --- */
 .admin-layout .main-content {
-  margin-top: 110px;
-  padding: 20px;
+  padding: 120px 20px 50px;
   display: flex;
   justify-content: center;
   position: relative;
@@ -156,314 +153,294 @@
 
 .admin-layout .content-container {
   width: 100%;
-  max-width: 900px;
+  max-width: 950px;
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 40px;
 }
 
-/* Header Text */
 .admin-layout .dashboard-header {
   text-align: center;
   margin-bottom: 10px;
 }
+
 .admin-layout .dashboard-header h1 {
-  font-family: var(--font-serif);
-  font-size: 2.5rem;
-  color: var(--text-main);
-  margin-bottom: 5px;
-  margin-top: 0;
-}
-.admin-layout .dashboard-header p {
-  color: var(--text-muted);
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
   margin: 0;
 }
 
-/* --- 5. CARDS (GLASS STYLE) --- */
+.admin-layout .dashboard-header p {
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+/* --- 4. CARDS (SCOPED) --- */
 .admin-layout .card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid #fff;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
   overflow: hidden;
-  position: relative;
+  transition: transform 0.3s ease;
 }
 
-.admin-layout .card-header {
-  padding: 25px 30px;
+.admin-layout .card:hover {
+  transform: translateY(-5px);
+}
+
+.admin-layout .card-header,
+.admin-layout .card-header-simple {
+  padding: 25px 35px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.4)
+  );
 }
 
-.admin-layout .card-header h3 {
+.admin-layout .card-header h3,
+.admin-layout .card-header-simple h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  color: var(--brown-dark);
+  margin: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-serif);
-  color: var(--brown-text);
-  font-size: 1.2rem;
-  margin: 0;
-}
-.admin-layout .icon-gold {
-  color: var(--gold);
+  gap: 12px;
 }
 
-/* --- 6. FORM LAYOUT (SPLIT) --- */
+.admin-layout .icon-gold {
+  color: var(--gold-primary);
+  filter: drop-shadow(0 2px 4px rgba(212, 175, 55, 0.3));
+}
+
+/* --- 5. FORM STYLING (SCOPED) --- */
 .admin-layout .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
 }
 
 .admin-layout .input-section {
-  padding: 30px;
+  padding: 35px;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* ARCHITECTURAL GRID PATTERN FOR UPLOAD SECTION */
 .admin-layout .upload-section {
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  background-color: #fdfbf7;
-  background-image:
-    linear-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.07) 1px, transparent 1px);
-  background-size: 25px 25px;
-  border-left: 1px solid rgba(212, 175, 55, 0.15);
-  position: relative;
-}
-
-/* Vignette Effect */
-.admin-layout .upload-section::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    circle at center,
-    transparent 50%,
-    rgba(43, 33, 24, 0.03) 100%
-  );
-  pointer-events: none;
+  padding: 35px;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-image: none !important;
 }
 
 .admin-layout .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
+
 .admin-layout .form-group label,
 .admin-layout .upload-section label {
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   color: #999;
   margin-bottom: 8px;
-  position: relative;
-  z-index: 2;
 }
 
 .admin-layout .form-control {
   width: 100%;
-  padding: 14px 18px;
+  padding: 15px 18px;
   background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  color: var(--text-main);
+  font-family: inherit;
   transition: all 0.3s;
-  font-weight: 500;
-}
-.admin-layout .form-control:focus {
-  outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+  color: var(--text-main);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.01);
 }
 
-/* Upload Area Scrollable */
-.admin-layout .photo-scroll-area {
-  flex: 1;
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  padding-right: 5px;
-  position: relative;
-  z-index: 2;
+.admin-layout .form-control:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
 }
+
+/* --- 6. UPLOAD AREA (SCOPED) --- */
+.admin-layout .photo-scroll-area {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 20px;
+}
+
 .admin-layout .photo-scroll-area::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 .admin-layout .photo-scroll-area::-webkit-scrollbar-thumb {
   background: #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .admin-layout .file-input-row {
   background: #fff;
+  padding: 10px 15px;
+  border-radius: var(--radius-sm);
   border: 1px solid #eee;
-  padding: 8px 12px;
-  border-radius: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-  transition: transform 0.2s;
+  gap: 15px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s;
 }
+
 .admin-layout .file-input-row:hover {
-  transform: translateX(5px);
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
+  transform: translateX(3px);
 }
 
 .admin-layout .file-index {
-  font-size: 0.7rem;
   font-weight: 800;
-  color: #ccc;
-}
-.admin-layout .file-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.admin-layout .file-wrapper input {
-  font-size: 0.8rem;
-  width: 100%;
-  color: #555;
+  color: #e0e0e0;
+  font-size: 0.9rem;
 }
 
 .admin-layout .btn-icon-danger {
-  background: none;
-  border: none;
-  color: #ff6b6b;
-  cursor: pointer;
-  padding: 5px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
+  border: none;
+  background: #fff0f0;
+  color: #ff4757;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s;
 }
 .admin-layout .btn-icon-danger:hover {
-  background: #ffebeb;
+  background: #ff4757;
+  color: #fff;
 }
 
-/* Buttons */
+/* --- 7. BUTTONS (STRICTLY SCOPED) --- */
+/* Ini yang memperbaiki kebocoran. Kita targetkan hanya tombol DI DALAM .admin-layout */
+
 .admin-layout .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: auto;
-  position: relative;
-  z-index: 2;
+  gap: 15px;
 }
+
 .admin-layout .btn-secondary {
   flex: 1;
   background: #fff;
-  border: 1px dashed #ccc;
-  color: #666;
+  border: 2px dashed #ccc;
+  color: #888;
   padding: 12px;
-  border-radius: 12px;
-  cursor: pointer;
+  border-radius: var(--radius-md);
   font-weight: 600;
+  cursor: pointer;
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 5px;
-  transition: all 0.3s;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
 }
 .admin-layout .btn-secondary:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--gold-primary);
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.05);
 }
 
+/* TOMBOL EMAS HANYA UNTUK ADMIN */
 .admin-layout .btn-primary {
   flex: 2;
-  background: linear-gradient(135deg, var(--gold), #bfa13a);
-  color: white;
+  background: linear-gradient(135deg, var(--gold-primary), #cfa01f);
+  color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 12px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  box-shadow: 0 10px 20px -5px rgba(212, 175, 55, 0.4);
-  transition: all 0.3s;
+  box-shadow: 0 8px 20px -5px rgba(212, 175, 55, 0.5);
+  transition: 0.3s;
 }
 .admin-layout .btn-primary:hover {
+  filter: brightness(1.1);
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px -5px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 12px 25px -5px rgba(212, 175, 55, 0.6);
+}
+.admin-layout .btn-primary:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* --- 7. TABLE LIST (MODERN) --- */
-.admin-layout .card-header-simple {
-  padding: 25px 30px 10px;
-}
-.admin-layout .card-header-simple h3 {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  color: var(--brown-text);
-  margin: 0;
-}
-.admin-layout .card-header-simple span {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  color: #999;
-  font-weight: 400;
-}
-
+/* --- 8. TABLE (SCOPED) --- */
 .admin-layout .table-wrapper {
-  padding: 10px 20px 20px;
+  padding: 10px 35px 35px;
 }
+
 .admin-layout .modern-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 15px;
 }
+
 .admin-layout .modern-table th {
   text-align: left;
-  color: #aaa;
+  color: #999;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding-bottom: 5px;
-  font-weight: 700;
+  padding-left: 15px;
 }
+
 .admin-layout .modern-table tbody tr {
-  transition: all 0.3s var(--ease-out-back);
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s;
 }
+
 .admin-layout .modern-table tbody tr:hover {
   transform: scale(1.01);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.1);
 }
 
 .admin-layout .modern-table td {
-  background: #fff;
   padding: 15px;
-  border-top: 1px solid #f4f4f4;
-  border-bottom: 1px solid #f4f4f4;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
+  vertical-align: middle;
 }
+
 .admin-layout .modern-table td:first-child {
-  border-left: 1px solid #f4f4f4;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
+  border-left: 1px solid #f8f8f8;
 }
 .admin-layout .modern-table td:last-child {
-  border-right: 1px solid #f4f4f4;
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
+  border-right: 1px solid #f8f8f8;
 }
 
 .admin-layout .img-frame {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f0f0f0;
 }
 .admin-layout .img-frame img {
   width: 100%;
@@ -473,33 +450,34 @@
 
 .admin-layout .proj-title {
   font-weight: 700;
-  color: var(--text-main);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  color: var(--brown-dark);
 }
 .admin-layout .proj-client {
   color: #888;
-  font-size: 0.85rem;
-  margin-top: 2px;
+  font-size: 0.9rem;
+  margin-top: 4px;
 }
+
 .admin-layout .pill-badge {
-  background: #fdf8e9;
-  color: var(--gold);
-  padding: 5px 12px;
+  background: rgba(212, 175, 55, 0.1);
+  color: #b08d1e;
+  padding: 6px 14px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .admin-layout .action-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 10px;
 }
+
 .admin-layout .btn-action {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   display: flex;
@@ -507,34 +485,36 @@
   justify-content: center;
   transition: all 0.2s;
 }
+
 .admin-layout .btn-action.edit {
-  background: #f0f4ff;
-  color: #4b7bec;
+  background: #eef2ff;
+  color: #4361ee;
 }
 .admin-layout .btn-action.edit:hover {
-  background: #4b7bec;
+  background: #4361ee;
   color: #fff;
 }
+
 .admin-layout .btn-action.delete {
   background: #fff0f0;
-  color: #ff6b6b;
+  color: #ef4444;
 }
 .admin-layout .btn-action.delete:hover {
-  background: #ff6b6b;
+  background: #ef4444;
   color: #fff;
 }
 
 .admin-layout .empty-state {
   text-align: center;
-  padding: 40px;
-  color: #ccc;
+  padding: 50px;
+  color: #bbb;
 }
 
-/* --- 8. ANIMATIONS --- */
+/* --- 9. ANIMATION CLASSES --- */
 .admin-layout .animate-fade-up {
-  animation: fadeUp 0.8s var(--ease-out-back) forwards;
   opacity: 0;
   transform: translateY(30px);
+  animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 .admin-layout .delay-1 {
   animation-delay: 0.1s;
@@ -550,125 +530,77 @@
   }
 }
 
-/* --- 9. RESPONSIVE --- */
-/* --- 9. RESPONSIVE (OPTIMIZED FOR SMOOTH SCROLL) --- */
-@media (max-width: 768px) {
-  /* Fix Navbar: Menghilangkan transform centering agar menempel penuh di atas */
+/* =========================================
+   10. RESPONSIVE DESIGN (SCOPED)
+   ========================================= */
+@media (max-width: 992px) {
   .admin-layout .admin-navbar {
-    width: 100% !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important;
-    border-radius: 0 !important;
-    padding: 0 15px !important;
-    height: 65px !important;
-    /* Menambah performa scroll dengan hardware acceleration */
-    will-change: transform;
+    width: 95%;
+    padding: 0 20px;
   }
-
-  .admin-layout .nav-brand h2 {
-    font-size: 1.1rem !important;
-  }
-
-  .admin-layout .brand-icon {
-    width: 30px !important;
-    height: 30px !important;
-  }
-
-  .admin-layout .btn-logout span {
-    display: none; /* Sembunyikan teks 'Sign Out' */
-  }
-
-  .admin-layout .main-content {
-    padding: 15px !important;
-    margin-top: 80px !important;
-    /* Mencegah scroll tertahan (stuttering) */
-    overflow-x: hidden; 
-  }
-
-  /* Form Layout: Stack secara vertikal */
   .admin-layout .form-grid {
-    grid-template-columns: 1fr !important;
-    display: flex !important;
-    flex-direction: column !important;
+    grid-template-columns: 1fr;
   }
-
   .admin-layout .input-section {
-    border-right: none !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-    padding: 20px !important;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding: 25px;
   }
-
   .admin-layout .upload-section {
-    padding: 20px !important;
-    border-left: none !important;
-  }
-
-  /* Tombol Aksi */
-  .admin-layout .form-actions {
-    flex-direction: column-reverse !important;
-    gap: 12px !important;
-    width: 100%;
-  }
-
-  .admin-layout .btn-primary, 
-  .admin-layout .btn-secondary {
-    width: 100% !important;
-    padding: 14px !important;
-    justify-content: center !important;
-  }
-
-  /* --- FIX AREA SCROLL INTERNAL --- */
-  .admin-layout .photo-scroll-area {
-    max-height: 200px !important;
-    overflow-y: auto !important;
-    /* Memastikan scroll terasa ringan di iPhone/iOS */
-    -webkit-overflow-scrolling: touch; 
-    padding-right: 5px;
-  }
-
-  /* Tabel: Scroll horizontal yang rapi */
-  .admin-layout .table-wrapper {
-    width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important; /* Mencegah double scroll vertikal */
-    padding: 10px 5px !important;
-    -webkit-overflow-scrolling: touch;
-    display: block;
-  }
-
-  .admin-layout .modern-table {
-    min-width: 650px; 
-    border-spacing: 0 8px !important;
-  }
-
-  .admin-layout .proj-title {
-    max-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 25px;
   }
 }
 
-/* Penyesuaian khusus untuk HP layar kecil */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .admin-layout .admin-bg-fixed {
+    background-attachment: scroll;
+    background-position: center top;
+  }
+
+  .admin-layout .admin-navbar {
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    height: 65px;
+    background: rgba(45, 36, 30, 0.95);
+  }
+
+  .admin-layout .nav-brand h2 {
+    font-size: 1.2rem;
+  }
+  .admin-layout .brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .admin-layout .btn-logout span {
+    display: none;
+  }
+
+  .admin-layout .main-content {
+    padding-top: 90px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
   .admin-layout .dashboard-header h1 {
-    font-size: 1.8rem !important;
+    font-size: 2rem;
   }
 
-  .admin-layout .logo-form {
-    flex-direction: column !important;
-    text-align: center !important;
-    gap: 20px !important;
-    padding: 20px !important;
+  .admin-layout .table-wrapper {
+    padding: 15px;
+    overflow-x: auto;
+  }
+  .admin-layout .modern-table {
+    min-width: 600px;
   }
 
-  .admin-layout .img-frame-logo {
-    margin: 0 auto !important;
+  .admin-layout .form-actions {
+    flex-direction: column-reverse;
   }
-
-  .admin-layout .btn-action {
-    width: 38px !important;
-    height: 38px !important;
+  .admin-layout .btn-secondary,
+  .admin-layout .btn-primary {
+    width: 100%;
   }
 }
