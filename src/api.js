@@ -2,7 +2,7 @@ import axios from "axios";
 
 // --- KONFIGURASI URL ---
 // 1. Link Ngrok Backend (Ganti jika expired)
-const NGROK_URL = "https://tomasa-ridiculous-klara.ngrok-free.dev";
+const NGROK_URL = "https://unaidedly-nonsaturated-kynlee.ngrok-free.dev";
 
 // 2. Logika Deteksi Otomatis
 // Jika buka di Laptop -> Pakai Localhost (Cepat & Stabil)

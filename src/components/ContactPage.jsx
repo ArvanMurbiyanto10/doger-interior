@@ -216,8 +216,8 @@ function ContactPage() {
               <h3>Bahan Multiplek</h3>
               <p>
                 Material favorit karena kepadatannya yang stabil dan daya tahan
-                yang kuat[cite: 50]. Pilihan terbaik untuk unit yang membutuhkan
-                kekuatan ekstra[cite: 51].
+                yang kuat. Material ini pilihan terbaik untuk unit yang
+                membutuhkan kekuatan ekstra namun tetap fleksibel secara desain.
               </p>
             </div>
             <div className="material-card-item">
@@ -225,17 +225,15 @@ function ContactPage() {
               <h3>Bahan PVC Board</h3>
               <p>
                 Jawaban terbaik untuk area yang rentan lembap atau serangan
-                hama[cite: 70]. Menjamin furniture anda tetap awet dan tidak
-                mengalami pelapukan[cite: 71].
+                hama. Ringan namun stabil, menjaga furniture tetap awet.
               </p>
             </div>
             <div className="material-card-item">
               <Zap className="icon-gold-mat" />
               <h3>Bahan Aluminium</h3>
               <p>
-                Investasi terbaik karena sifatnya yang sepenuhnya kebal terhadap
-                air, api, dan rayap[cite: 82]. Memberikan kesan kokoh dan
-                presisi seumur hidup[cite: 83, 84].
+                Material dengan ketahanan seumur hidup, kebal terhadap air, api,
+                dan rayap. Memberikan kesan kokoh, presisi, dan modern.
               </p>
             </div>
           </div>

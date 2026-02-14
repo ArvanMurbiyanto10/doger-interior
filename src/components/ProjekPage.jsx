@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-// 1. GANTI: Import API dan IMAGE_URL dari file api.js
-import API from "../api"; // Benar
+import API from "../api";
 import {
   ArrowRight,
   Loader,
@@ -10,27 +9,22 @@ import {
 } from "lucide-react";
 import Navbar from "./Navbar";
 import "./ProjekPage.css";
-
-// 2. HAPUS: const API_URL = "http://localhost:5000";
-// Kita tidak butuh ini lagi
+// Kembali menggunakan apartemen3.jpg
+import seamanan4 from "../assets/seamanan4.jpg";
 
 const ProjectCard = ({ item }) => {
   const scrollRef = useRef(null);
 
-  // Mengambil gambar dari API (foto utama + gallery)
-  // Gallery biasanya berupa string nama file, jadi tidak perlu path lengkap di database
   const baseImages =
     item.gallery && item.gallery.length > 0
       ? [item.foto, ...item.gallery]
       : [item.foto];
 
-  // Efek infinite scroll (duplikasi gambar jika sedikit)
   const infiniteImages =
     baseImages.length < 4
       ? [...baseImages, ...baseImages, ...baseImages]
       : baseImages;
 
-  // Linktree resmi Doger Interior
   const linktreeUrl = "https://linktr.ee/doger.interior";
 
   const scroll = (direction) => {
@@ -46,42 +40,41 @@ const ProjectCard = ({ item }) => {
   };
 
   return (
-    <div className="card-proyek-compact fade-up">
+    <div className="card-proyek-compact">
       <div className="card-header-compact">
         <div className="header-content">
           <h3 className="title-compact">{item.judul}</h3>
           <p className="subtitle-compact">
             {item.klien ? `Proyek ${item.klien}` : "Proyek Interior"}
           </p>
-
-          <a
-            href={linktreeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-hubungi-box"
-          >
-            HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
-          </a>
         </div>
+
+        <a
+          href={linktreeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-hubungi-box"
+        >
+          HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
+        </a>
       </div>
 
       <div className="card-body-compact">
         <div className="scroll-wrapper">
           <button className="nav-btn left" onClick={() => scroll("left")}>
-            <ChevronLeft size={20} />
+            <ChevronLeft size={24} />
           </button>
 
           <div className="img-scroller" ref={scrollRef}>
             {infiniteImages.map((foto, idx) => (
               <div key={idx} className="img-item-compact">
                 <img
-                  // 3. GANTI: Gunakan IMAGE_URL dari api.js agar mengarah ke ngrok
-                  // Pastikan 'foto' hanya nama file (misal: '17823...jpg')
-                  src={`${API.defaults.baseURL}/uploads/${item.foto}`}
-                  alt="interior"
+                  src={`${API.defaults.baseURL}/uploads/${foto}`}
+                  alt="interior design"
                   onError={(e) => {
-                    e.target.onerror = null; // Mencegah loop error
-                    e.target.src = "https://placehold.co/300x300?text=No+Image";
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://placehold.co/300x300?text=Doger+Interior";
                   }}
                   loading="lazy"
                 />
@@ -90,7 +83,7 @@ const ProjectCard = ({ item }) => {
           </div>
 
           <button className="nav-btn right" onClick={() => scroll("right")}>
-            <ChevronRight size={20} />
+            <ChevronRight size={24} />
           </button>
         </div>
       </div>
@@ -105,8 +98,6 @@ const ProjekPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    // 4. GANTI: Gunakan API.get
-    // Timestamp (?t=...) berguna agar data tidak dicache browser (selalu fresh)
     API.get(`/api/projects?t=${Date.now()}`)
       .then((res) => {
         setProjects(res.data);
@@ -122,17 +113,31 @@ const ProjekPage = () => {
     <div className="page-root">
       <Navbar />
 
-      <section className="bg-cream compact-hero">
-        <div className="container-limit center">
+      <div className="bg-blob blob-1"></div>
+      <div className="bg-blob blob-2"></div>
+
+      <section
+        className="compact-hero"
+        style={{ backgroundImage: `url(${seamanan4})` }}
+      >
+        <div className="hero-overlay"></div>
+        <div className="container-limit center hero-content-box">
           <span className="sub-head">PORTOFOLIO</span>
-          <h1>HASIL KARYA KAMI</h1>
+          <h1>
+            Eksplorasi Ruang & <br /> Estetika Interior
+          </h1>
+          <p className="hero-desc">
+            Setiap detail adalah cerita. Temukan inspirasi dari koleksi proyek
+            terbaik kami yang menggabungkan fungsionalitas dengan keindahan
+            desain modern.
+          </p>
         </div>
       </section>
 
       <div className="container-limit">
         {loading ? (
           <div className="center-loading">
-            <Loader className="spin" />
+            <Loader className="spin" size={40} />
           </div>
         ) : (
           <div className="grid-layout">
@@ -140,8 +145,8 @@ const ProjekPage = () => {
               projects.map((item) => <ProjectCard key={item.id} item={item} />)
             ) : (
               <div className="empty-msg">
-                <Camera size={40} />
-                <p>Belum ada data.</p>
+                <Camera size={60} />
+                <p>Koleksi sedang dalam tahap pembaharuan.</p>
               </div>
             )}
           </div>
