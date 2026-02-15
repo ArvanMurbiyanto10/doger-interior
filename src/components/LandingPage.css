@@ -1230,35 +1230,55 @@ html {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    text-align: center;
+    text-align: justify;
   }
 
   /* 4. MATERIAL & ABOUT PHOTOS (Tetap 'Combined' dengan Badge) */
-  .about-img-wrap,
-  .specialist-img {
-    margin-bottom: 30px;
-  }
-  /* Pastikan badge tetap nempel di foto (Absolute), jangan Relative */
-  .exp-badge,
-  .material-badge {
-    position: absolute; /* Tetap absolute agar menumpuk di foto */
-    bottom: -20px; /* Geser sedikit agar tidak terlalu keluar */
-    right: 50%; /* Tengah */
-    left: auto;
-    transform: translateX(50%); /* Center horizontal */
-    margin: 0;
-    width: max-content;
-    padding: 15px 25px; /* Perkecil padding sedikit */
-  }
-  .exp-badge span,
-  .material-badge span {
-    font-size: 1.2rem;
-  }
-  .material-badge.badge-left {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-  }
+  /* --- COPY & PASTE INI KE DALAM @media (max-width: 992px) --- */
+
+/* 1. UBAH LAYOUT JADI FLEX COLUMN (Tumpuk ke Bawah) */
+.grid-2,
+.grid-2-reverse {
+  display: flex;          /* Aktifkan Flexbox */
+  flex-direction: column; /* Tumpuk elemen secara vertikal */
+  gap: 30px;              /* Jarak antar elemen */
+}
+
+/* 2. PAKSA FOTO PINDAH KE URUTAN PERTAMA (PALING ATAS) */
+.about-img-wrap,
+.specialist-img {
+  order: -1;             /* MAGIC CODE: Nilai minus memindahkan elemen ke posisi paling awal */
+  margin-bottom: 40px;   /* Beri jarak bawah agar badge tidak menabrak judul teks */
+  width: 100%;           /* Pastikan lebar foto penuh */
+}
+
+/* 3. ATUR POSISI BADGE (Sesuai kode kamu sebelumnya) */
+.exp-badge,
+.material-badge {
+  position: absolute;    /* Tetap absolute menempel pada foto */
+  bottom: -20px;         /* Menggantung sedikit keluar foto */
+  left: 50%;             /* Posisi tengah horizontal */
+  right: auto;           /* Reset nilai right */
+  transform: translateX(-50%); /* Geser agar benar-benar di tengah */
+  margin: 0;
+  width: max-content;    /* Lebar mengikuti isi teks */
+  padding: 12px 25px;    /* Padding rapi */
+  z-index: 2;            /* Pastikan di atas layer lain */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Tambahan bayangan biar pop-up */
+}
+
+/* 4. UKURAN FONT BADGE */
+.exp-badge span,
+.material-badge span {
+  font-size: 1.1rem;     /* Sedikit lebih kecil agar muat di HP */
+}
+
+/* Reset khusus untuk badge-left agar perilakunya sama (tengah) di HP */
+.material-badge.badge-left {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
 
   /* 5. SERVICES & GALLERY */
   .service-v-card {
@@ -1293,7 +1313,50 @@ html {
   .op10-section {
     padding: 60px 0;
   }
-  .services-marquee-track {
-    animation-duration: 20s;
-  }
+  /* --- GANTI BAGIAN INI DI DALAM @MEDIA (MAX-WIDTH: 992PX) --- */
+
+/* 1. Wrapper: KEMBALIKAN KE NORMAL (JANGAN FLEX) */
+.services-marquee-wrapper {
+  display: block;        /* Agar Judul tetap di atas, Kartu di bawah */
+  width: 100%;
+  overflow: hidden;      /* Mencegah scrollbar ganda */
+  padding-bottom: 30px;  /* Sesuaikan padding bawah */
+}
+
+/* Hilangkan efek gradasi putih */
+.services-marquee-wrapper::before,
+.services-marquee-wrapper::after {
+  display: none;
+}
+
+/* 2. Track: PINDAHKAN FITUR SWIPE KE SINI */
+.services-marquee-track {
+  display: flex;              /* Jejer kartu ke samping */
+  overflow-x: auto;           /* Aktifkan Scroll Samping (Swipe) */
+  width: 100%;                /* Lebar container penuh */
+  padding: 10px 20px 30px 20px; /* Padding agar shadow kartu tidak terpotong */
+  gap: 20px;                  /* Jarak antar kartu */
+  
+  /* Matikan Animasi & Reset Posisi */
+  animation: none !important;
+  transform: none !important;
+  
+  /* Agar scroll smooth di HP */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 3. Kartu: Ukuran Tetap */
+.service-v-card {
+  flex: 0 0 auto;             /* Kunci ukuran kartu (jangan melar/menciut) */
+  width: 280px !important;    /* Lebar fix */
+  min-width: 280px !important;
+  margin: 0;
+}
+
+/* 4. (OPSIONAL) Perkecil Font Judul di HP agar tidak terlalu lebar */
+.section-head h2 {
+  font-size: 2rem; /* Sedikit dikecilkan dari 2.8rem agar muat */
+  padding: 0 10px;
+}
 }
