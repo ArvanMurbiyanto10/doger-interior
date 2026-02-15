@@ -1,112 +1,157 @@
-/* --- CONTAINER BATAS LEBAR --- */
-.container-limit {
-  max-width: 1000px; 
-  width: 92%;
-  margin: 0 auto;
-  /* Padding atas-bawah dikurangi agar tidak terlalu jauh jaraknya */
-  padding: 20px 0 60px;
+:root {
+  --gold-primary: #c5a358;
+  --gold-dark: #a68b46;
+  --dark-brown: #3d2f25;
+  --light-cream: #f9f7f2;
+  --bg-white: #ffffff;
+  --soft-shadow: 0 15px 45px rgba(0,0,0,0.08);
 }
 
+.page-root {
+  background-color: var(--bg-white);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* --- DECORATIVE BLOBS --- */
+.bg-blob {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(197, 163, 88, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+.blob-1 { top: 400px; right: -100px; }
+.blob-2 { bottom: 200px; left: -200px; }
+
+/* --- HERO SECTION --- */
 .compact-hero {
-  /* Mengurangi tinggi area judul "HASIL KARYA KAMI" */
-  padding: 80px 0 20px;
+  position: relative;
+  padding: 180px 0 120px;
+  text-align: center;
+  z-index: 1;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  margin-bottom: 20px;
 }
 
-/* --- GRID LAYOUT (PENGATUR JARAK ANTAR KARTU) --- */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+}
+
+.hero-content-box {
+  position: relative;
+  z-index: 2;
+}
+
+.sub-head {
+  display: inline-block;
+  font-size: 0.9rem;
+  letter-spacing: 6px;
+  color: var(--gold-primary);
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.compact-hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-desc {
+  max-width: 700px;
+  margin: 25px auto 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+/* --- GRID LAYOUT (Diperlebar agar tidak ada slot kosong) --- */
+.container-limit {
+  max-width: 1200px; 
+  width: 94%;
+  margin: 0 auto;
+  padding-bottom: 80px;
+  position: relative;
+  z-index: 1;
+}
+
 .grid-layout {
   display: flex;
   flex-direction: column;
-  /* PERBAIKAN UTAMA: Jarak antar kartu dirapatkan (dari 50px jadi 25px) */
-  gap: 25px; 
+  gap: 40px;
 }
 
-/* --- KARTU COMPACT --- */
+/* --- PROJECT CARD --- */
 .card-proyek-compact {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  border-radius: 16px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.06);
   overflow: hidden;
-  border: 1px solid #eee;
-  /* Memastikan tidak ada margin bawah liar */
-  margin-bottom: 0;
+  border: 1px solid #f0f0f0;
 }
 
-/* HEADER BARU */
 .card-header-compact {
-  background-color: var(--c-brown, #533f31);
+  background-color: var(--dark-brown);
   color: white;
-  /* Padding header dikurangi sedikit agar lebih ramping */
-  padding: 20px 30px; 
+  padding: 25px 50px; 
   display: flex;
-  align-items: flex-start; 
+  align-items: center; 
   justify-content: space-between;
 }
 
-.header-content {
-  display: flex;
-  flex-direction: column; 
-  gap: 5px;
-  width: 100%;
-}
-
 .title-compact {
-  font-size: 1.3rem;
+  font-size: 1.6rem; 
   font-weight: 700;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  line-height: 1.2;
 }
 
-.subtitle-compact {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  /* Jarak ke tombol dikurangi */
-  margin: 0 0 15px 0; 
-  font-weight: 300;
-}
-
-/* TOMBOL HUBUNGI KAMI (KOTAK) */
 .btn-hubungi-box {
   display: inline-flex;
   align-items: center;
-  width: fit-content; 
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.5); 
+  border: 1px solid rgba(255, 255, 255, 0.4); 
   border-radius: 50px; 
   color: white;
-  padding: 8px 20px; /* Padding tombol dirampingkan */
-  font-size: 0.8rem;
+  padding: 10px 25px;
+  font-size: 0.85rem;
   font-weight: 600;
-  text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .btn-hubungi-box:hover {
   background: white;
-  color: var(--c-brown, #533f31);
-  border-color: white;
-  transform: translateY(-2px);
+  color: var(--dark-brown);
 }
 
 /* BODY GALLERY */
 .card-body-compact {
-  /* Padding area foto dikurangi agar kartu tidak terlalu tinggi */
-  padding: 20px 30px; 
-  background: #fff;
-}
-
-.scroll-wrapper {
+  padding: 30px 50px 40px; 
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .img-scroller {
   display: flex;
-  gap: 12px; /* Jarak antar foto diperkecil sedikit */
+  gap: 20px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 5px 0;
@@ -115,60 +160,45 @@
 .img-scroller::-webkit-scrollbar { display: none; }
 
 .img-item-compact {
-  width: 190px; /* Ukuran foto disesuaikan sedikit */
-  height: 190px;
-  aspect-ratio: 1 / 1; /* Wajib: Agar tetap kotak sempurna */
-  border-radius: 8px;
+  width: 220px; 
+  height: 220px;
+  border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #eee;
 }
 
 .img-item-compact img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s;
+  transition: 0.4s;
 }
 
-.img-item-compact:hover img {
-  transform: scale(1.1);
-}
-
-/* TOMBOL NAVIGASI BULAT */
+/* NAV BUTTONS */
 .nav-btn {
   background: white;
   border: 1px solid #eee;
-  width: 35px; /* Sedikit diperkecil */
-  height: 35px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   position: absolute;
-  transition: 0.3s;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
 }
-.nav-btn:hover { 
-  background: var(--c-brown, #533f31); 
-  color: white; 
-}
-.nav-btn.left { left: -18px; }
-.nav-btn.right { right: -18px; }
+.nav-btn.left { left: 15px; }
+.nav-btn.right { right: 15px; }
 
-/* RESPONSIF HP */
-@media (max-width: 768px) {
-  .card-header-compact {
-    padding: 20px;
-  }
-  .title-compact { font-size: 1.1rem; }
-  .btn-hubungi-box {
-    font-size: 0.75rem;
-    padding: 6px 16px;
-  }
+/* RESPONSIF */
+@media (max-width: 900px) {
+  .compact-hero h1 { font-size: 2.5rem; }
+  .card-header-compact, .card-body-compact { padding: 25px; }
+  .img-item-compact { width: 170px; height: 170px; }
   .nav-btn { display: none; }
-  .img-item-compact { width: 150px; height: 150px; }
-  .grid-layout { gap: 20px; } /* Jarak di HP lebih rapat lagi */
 }

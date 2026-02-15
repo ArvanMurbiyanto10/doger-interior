@@ -30,7 +30,7 @@ import heroImg from "../assets/foto-9.jpg";
 import img2 from "../assets/foto-2.jpg"; // Foto About Section
 
 // --- IMPORT LAYANAN ---
-import imgKitchen from "../assets/foto-7.jpg";
+import imgKitchen from "../assets/kitchenset.png";
 import imgWardrobe from "../assets/foto-8.jpg";
 import imgTangga from "../assets/foto-6.jpg";
 import imgTV from "../assets/foto-3.jpg";

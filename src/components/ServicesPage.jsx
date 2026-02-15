@@ -12,7 +12,7 @@ import Navbar from "./Navbar";
 import "./ServicesPage.css";
 
 // --- IMPORT FOTO LAYANAN ---
-import imgKitchen from "../assets/foto-7.jpg";
+import imgKitchen from "../assets/kitchenset.png";
 import imgWardrobe from "../assets/foto-8.jpg";
 import imgTangga from "../assets/foto-6.jpg";
 import imgTV from "../assets/foto-3.jpg";

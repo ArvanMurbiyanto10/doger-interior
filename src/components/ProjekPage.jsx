@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import API from "../api"; // Pastikan path ke api.js sudah benar
-import Navbar from "./Navbar"; // Pastikan path Navbar benar
+import API from "../api";
 import {
   ArrowRight,
   Loader,
@@ -8,36 +7,30 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import "./ProjekPage.css"; // Pastikan CSS tersedia
+import Navbar from "./Navbar";
+import "./ProjekPage.css";
+// Kembali menggunakan apartemen3.jpg
+import seamanan4 from "../assets/homeee.jpg";
 
-// --- KOMPONEN KARTU PROYEK ---
 const ProjectCard = ({ item }) => {
   const scrollRef = useRef(null);
-  const uploadBaseURL = `${API.defaults.baseURL}/uploads/`;
 
-  // 1. Logika Gambar (DIPERBAIKI)
-  // Kita siapkan array untuk menampung semua gambar di slider
-  let slideImages = [];
+  const baseImages =
+    item.gallery && item.gallery.length > 0
+      ? [item.foto, ...item.gallery]
+      : [item.foto];
 
-  // Cek apakah data gallery ada dan berbentuk array (dari backend)
-  if (item.gallery && Array.isArray(item.gallery) && item.gallery.length > 0) {
-    // Jika ada galeri, kita map nama file menjadi URL lengkap
-    slideImages = item.gallery.map((filename) => `${uploadBaseURL}${filename}`);
-  } else if (item.foto) {
-    // Jika tidak ada galeri, tapi ada foto utama, gunakan foto utama saja (1 gambar)
-    slideImages = [`${uploadBaseURL}${item.foto}`];
-  } else {
-    // Jika tidak ada sama sekali, gunakan placeholder
-    slideImages = ["https://placehold.co/600x400?text=No+Image"];
-  }
+  const infiniteImages =
+    baseImages.length < 4
+      ? [...baseImages, ...baseImages, ...baseImages]
+      : baseImages;
 
   const linktreeUrl = "https://linktr.ee/doger.interior";
 
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
-      // Pastikan nilai ini sama dengan lebar kartu/gambar di CSS (.img-item-compact)
-      const itemWidth = 300; 
+      const itemWidth = 215;
       if (direction === "right") {
         current.scrollBy({ left: itemWidth, behavior: "smooth" });
       } else {
@@ -47,49 +40,41 @@ const ProjectCard = ({ item }) => {
   };
 
   return (
-    <div className="card-proyek-compact fade-up">
-      {/* Header Kartu */}
+    <div className="card-proyek-compact">
       <div className="card-header-compact">
         <div className="header-content">
-          {/* Menggunakan 'Judul' (huruf besar J sesuai database) */}
-          <h3 className="title-compact">{item.Judul || "Proyek Tanpa Judul"}</h3>
+          <h3 className="title-compact">{item.judul}</h3>
           <p className="subtitle-compact">
-            {/* Menggunakan 'nama_projek' untuk klien/lokasi */}
-            {item.nama_projek ? `Klien: ${item.nama_projek}` : "Interior Design"}
+            {item.klien ? `Proyek ${item.klien}` : "Proyek Interior"}
           </p>
-
-          <a
-            href={linktreeUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-hubungi-box"
-          >
-            HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
-          </a>
         </div>
+
+        <a
+          href={linktreeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="btn-hubungi-box"
+        >
+          HUBUNGI KAMI <ArrowRight size={14} style={{ marginLeft: 8 }} />
+        </a>
       </div>
 
-      {/* Body Kartu (Slider Gambar) */}
       <div className="card-body-compact">
         <div className="scroll-wrapper">
-          {/* Tombol Kiri hanya muncul jika gambar lebih dari 1 */}
-          {slideImages.length > 1 && (
-            <button className="nav-btn left" onClick={() => scroll("left")}>
-              <ChevronLeft size={20} />
-            </button>
-          )}
+          <button className="nav-btn left" onClick={() => scroll("left")}>
+            <ChevronLeft size={24} />
+          </button>
 
-          {/* Area Scroll Gambar */}
           <div className="img-scroller" ref={scrollRef}>
-            {/* PERBAIKAN: Mapping dari array slideImages yang sudah benar */}
-            {slideImages.map((src, idx) => (
+            {infiniteImages.map((foto, idx) => (
               <div key={idx} className="img-item-compact">
                 <img
-                  src={src}
-                  alt={`${item.Judul} - view ${idx + 1}`}
+                  src={`${API.defaults.baseURL}/uploads/${foto}`}
+                  alt="interior design"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://placehold.co/300x300?text=Error";
+                    e.target.src =
+                      "https://placehold.co/300x300?text=Doger+Interior";
                   }}
                   loading="lazy"
                 />
@@ -97,29 +82,24 @@ const ProjectCard = ({ item }) => {
             ))}
           </div>
 
-          {/* Tombol Kanan hanya muncul jika gambar lebih dari 1 */}
-          {slideImages.length > 1 && (
-            <button className="nav-btn right" onClick={() => scroll("right")}>
-              <ChevronRight size={20} />
-            </button>
-          )}
+          <button className="nav-btn right" onClick={() => scroll("right")}>
+            <ChevronRight size={24} />
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-// --- HALAMAN UTAMA PROYEK ---
 const ProjekPage = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Menambahkan timestamp agar browser tidak me-load data lama (caching)
+
     API.get(`/api/projects?t=${Date.now()}`)
       .then((res) => {
-        // console.log("Data Projek:", res.data); // Uncomment untuk debug
         setProjects(res.data);
         setLoading(false);
       })
@@ -133,10 +113,24 @@ const ProjekPage = () => {
     <div className="page-root">
       <Navbar />
 
-      <section className="bg-cream compact-hero">
-        <div className="container-limit center">
+      <div className="bg-blob blob-1"></div>
+      <div className="bg-blob blob-2"></div>
+
+      <section
+        className="compact-hero"
+        style={{ backgroundImage: `url(${seamanan4})` }}
+      >
+        <div className="hero-overlay"></div>
+        <div className="container-limit center hero-content-box">
           <span className="sub-head">PORTOFOLIO</span>
-          <h1>HASIL KARYA KAMI</h1>
+          <h1>
+            Eksplorasi Ruang & <br /> Estetika Interior
+          </h1>
+          <p className="hero-desc">
+            Setiap detail adalah cerita. Temukan inspirasi dari koleksi proyek
+            terbaik kami yang menggabungkan fungsionalitas dengan keindahan
+            desain modern.
+          </p>
         </div>
       </section>
 
@@ -148,13 +142,11 @@ const ProjekPage = () => {
         ) : (
           <div className="grid-layout">
             {projects.length > 0 ? (
-              projects.map((item) => (
-                <ProjectCard key={item.id} item={item} />
-              ))
+              projects.map((item) => <ProjectCard key={item.id} item={item} />)
             ) : (
-              <div className="empty-msg" style={{ textAlign: "center", width: "100%", padding: "50px" }}>
-                <Camera size={40} style={{ margin: "0 auto 10px", color: "#ccc" }} />
-                <p style={{ color: "#999" }}>Belum ada data proyek yang diupload.</p>
+              <div className="empty-msg">
+                <Camera size={60} />
+                <p>Koleksi sedang dalam tahap pembaharuan.</p>
               </div>
             )}
           </div>
