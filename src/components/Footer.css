@@ -60,10 +60,13 @@
 
 .footer-tagline {
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   max-width: 350px;
+  
+  /* PERBAIKAN: Gunakan 'left' agar spasi normal & rapi */
+  text-align: left;       
 }
 
 /* --- SOCIALS --- */

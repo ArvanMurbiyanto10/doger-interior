@@ -44,9 +44,7 @@ const ProjectCard = ({ item }) => {
       <div className="card-header-compact">
         <div className="header-content">
           <h3 className="title-compact">{item.judul}</h3>
-          <p className="subtitle-compact">
-            {item.klien ? `Proyek ${item.klien}` : "Proyek Interior"}
-          </p>
+          <p className="text-sm text-gray-500">{item.nama_klien || "Klien tidak disebutkan"}</p>
         </div>
 
         <a

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import API, { IMAGE_URL } from "../api"; // Tambahkan IMAGE_URL di sini
+import API, { IMAGE_URL } from "../api"; 
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -29,18 +29,17 @@ const AdminPage = () => {
 
   const fetchData = useCallback(async () => {
     try {
+      // Tambahkan timestamp agar browser tidak cache data lama
       const resProjects = await API.get(`/api/projects?t=${Date.now()}`);
       setProjects(resProjects.data);
     } catch (err) {
       console.error("Gagal ambil data:", err);
-      // Jika error 401 (unauthorized), arahkan ke login
       if (err.response && err.response.status === 401) {
         navigate("/login");
       }
     }
-  }, [navigate]); // Dependensi fetchData adalah navigate
+  }, [navigate]);
 
-  // 2. Tambahkan fetchData ke dalam array dependensi useEffect
   useEffect(() => {
     const isAuth = localStorage.getItem("isAdminLoggedIn");
     if (!isAuth) {
@@ -60,7 +59,7 @@ const AdminPage = () => {
 
   const handleFileChange = (id, e) => {
     const file = e.target.files[0];
-    if (file && file.size > 5 * 1024 * 1024) {
+    if (file && file.size > 5 * 1024 * 1024) { // Limit 5MB
       alert("Ukuran file terlalu besar (Max 5MB)");
       return;
     }
@@ -73,6 +72,8 @@ const AdminPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Filter input yang kosong
     const validFiles = photoInputs.map((i) => i.file).filter((f) => f !== null);
 
     if (validFiles.length < 1) {
@@ -83,15 +84,19 @@ const AdminPage = () => {
 
     const formData = new FormData();
     formData.append("judul", judul);
-    formData.append("klien", klien);
+    formData.append("klien", klien); // Backend menerima field 'klien'
     validFiles.forEach((file) => formData.append("images", file));
 
     try {
       await API.post(`/api/projects`, formData);
       alert("Proyek berhasil disimpan!");
+      
+      // Reset Form
       setJudul("");
       setKlien("");
       setPhotoInputs([{ id: Date.now(), file: null }]);
+      
+      // Refresh Data
       fetchData();
     } catch (err) {
       console.error("Gagal simpan:", err);
@@ -148,6 +153,7 @@ const AdminPage = () => {
             <p>Kelola portofolio proyek Anda di sini.</p>
           </div>
 
+          {/* FORM INPUT PROYEK */}
           <div className="card form-card animate-fade-up delay-1">
             <div className="card-header">
               <h3><Plus size={20} className="icon-gold" /> Input Proyek Baru</h3>
@@ -196,7 +202,9 @@ const AdminPage = () => {
                             type="button"
                             onClick={() => removePhotoInput(input.id)}
                             className="btn-icon-danger"
-                          ><Trash2 size={16} /></button>
+                          >
+                            <Trash2 size={16} />
+                          </button>
                         )}
                       </div>
                     ))}
@@ -214,6 +222,7 @@ const AdminPage = () => {
             </form>
           </div>
 
+          {/* TABEL DATA PROYEK */}
           <div className="card table-card animate-fade-up delay-2">
             <div className="card-header-simple">
               <h3><FolderOpen size={20} className="icon-gold" /> Database Proyek <span>({projects.length} Items)</span></h3>
@@ -234,7 +243,6 @@ const AdminPage = () => {
                     <tr key={item.id}>
                       <td width="100">
                         <div className="img-frame">
-                          {/* Menggunakan IMAGE_URL dari api.js */}
                           <img
                             src={`${IMAGE_URL}${item.foto}`}
                             onError={(e) => (e.target.src = "https://placehold.co/60?text=No+Img")}
@@ -243,9 +251,12 @@ const AdminPage = () => {
                         </div>
                       </td>
                       <td>
-                        {/* PERBAIKAN: Menggunakan item.Judul dan item.nama_projek agar sinkron dengan Database */}
-                        <div className="proj-title">{item.Judul}</div>
-                        <div className="proj-client">{item.nama_projek || "-"}</div>
+                        {/* UPDATE: Menggunakan field lowercase dari database */}
+                        <div className="proj-title">{item.judul}</div>
+                        <div className="proj-client">
+                          <span style={{color: '#999', fontSize: '0.85em', marginRight: '5px'}}>Klien:</span>
+                          {item.nama_klien || "-"}
+                        </div>
                       </td>
                       <td>
                         <span className="pill-badge">
@@ -254,10 +265,10 @@ const AdminPage = () => {
                       </td>
                       <td style={{ textAlign: "right" }}>
                         <div className="action-buttons">
-                          <button onClick={() => navigate(`/admin/edit/${item.id}`)} className="btn-action edit">
+                          <button onClick={() => navigate(`/admin/edit/${item.id}`)} className="btn-action edit" title="Edit Data">
                             <Edit3 size={16} />
                           </button>
-                          <button onClick={() => handleDelete(item.id)} className="btn-action delete">
+                          <button onClick={() => handleDelete(item.id)} className="btn-action delete" title="Hapus Permanen">
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -268,7 +279,7 @@ const AdminPage = () => {
                     <tr>
                       <td colSpan="4" className="empty-state">
                         <FolderOpen size={40} />
-                        <p>Belum ada data proyek.</p>
+                        <p>Belum ada data proyek. Silakan input di atas.</p>
                       </td>
                     </tr>
                   )}

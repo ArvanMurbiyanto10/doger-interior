@@ -65,7 +65,7 @@ const AboutPage = () => {
   return (
     <div className="op10-root">
       {/* Navbar dihapus karena sudah ada di App.jsx */}
-
+ 
       <main>
         {/* --- SECTION 1: HERO --- */}
         <section className="section-hero op10-container">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"; // Tambah useRef
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -40,7 +40,7 @@ import imgCommercial from "../assets/foto-10.jpg";
 // --- IMPORT MATERIAL (SUDAH DIAKTIFKAN) ---
 import imgMultiplek from "../assets/bahan-multiplek.jpg";
 import imgPVC from "../assets/bahan-pvc.jpg";
-import imgAluminium from "../assets/bahan-alumunium.jpg"; // Pastikan ejaan file benar
+import imgAluminium from "../assets/bahan-alumunium.jpg"; 
 
 // =================================================================
 // IMPORT FOTO PORTOFOLIO (SESUAI FOLDER ASSETS ANDA)
@@ -132,7 +132,7 @@ const SERVICES_DATA = [
 // Duplikasi data untuk efek infinite loop
 const INFINITE_SERVICES = [...SERVICES_DATA, ...SERVICES_DATA];
 
-// --- DATA PROJECT ---
+// --- DATA PROJECT (MANUAL / STATIC) ---
 const PROJECT_CATEGORIES = [
   {
     title: "Apartemen Branz BSD",
@@ -188,27 +188,40 @@ const FAQ_DATA = [
   },
 ];
 
-// --- COMPONENT SLIDER KHUSUS (GALLERY) ---
+// --- COMPONENT SLIDER KHUSUS (GALLERY) - FIXED SIZE ---
 const ProjectSlider = ({ title, clientName, items }) => {
-  const [current, setCurrent] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // Cek posisi scroll
+  const checkScrollButtons = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1200) setItemsPerPage(5);
-      else if (window.innerWidth >= 768) setItemsPerPage(3);
-      else setItemsPerPage(1);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    checkScrollButtons();
+    window.addEventListener("resize", checkScrollButtons);
+    return () => window.removeEventListener("resize", checkScrollButtons);
+  }, [items]);
 
-  const maxIndex = Math.ceil(items.length / itemsPerPage) - 1;
-  const nextSlide = () =>
-    setCurrent((prev) => (prev >= maxIndex ? 0 : prev + 1));
-  const prevSlide = () =>
-    setCurrent((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  const scroll = (direction) => {
+    const { current } = scrollRef;
+    if (current) {
+      // PERBAIKAN: Ubah scrollAmount jadi 260 (Sesuai lebar kartu 240px + gap 20px)
+      const scrollAmount = 260; 
+      if (direction === "right") {
+        current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      } else {
+        current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      }
+      setTimeout(checkScrollButtons, 300);
+    }
+  };
 
   const waLink = `https://wa.me/6285282773811?text=Halo%20Doger%20Interior,%20saya%20tertarik%20dengan%20${encodeURIComponent(title)}`;
 
@@ -217,67 +230,49 @@ const ProjectSlider = ({ title, clientName, items }) => {
       <div className="ref-header-banner">
         <div className="ref-text-content">
           <h3>{title}</h3>
-          <p>{clientName}</p>
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-ref-wa"
-          >
-            HUBUNGI KAMI <ArrowRight size={16} />
-          </a>
+          <p style={{ margin: 0, opacity: 0.9 }}>{clientName}</p>
         </div>
+        <a href={waLink} target="_blank" rel="noreferrer" className="btn-ref-wa">
+          HUBUNGI KAMI <ArrowRight size={16} />
+        </a>
       </div>
 
       <div className="ref-slider-container">
-        <button onClick={prevSlide} className="btn-ref-nav left">
-          <ChevronLeft size={24} />
-        </button>
-        <div className="ref-viewport">
-          <div
-            className="ref-track"
-            style={{
-              transform: `translateX(-${current * 100}%)`,
-              width: `${100 * Math.ceil(items.length / itemsPerPage)}%`,
-              display: "flex",
-              transition: "transform 0.5s ease-in-out",
-            }}
-          >
-            {Array.from({ length: Math.ceil(items.length / itemsPerPage) }).map(
-              (_, pageIndex) => (
-                <div
-                  key={pageIndex}
-                  className="ref-slide-page"
-                  style={{ width: "100%", display: "flex" }}
-                >
-                  {items
-                    .slice(
-                      pageIndex * itemsPerPage,
-                      (pageIndex + 1) * itemsPerPage,
-                    )
-                    .map((imgSrc, i) => (
-                      <div
-                        key={i}
-                        className="ref-card-item"
-                        style={{ width: `${100 / itemsPerPage}%` }}
-                      >
-                        <div className="ref-img-wrap">
-                          <img
-                            src={imgSrc}
-                            alt={`${title} detail`}
-                            loading="lazy"
-                          />
-                        </div>
-                      </div>
-                    ))}
+        {/* Tombol Kiri */}
+        {canScrollLeft && (
+          <button onClick={() => scroll("left")} className="btn-ref-nav left">
+            <ChevronLeft size={24} />
+          </button>
+        )}
+
+        {/* Area Scroll (Viewport) */}
+        <div 
+            className="ref-viewport" 
+            ref={scrollRef} 
+            onScroll={checkScrollButtons}
+        >
+          <div className="ref-track-simple">
+            {items.map((imgSrc, i) => (
+                // DI SINI KUNCINYA: Hapus inline style width %, biarkan CSS yang mengatur pixelnya
+                <div key={i} className="ref-card-item">
+                  <div className="ref-img-wrap">
+                    <img
+                      src={imgSrc}
+                      alt={`${title} detail`}
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
-              ),
-            )}
+            ))}
           </div>
         </div>
-        <button onClick={nextSlide} className="btn-ref-nav right">
-          <ChevronRight size={24} />
-        </button>
+
+        {/* Tombol Kanan */}
+        {canScrollRight && (
+          <button onClick={() => scroll("right")} className="btn-ref-nav right">
+            <ChevronRight size={24} />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -305,12 +300,10 @@ function LandingPage() {
       return;
     }
 
-    // 3. TARGET NOMOR (Sesuai Request)
-    // Format: Kode negara (62) + Nomor (81575897899) tanpa spasi/strip
+    // 3. TARGET NOMOR
     const nomorTujuan = "6281575897899";
 
     // 4. SUSUN PESAN OTOMATIS
-    // \n berfungsi sebagai Enter (baris baru)
     const isiPesan =
       `Halo Doger Interior, saya ingin konsultasi proyek.\n\n` +
       `• Nama: *${nama}*\n` +
@@ -318,15 +311,10 @@ function LandingPage() {
       `• Pesan/Kebutuhan: "${pesan}"\n\n` +
       `Mohon info lebih lanjut. Terima kasih.`;
 
-    // 5. BUAT LINK WHATSAPP
-    // encodeURIComponent penting agar spasi & enter terbaca oleh browser
     const linkWA = `https://wa.me/${nomorTujuan}?text=${encodeURIComponent(isiPesan)}`;
 
     // 6. BUKA WHATSAPP
     window.open(linkWA, "_blank");
-
-    // (Opsional) Reset form setelah kirim
-    // setFormData({ nama: "", wa: "", pesan: "" });
   };
 
   return (
@@ -334,7 +322,6 @@ function LandingPage() {
       {/* 1. HERO SECTION */}
       <header id="hero" className="op10-hero-split">
         <div className="hero-left">
-          {/* Class "fade-up" DIHAPUS agar animasi CSS baru bisa jalan */}
           <div className="hl-content">
             <span className="badge-hero">EST. 2019 — DEPOK</span>
             <h1 className="hero-title">
@@ -589,7 +576,6 @@ function LandingPage() {
             </div>
 
             <div className="specialist-img fade-up delay-1">
-              {/* GAMBAR DIGANTI KE FILE ASLI */}
               <img src={imgMultiplek} alt="Material Multiplek" />
               <div className="material-badge">
                 <span>PREMIUM</span>
@@ -607,7 +593,6 @@ function LandingPage() {
       <section className="op10-section bg-cream">
         <div className="op10-container grid-2-reverse">
           <div className="specialist-img fade-up delay-1">
-            {/* GAMBAR DIGANTI KE FILE ASLI */}
             <img src={imgPVC} alt="Material PVC Board" />
             <div className="material-badge badge-left">
               <span>ANTI</span>
@@ -684,7 +669,6 @@ function LandingPage() {
           </div>
 
           <div className="specialist-img fade-up delay-1">
-            {/* GAMBAR DIGANTI KE FILE ASLI */}
             <img src={imgAluminium} alt="Material Aluminium" />
             <div className="material-badge">
               <span>LIFETIME</span>
@@ -694,7 +678,7 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* 8. GALLERY */}
+      {/* 8. GALLERY (MENGGUNAKAN DATA STATIC + FIXED SLIDER) */}
       <section id="gallery" className="op10-section bg-offwhite">
         <div className="op10-container">
           <div className="section-head center fade-up mb-50">

@@ -1,15 +1,14 @@
 import axios from "axios";
 
-// REKOMENDASI UNTUK PRODUKSI:
-// Hapus :5000 jika Anda sudah mengaktifkan Nginx Reverse Proxy.
-// Nginx akan otomatis meneruskan request ke port 5000 di latar belakang.
-const BASE_URL = "http://76.13.196.121"; 
+// PENTING: Gunakan localhost:5000 karena kita sedang testing di komputer sendiri.
+// Jangan gunakan IP VPS dulu sebelum backend di VPS di-update.
+const BASE_URL = "http://localhost:5000"; 
+
+// Export URL gambar agar bisa dipakai di AdminPage
+export const IMAGE_URL = `${BASE_URL}/uploads/`;
 
 const API = axios.create({
   baseURL: BASE_URL,
 });
-
-// Ini juga akan menjadi http://76.13.196.121/uploads/
-export const IMAGE_URL = `${BASE_URL}/uploads/`;
 
 export default API;

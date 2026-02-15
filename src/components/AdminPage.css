@@ -531,76 +531,151 @@
 }
 
 /* =========================================
-   10. RESPONSIVE DESIGN (SCOPED)
+   10. RESPONSIVE DESIGN (FINAL FIX)
    ========================================= */
+
+/* --- TABLET (Max 992px) --- */
 @media (max-width: 992px) {
   .admin-layout .admin-navbar {
     width: 95%;
     padding: 0 20px;
   }
+
+  /* Ubah Grid Form jadi 1 Kolom ke bawah */
   .admin-layout .form-grid {
     grid-template-columns: 1fr;
   }
+
   .admin-layout .input-section {
     border-right: none;
     border-bottom: 1px solid #eee;
     padding: 25px;
   }
+
   .admin-layout .upload-section {
     padding: 25px;
   }
 }
 
+/* --- MOBILE (Max 768px) --- */
 @media (max-width: 768px) {
+  /* 1. Fix Background di HP */
   .admin-layout .admin-bg-fixed {
-    background-attachment: scroll;
+    background-attachment: scroll; /* Agar background ikut scroll dan tidak zoom aneh */
     background-position: center top;
   }
 
+  /* 2. Navbar Full Width & Sticky */
   .admin-layout .admin-navbar {
     width: 100%;
+    max-width: 100%;
     top: 0;
     left: 0;
     transform: none;
-    border-radius: 0;
-    height: 65px;
-    background: rgba(45, 36, 30, 0.95);
+    border-radius: 0; /* Hilangkan lengkungan di sudut */
+    height: 70px;
+    background: rgba(45, 36, 30, 0.98); /* Lebih solid agar tulisan di belakang tidak bayang */
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0 20px;
   }
 
   .admin-layout .nav-brand h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Perkecil font logo */
   }
-  .admin-layout .brand-icon {
-    width: 32px;
-    height: 32px;
-  }
-  .admin-layout .btn-logout span {
-    display: none;
+  
+  .admin-layout .nav-brand h2 span {
+    display: inline-block; /* Agar Interior tidak turun baris sendiri */
   }
 
+  .admin-layout .btn-logout span {
+    display: none; /* Sembunyikan tulisan 'Sign Out', sisakan icon */
+  }
+  
+  .admin-layout .btn-logout {
+    padding: 8px; /* Kecilkan tombol logout */
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  /* 3. Main Content - Beri Jarak dari Navbar */
   .admin-layout .main-content {
-    padding-top: 90px;
+    padding-top: 100px; /* Jarak aman agar judul tidak ketutup Navbar */
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 30px;
   }
 
+  .admin-layout .content-container {
+    gap: 25px;
+  }
+
+  /* 4. Judul Dashboard */
   .admin-layout .dashboard-header h1 {
     font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .admin-layout .dashboard-header p {
+    font-size: 0.95rem;
+  }
+
+  /* 5. Tabel Anti-Kepotong (Scroll Horizontal) */
+  .admin-layout .card-header,
+  .admin-layout .card-header-simple {
+    padding: 20px;
   }
 
   .admin-layout .table-wrapper {
-    padding: 15px;
-    overflow-x: auto;
-  }
-  .admin-layout .modern-table {
-    min-width: 600px;
+    padding: 0; /* Reset padding wrapper agar scroll full width */
+    margin: 0;
+    overflow-x: auto; /* Aktifkan scroll samping */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll di iPhone */
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
-  .admin-layout .form-actions {
-    flex-direction: column-reverse;
+  .admin-layout .modern-table {
+    min-width: 700px; /* Paksa tabel lebar agar trigger scroll */
+    margin-bottom: 0;
   }
+  
+  /* Hilangkan border radius di tabel mobile agar rapi saat discroll */
+  .admin-layout .modern-table td:first-child,
+  .admin-layout .modern-table td:last-child {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  /* 6. Form Upload & Tombol */
+  .admin-layout .form-actions {
+    flex-direction: column-reverse; /* Tombol Simpan di atas tombol Tambah Slot */
+    gap: 10px;
+  }
+
   .admin-layout .btn-secondary,
   .admin-layout .btn-primary {
     width: 100%;
+    padding: 14px; /* Tombol lebih besar untuk jari */
+  }
+
+  /* File Input Row agar rapi di layar sempit */
+  .admin-layout .file-input-row {
+    flex-wrap: wrap; 
+    gap: 10px;
+    padding: 12px;
+  }
+  
+  .admin-layout .file-wrapper {
+    flex: 1;
+    min-width: 0; /* Mencegah overflow text nama file */
+  }
+  
+  .admin-layout .file-wrapper input {
+    width: 100%; /* Pastikan input file tidak melebar */
+    font-size: 0.8rem;
   }
 }
+

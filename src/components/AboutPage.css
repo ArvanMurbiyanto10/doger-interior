@@ -84,6 +84,7 @@ body {
   line-height: 1.8;
   color: var(--color-gray);
   margin-bottom: 20px;
+  text-align: justify;
 }
 
 .header-line {
@@ -471,15 +472,96 @@ body {
 /* =========================================
    ADDITIONAL MOBILE TWEAKS
 ========================================= */
+/* =========================================
+   PERBAIKAN JARAK (GAP) & TEKS RATA KANAN-KIRI
+========================================= */
+
 @media (max-width: 992px) {
-  .hero-right-wrapper {
-    order: -1; /* Gambar di atas teks pada mobile */
-    margin-bottom: 20px;
+  
+  /* 1. Kurangi Padding Atas/Bawah Section Hero */
+  .section-hero {
+    padding-top: 100px; 
+    padding-bottom: 40px;
   }
 
+  /* 2. Reset Layout Grid & Matikan Gap Bawaan */
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0; 
+  }
+
+  /* 3. Bongkar Wrapper */
+  .hero-text, 
+  .hero-right-wrapper {
+    display: contents; 
+  }
+
+  /* --- ATUR URUTAN & JARAK --- */
+
+  /* Urutan 1: Profil Perusahaan */
+  .sub-header {
+    order: 1;
+    text-align: center;
+    display: block;
+    margin: 0 auto 5px auto; 
+  }
+
+  /* Urutan 2: Judul Doger Interior */
+  .main-header {
+    order: 2;
+    text-align: center;
+    margin-bottom: 20px; 
+    line-height: 1.1;
+  }
+
+  /* Urutan 3: FOTO & LOGO */
   .photo-grid-container {
-    max-width: 500px;
-    margin: 0 auto;
+    order: 3;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 25px auto; 
+  }
+
+  /* Urutan 4: Paragraf Teks */
+  .text-content-wrapper {
+    order: 4;
+    margin-bottom: 15px; 
+    padding: 0 5px;
+    /* PENTING: Pastikan wrapper tidak memaksa center, biarkan anak elemennya yang mengatur */
+    text-align: left; 
+  }
+  
+  /* Rapatkan jarak antar paragraf & RATA KANAN-KIRI */
+  .text-paragraph {
+    text-align: justify; /* <-- INI KUNCINYA */
+    margin-bottom: 15px; 
+    font-size: 0.95rem;
+    line-height: 1.6; /* Sedikit direnggangkan agar enak dibaca */
+  }
+
+  /* Urutan 5: Badge Est. 2019 */
+  .est-badge-hero {
+    order: 5;
+    margin: 5px auto 25px auto; 
+    display: table; 
+  }
+
+  /* Urutan 6: Statistik */
+  .hero-small-stats {
+    order: 6;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 15px;
+    width: 100%;
+  }
+
+  /* Perkecil Logo sedikit agar proporsional */
+  .center-logo-overlay {
+    width: 80px;
+    height: 80px;
   }
 }
 
